@@ -7,3 +7,4 @@ A better alternative to AMBER alerts.
 - Aqib Haq
 - Quymbee Chen
 - Michelle Lucero
+- Yugine Lama
