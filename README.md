@@ -1,6 +1,6 @@
 # Amber-Plus
 
-A better alternative to AMBER alerts.
+A supplemental tool to AMBER alerts.
 
 ### Team Members
 
