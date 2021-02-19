@@ -1,6 +1,6 @@
 # Amber-Plus
 
-A supplement tool to AMBER alerts.
+A supplement tool to AMBER alerts for CSCI499.
 
 ### Team Members
 
