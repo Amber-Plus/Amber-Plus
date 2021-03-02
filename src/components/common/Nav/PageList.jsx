@@ -6,6 +6,15 @@ import { List, ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
 import { PAGES, usePageStatus } from "constants/pages";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .Mui-selected": {
+      backgroundColor: "inherit",
+      color: theme.palette.primary.main,
+    },
+    "& .MuiListItemIcon-root": {
+      color: theme.palette.primary.main,
+    },
+  },
   list: {
     display: "flex",
   },
@@ -18,15 +27,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PageItem = ({ page }) => {
+const PageItem = ({ page, selected }) => {
   const classes = useStyles();
   const { label, route, icon } = usePageStatus(page);
+  const isSelected = selected === route;
 
   return (
-    <ListItem button component="a" href={route}>
-      <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>
-      <ListItemText primary={label} />
-    </ListItem>
+    <div className={clsx(isSelected && classes.root)}>
+      <ListItem button component="a" href={route} selected={isSelected}>
+        <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>
+        <ListItemText primary={label} />
+      </ListItem>
+    </div>
   );
 };
 
@@ -35,11 +47,12 @@ const PageList = () => {
   const isMobile = useMediaQuery("(max-width: 600px)", {
     noSsr: true,
   });
+  const selected = window.location.pathname;
 
   return (
     <List className={clsx(isMobile ? classes.mobileList : classes.list)}>
       {PAGES.map((page) => (
-        <PageItem page={page} key={page} />
+        <PageItem page={page} key={page} selected={selected} />
       ))}
     </List>
   );

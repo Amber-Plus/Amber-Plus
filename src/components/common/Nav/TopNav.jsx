@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import { PAGE_ROUTES, HOME } from "constants/pages";
 import PageList from "./PageList";
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +74,11 @@ const TopNav = () => {
   return (
     <AppBar position="static" elevation={0} className={classes.appBar}>
       <Toolbar className={clsx(isMobile && classes.mobileTopMenu)}>
-        <Typography component="a" href="/" className={classes.title}>
+        <Typography
+          component="a"
+          href={PAGE_ROUTES[HOME]}
+          className={classes.title}
+        >
           Amber+
         </Typography>
         {isMobile ? <MobileTopMenu /> : <PageList />}
