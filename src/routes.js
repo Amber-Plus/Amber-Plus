@@ -3,14 +3,14 @@ import { Route, Router, Redirect, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Home, Missing, Found, Search } from "pages";
 import { PAGE_ROUTES, HOME, MISSING, FOUND, SEARCH } from "constants/pages";
-import TopNav from "components/common/Nav/TopNav";
+import Nav from "components/common/Nav";
 
 const history = createBrowserHistory();
 
 const Routes = () => {
   return (
     <Router history={history}>
-      <TopNav />
+      <Nav />
       <Switch>
         <Route path={PAGE_ROUTES[HOME]} exact component={Home} />
         <Route path={PAGE_ROUTES[MISSING]} exact component={Missing} />

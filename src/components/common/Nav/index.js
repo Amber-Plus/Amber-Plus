@@ -1,4 +1,3 @@
-import TopNav from "./TopNav";
-import BottomNav from "./BottomNav";
+import Nav from "./Nav";
 
-export { TopNav, BottomNav };
+export default Nav;
