@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
@@ -30,21 +31,29 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     fontSize: theme.spacing(2.75),
   },
+  mobileTopMenu: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
 }));
 
-const MobileMenu = () => {
+const MobileTopMenu = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const toggleDrawer = (state) => setOpen(state);
 
   return (
     <>
-      <IconButton onClick={toggleDrawer(true)}>
+      <IconButton onClick={() => toggleDrawer(true)}>
         <MenuIcon />
       </IconButton>
-      <Drawer anchor="right" open={open} onBackdropClick={toggleDrawer(false)}>
+      <Drawer
+        anchor="right"
+        open={open}
+        onBackdropClick={() => toggleDrawer(false)}
+      >
         <div className={classes.drawerCloseIcon}>
-          <IconButton onClick={toggleDrawer(false)}>
+          <IconButton onClick={() => toggleDrawer(false)}>
             <ChevronRightIcon />
           </IconButton>
         </div>
@@ -63,11 +72,11 @@ const TopNav = () => {
 
   return (
     <AppBar position="static" elevation={0} className={classes.appBar}>
-      <Toolbar>
+      <Toolbar className={clsx(isMobile && classes.mobileTopMenu)}>
         <Typography component="a" href="/" className={classes.title}>
           Amber+
         </Typography>
-        {isMobile ? <MobileMenu /> : <PageList />}
+        {isMobile ? <MobileTopMenu /> : <PageList />}
       </Toolbar>
     </AppBar>
   );
