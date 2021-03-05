@@ -1,6 +1,6 @@
 import React from "react";
-import PersonCard from "./PersonCard";
 import { makeStyles } from "@material-ui/core/styles";
+import PersonCard from "./PersonAlertCard";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -20,7 +20,7 @@ const PersonList = ({ people }) => {
 
   const handleClick = () => {
     //temporary
-    console.log("post was clicked");
+    console.log(`post was clicked`);
   };
 
   return (
@@ -28,12 +28,9 @@ const PersonList = ({ people }) => {
       {people &&
         people.map((person, index) => (
           <PersonCard
-            name={person.name}
-            age={person.age}
-            details={person.details}
+            person={person}
             handleShare={handleShare}
-            handleClick={handleClick}
-            key={`${person.name}-${index}`}
+            handleClick={() => handleClick(person.name, index)}
           />
         ))}
     </div>

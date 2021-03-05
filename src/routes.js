@@ -3,7 +3,7 @@ import { Route, Router, Redirect, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Home, Missing, Found, Search } from "pages";
 import { PAGE_ROUTES, HOME, MISSING, FOUND, SEARCH } from "constants/pages";
-import Nav from "components/common/Nav";
+import Nav from "components/Nav";
 
 const history = createBrowserHistory();
 

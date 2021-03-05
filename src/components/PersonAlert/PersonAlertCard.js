@@ -49,17 +49,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PersonCard = ({
-  name = "N/A",
-  age = "N/A",
-  details = "N/A",
-  handleShare,
-  handleClick,
-}) => {
+const PersonCard = ({ person = {}, handleShare, handleClick }) => {
   const isMobile = useMediaQuery("(max-width: 600px)", {
     noSsr: true,
   });
   const classes = useStyles(isMobile);
+
+  const { name, age, details } = person;
 
   return (
     <Card className={classes.root}>
