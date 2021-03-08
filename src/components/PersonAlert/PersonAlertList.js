@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
 }));
-export const PERSON_ALERT_URL = "/person-alert/:name/:key";
 
 const PersonAlertList = ({ people }) => {
   const classes = useStyles();
@@ -20,8 +19,8 @@ const PersonAlertList = ({ people }) => {
   };
 
   const handleNavigation = (name, index) => {
-    const nameParam = name.replace(" ", "-");
-    return `/person-alert/${nameParam}/${index}`;
+    const nameParam = name.replace(/ /g, "-");
+    return `/person-alert/${index}/${nameParam}`;
   };
 
   return (

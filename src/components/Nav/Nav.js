@@ -9,8 +9,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiBottomNavigation-root": {
       bottom: 0,
+      left: 0,
       position: "fixed",
       width: "100%",
+      backgroundColor: theme.palette.background.default,
+      zIndex: 1200,
     },
     "& .MuiBottomNavigationAction-root": {
       minWidth: 50,

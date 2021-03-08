@@ -10,9 +10,7 @@ import {
   CardActions,
 } from "@material-ui/core";
 import ShareIcon from "@material-ui/icons/Share";
-
-//temporary image
-import temp from "images/temp.jpeg";
+import getProfileObject from "utils/getProfileObject";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,8 +18,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: (isMobile) => (isMobile ? "row" : "column"),
     width: 300,
     margin: theme.spacing(2, 3, 0),
+    padding: theme.spacing(1, 0.25),
     [theme.breakpoints.down("xs")]: {
-      width: "auto",
+      width: "100%",
+      margin: theme.spacing(2, 0.5, 0),
     },
     "& .MuiCardActions-root": {
       justifyContent: (isMobile) => !isMobile && "flex-end",
@@ -39,6 +39,14 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     color: theme.palette.grey[500],
+    [theme.breakpoints.down("xs")]: {
+      fontSize: theme.spacing(1.5),
+    },
+  },
+  value: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: theme.spacing(1.5),
+    },
   },
   shareButton: {
     display: "flex",
@@ -55,70 +63,65 @@ const PersonAlertCard = ({ person, pathTo, handleShare }) => {
   });
   const classes = useStyles(isMobile);
 
-  const { name, age, details } = person;
+  const { name, image } = person;
+  const profile = getProfileObject(person, "card");
 
   return (
-    <div>
-      <Card className={classes.root}>
-        <CardActionArea component="a" href={pathTo}>
+    <Card className={classes.root}>
+      <CardActionArea component="a" href={pathTo}>
+        <Grid
+          container
+          justify="space-between"
+          alignItems="center"
+          direction={isMobile ? "row" : "column"}
+        >
           <Grid
             container
-            justify="space-between"
+            item
+            justify="center"
             alignItems="center"
-            direction={isMobile ? "row" : "column"}
+            md={12}
+            sm={12}
+            xs={4}
           >
-            <Grid
-              container
-              item
-              justify="center"
-              alignItems="center"
-              md={12}
-              sm={12}
-              xs={4}
-            >
-              <img src={temp} alt={name} className={classes.media} />
-            </Grid>
-            <Grid
-              container
-              item
-              justify="space-between"
-              md={9}
-              sm={9}
-              xs={7}
-              style={{ marginTop: !isMobile && "12px" }}
-            >
-              <Grid item xs={4}>
-                <Typography className={classes.title}>Name: </Typography>
-              </Grid>
-              <Grid item xs={7}>
-                <Typography>{name}</Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <Typography className={classes.title}>Age: </Typography>
-              </Grid>
-              <Grid item xs={7}>
-                <Typography>{age}</Typography>
-              </Grid>
-              <Grid item xs={4} className={classes.title}>
-                <Typography>Details: </Typography>
-              </Grid>
-              <Grid item md={7} sm={7} xs={12}>
-                <Typography>{details}</Typography>
-              </Grid>
-            </Grid>
+            <img src={image} alt={name} className={classes.media} />
           </Grid>
-        </CardActionArea>
-        <CardActions className={classes.shareButton}>
-          <IconButton
-            aria-label="share"
-            onClick={handleShare}
-            className={classes.shareIcon}
+          <Grid
+            container
+            item
+            justify="space-between"
+            md={9}
+            sm={9}
+            xs={7}
+            style={{ marginTop: !isMobile && "12px" }}
           >
-            <ShareIcon />
-          </IconButton>
-        </CardActions>
-      </Card>
-    </div>
+            {profile.map((data) => (
+              <>
+                <Grid item xs={4}>
+                  <Typography className={classes.title}>
+                    {data.title}
+                  </Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography className={classes.value}>
+                    {data.value}
+                  </Typography>
+                </Grid>
+              </>
+            ))}
+          </Grid>
+        </Grid>
+      </CardActionArea>
+      <CardActions className={classes.shareButton}>
+        <IconButton
+          aria-label="share"
+          onClick={handleShare}
+          className={classes.shareIcon}
+        >
+          <ShareIcon />
+        </IconButton>
+      </CardActions>
+    </Card>
   );
 };
 

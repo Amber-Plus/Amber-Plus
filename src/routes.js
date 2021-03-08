@@ -8,7 +8,7 @@ import Nav from "components/Nav";
 
 const history = createBrowserHistory();
 
-export const PERSON_ALERT_URL = "/person-alert/:name/:key";
+export const PERSON_ALERT_URL = "/person-alert/:key/:name";
 
 const Routes = () => {
   return (
