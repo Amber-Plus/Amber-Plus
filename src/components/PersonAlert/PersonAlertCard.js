@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PersonCard = ({ person = {}, handleShare, handleClick }) => {
+const PersonAlertCard = ({ person, pathTo, handleShare }) => {
   const isMobile = useMediaQuery("(max-width: 600px)", {
     noSsr: true,
   });
@@ -58,66 +58,68 @@ const PersonCard = ({ person = {}, handleShare, handleClick }) => {
   const { name, age, details } = person;
 
   return (
-    <Card className={classes.root}>
-      <CardActionArea onClick={handleClick}>
-        <Grid
-          container
-          justify="space-between"
-          alignItems="center"
-          direction={isMobile ? "row" : "column"}
-        >
+    <div>
+      <Card className={classes.root}>
+        <CardActionArea component="a" href={pathTo}>
           <Grid
             container
-            item
-            justify="center"
-            alignItems="center"
-            md={12}
-            sm={12}
-            xs={4}
-          >
-            <img src={temp} alt={name} className={classes.media} />
-          </Grid>
-          <Grid
-            container
-            item
             justify="space-between"
-            md={9}
-            sm={9}
-            xs={7}
-            style={{ marginTop: !isMobile && "12px" }}
+            alignItems="center"
+            direction={isMobile ? "row" : "column"}
           >
-            <Grid item xs={4}>
-              <Typography className={classes.title}>Name: </Typography>
+            <Grid
+              container
+              item
+              justify="center"
+              alignItems="center"
+              md={12}
+              sm={12}
+              xs={4}
+            >
+              <img src={temp} alt={name} className={classes.media} />
             </Grid>
-            <Grid item xs={7}>
-              <Typography>{name}</Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography className={classes.title}>Age: </Typography>
-            </Grid>
-            <Grid item xs={7}>
-              <Typography>{age}</Typography>
-            </Grid>
-            <Grid item xs={4} className={classes.title}>
-              <Typography>Details: </Typography>
-            </Grid>
-            <Grid item md={7} sm={7} xs={12}>
-              <Typography>{details}</Typography>
+            <Grid
+              container
+              item
+              justify="space-between"
+              md={9}
+              sm={9}
+              xs={7}
+              style={{ marginTop: !isMobile && "12px" }}
+            >
+              <Grid item xs={4}>
+                <Typography className={classes.title}>Name: </Typography>
+              </Grid>
+              <Grid item xs={7}>
+                <Typography>{name}</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography className={classes.title}>Age: </Typography>
+              </Grid>
+              <Grid item xs={7}>
+                <Typography>{age}</Typography>
+              </Grid>
+              <Grid item xs={4} className={classes.title}>
+                <Typography>Details: </Typography>
+              </Grid>
+              <Grid item md={7} sm={7} xs={12}>
+                <Typography>{details}</Typography>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </CardActionArea>
-      <CardActions className={classes.shareButton}>
-        <IconButton
-          aria-label="share"
-          onClick={handleShare}
-          className={classes.shareIcon}
-        >
-          <ShareIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
+        </CardActionArea>
+        <CardActions className={classes.shareButton}>
+          <IconButton
+            aria-label="share"
+            onClick={handleShare}
+            className={classes.shareIcon}
+          >
+            <ShareIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
+    </div>
   );
 };
 
-export default PersonCard;
+export default PersonAlertCard;
