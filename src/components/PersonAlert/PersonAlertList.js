@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PersonAlertList = ({ people }) => {
+const PersonAlertList = ({ people, status }) => {
   const classes = useStyles();
 
   const handleShare = () => {
@@ -26,14 +26,16 @@ const PersonAlertList = ({ people }) => {
   return (
     <div className={classes.container}>
       {people &&
-        people.map((person, index) => (
-          <PersonAlertCard
-            person={person}
-            key={index}
-            pathTo={handleNavigation(person.name, index)}
-            handleShare={handleShare}
-          />
-        ))}
+        people
+          .filter((person) => person.status === status)
+          .map((person) => (
+            <PersonAlertCard
+              person={person}
+              key={person.id}
+              pathTo={handleNavigation(person.name, person.id)}
+              handleShare={handleShare}
+            />
+          ))}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
@@ -18,10 +18,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: (isMobile) => (isMobile ? "row" : "column"),
     width: 300,
     margin: theme.spacing(2, 3, 0),
-    padding: theme.spacing(1, 0.25),
     [theme.breakpoints.down("xs")]: {
       width: "100%",
       margin: theme.spacing(2, 0.5, 0),
+      padding: theme.spacing(1, 0.25),
     },
     "& .MuiCardActions-root": {
       justifyContent: (isMobile) => !isMobile && "flex-end",
@@ -96,7 +96,7 @@ const PersonAlertCard = ({ person, pathTo, handleShare }) => {
             style={{ marginTop: !isMobile && "12px" }}
           >
             {profile.map((data) => (
-              <>
+              <Fragment key={`${name}-${data.value}`}>
                 <Grid item xs={4}>
                   <Typography className={classes.title}>
                     {data.title}
@@ -107,7 +107,7 @@ const PersonAlertCard = ({ person, pathTo, handleShare }) => {
                     {data.value}
                   </Typography>
                 </Grid>
-              </>
+              </Fragment>
             ))}
           </Grid>
         </Grid>

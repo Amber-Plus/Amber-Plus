@@ -51,11 +51,17 @@ const useStyles = makeStyles((theme) => ({
 //this is profile page of an "amber alert" person. not a user profile.
 const PersonAlertProfile = (props) => {
   const classes = useStyles();
-  const { name } = useParams();
+  const { name, key } = useParams();
   const originalName = name.replace(/-/g, " ");
-  const person = testPeopleData.find(({ name }) => name === originalName);
+  const person = testPeopleData.find(
+    ({ name, id }) => name === originalName && id.toString() === key
+  );
 
   const profile = getProfileObject(person, "profile");
+
+  const handleShare = (type) => {
+    console.log(`${type} button was clicked`);
+  };
 
   return (
     <CustomContainer className={classes.root}>
@@ -79,17 +85,17 @@ const PersonAlertProfile = (props) => {
               className={classes.root}
             >
               <Grid container item justify="center" sm={2} xs={3}>
-                <IconButton>
+                <IconButton onClick={() => handleShare("share")}>
                   <ShareIcon />
                 </IconButton>
               </Grid>
               <Grid container item justify="center" sm={2} xs={3}>
-                <IconButton>
+                <IconButton onClick={() => handleShare("mail")}>
                   <MailOutlineIcon />
                 </IconButton>
               </Grid>
               <Grid container item justify="center" sm={2} xs={3}>
-                <IconButton>
+                <IconButton onClick={() => handleShare("call")}>
                   <PhoneIcon />
                 </IconButton>
               </Grid>

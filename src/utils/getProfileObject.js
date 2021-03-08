@@ -2,15 +2,12 @@ import getLocationString from "./getLocationString";
 
 export const getProfileObject = (person, type) => {
   const viewable = () => {
-    if (type === "card") {
-      return ["name", "age", "location"];
-    }
+    if (type === "card") return ["name", "age", "location"];
 
-    if (type === "profile") {
+    if (type === "profile")
       return Object.keys(person).filter(
-        (key) => key !== "image" && key !== "details"
+        (key) => !["image", "details", "id"].includes(key)
       );
-    }
   };
 
   const profile = [];
