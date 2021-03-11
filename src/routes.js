@@ -1,11 +1,14 @@
 import React from "react";
-import { Route, Router, Redirect, Switch } from "react-router-dom";
+import { Route, Router, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Home, Missing, Found, Search } from "pages";
+import PersonAlertProfile from "components/PersonAlert/PersonAlertProfile";
 import { PAGE_ROUTES, HOME, MISSING, FOUND, SEARCH } from "constants/pages";
-import Nav from "components/common/Nav";
+import Nav from "components/Nav";
 
 const history = createBrowserHistory();
+
+export const PERSON_ALERT_URL = "/person-alert/:key/:name";
 
 const Routes = () => {
   return (
@@ -16,9 +19,8 @@ const Routes = () => {
         <Route path={PAGE_ROUTES[MISSING]} exact component={Missing} />
         <Route path={PAGE_ROUTES[FOUND]} exact component={Found} />
         <Route path={PAGE_ROUTES[SEARCH]} exact component={Search} />
-        <Route path="*">
-          <Redirect to={PAGE_ROUTES[HOME]} component={Home} />
-        </Route>
+
+        <Route path={PERSON_ALERT_URL} component={PersonAlertProfile} />
       </Switch>
     </Router>
   );

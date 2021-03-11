@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
@@ -10,9 +10,7 @@ import {
   CardActions,
 } from "@material-ui/core";
 import ShareIcon from "@material-ui/icons/Share";
-
-//temporary image
-import temp from "images/temp.jpeg";
+import getProfileObject from "utils/getProfileObject";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +19,9 @@ const useStyles = makeStyles((theme) => ({
     width: 300,
     margin: theme.spacing(2, 3, 0),
     [theme.breakpoints.down("xs")]: {
-      width: "auto",
+      width: "100%",
+      margin: theme.spacing(2, 0.5, 0),
+      padding: theme.spacing(1, 0.25),
     },
     "& .MuiCardActions-root": {
       justifyContent: (isMobile) => !isMobile && "flex-end",
@@ -39,6 +39,14 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     color: theme.palette.grey[500],
+    [theme.breakpoints.down("xs")]: {
+      fontSize: theme.spacing(1.5),
+    },
+  },
+  value: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: theme.spacing(1.5),
+    },
   },
   shareButton: {
     display: "flex",
@@ -49,21 +57,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PersonCard = ({
-  name = "N/A",
-  age = "N/A",
-  details = "N/A",
-  handleShare,
-  handleClick,
-}) => {
+const PersonAlertCard = ({ person, pathTo, handleShare }) => {
   const isMobile = useMediaQuery("(max-width: 600px)", {
     noSsr: true,
   });
   const classes = useStyles(isMobile);
 
+  const { name, image } = person;
+  const profile = getProfileObject(person, "card");
+
   return (
     <Card className={classes.root}>
-      <CardActionArea onClick={handleClick}>
+      <CardActionArea component="a" href={pathTo}>
         <Grid
           container
           justify="space-between"
@@ -79,7 +84,7 @@ const PersonCard = ({
             sm={12}
             xs={4}
           >
-            <img src={temp} alt={name} className={classes.media} />
+            <img src={image} alt={name} className={classes.media} />
           </Grid>
           <Grid
             container
@@ -90,24 +95,20 @@ const PersonCard = ({
             xs={7}
             style={{ marginTop: !isMobile && "12px" }}
           >
-            <Grid item xs={4}>
-              <Typography className={classes.title}>Name: </Typography>
-            </Grid>
-            <Grid item xs={7}>
-              <Typography>{name}</Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography className={classes.title}>Age: </Typography>
-            </Grid>
-            <Grid item xs={7}>
-              <Typography>{age}</Typography>
-            </Grid>
-            <Grid item xs={4} className={classes.title}>
-              <Typography>Details: </Typography>
-            </Grid>
-            <Grid item md={7} sm={7} xs={12}>
-              <Typography>{details}</Typography>
-            </Grid>
+            {profile.map((data) => (
+              <Fragment key={`${name}-${data.value}`}>
+                <Grid item xs={4}>
+                  <Typography className={classes.title}>
+                    {data.title}
+                  </Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography className={classes.value}>
+                    {data.value}
+                  </Typography>
+                </Grid>
+              </Fragment>
+            ))}
           </Grid>
         </Grid>
       </CardActionArea>
@@ -124,4 +125,4 @@ const PersonCard = ({
   );
 };
 
-export default PersonCard;
+export default PersonAlertCard;
