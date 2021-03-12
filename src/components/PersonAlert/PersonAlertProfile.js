@@ -124,7 +124,7 @@ const PersonAlertProfile = (props) => {
           </Grid>
         </Grid>
       </Grid>
-      <Map />
+      <Map data={person} />
     </CustomContainer>
   );
 };
