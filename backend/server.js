@@ -4,16 +4,14 @@ const connectDB = require('../config/db');
 
 const app = express();
 
-app.get('/', (req, res) => res.json({ msg: 'Welcome to sum API'})
-);
-
-
-
 // Connect Database
 connectDB();
 
 // // Init Middleware
-// app.use(express.json({ extended: false }));
+app.use(express.json({ extended: false }));
+
+app.get('/', (req, res) => res.json({ msg: 'Welcome to sum API' })
+);
 
 // Define Routes
 app.use('/api/users', require('./routes/users'));

@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
+
+const MissingPerson = require('../models/MissingPerson');
 
 // @route     Get api/personAlert
 // @desc      Get all missing person
@@ -11,9 +14,50 @@ router.get('/', (req, res) => {
 // @route     POST api/personAlert
 // @desc      Add missing person
 // @access    Private
-router.post('/', (req, res) => {
-    res.send('Add missing person');
-});
+router.post(
+    '/',
+    [
+        check('name', 'Name is required')
+            .not()
+            .isEmpty(),
+        check('age', 'Wow thats old')
+            .isInt(),
+        check('hair', 'Hair is required')
+            .not()
+            .isEmpty(),
+        check('height', 'Height is required')
+            .not()
+            .isEmpty()
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ error: errors.array() });
+        }
+
+        const { name, age, hair, height, eyes, location, status, details, image } = req.body;
+
+        try {
+            let missing = new MissingPerson({
+                name,
+                age,
+                hair,
+                height,
+                eyes,
+                location,
+                status,
+                details,
+                image
+            });
+
+            await missing.save()
+            res.send('Add missing person');
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('Server error');
+        }
+    }
+);
 
 // @route     PUT api/personAlert/:id
 // @desc      Update missing person
