@@ -1,40 +1,46 @@
 import React from 'react';
 import Field from './field/field';
+import { Grid,Paper, Avatar, TextField, Button, Typography,Link } from '@material-ui/core'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+const Signin=()=>{
 
-const Signin = ({action}) => {
-  let id = 0;
-  id++;
-  return (
-    <form onSubmit={action}>
-      <div className='form-group'>
-        <label htmlFor='username'>Username</label>
-        <Field
-          id={'SignUp' + id++}
-          name='username'
-          type='text'
-          placeholder='ex. john.smith'
-        />
-      </div>
+    const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
+    const avatarStyle={backgroundColor:'#1bbd7e'}
+    const btnstyle={margin:'8px 0'}
+    return(
+        <Grid>
+            <Paper elevation={10} style={paperStyle}>
+                <Grid align='center'>
+                     <Avatar style={avatarStyle}><LockOutlinedIcon/></Avatar>
+                    <h2>Login</h2>
+                </Grid>
+                <TextField label='Username' placeholder='Enter username' fullWidth required/>
+                <TextField label='Password' placeholder='Enter password' type='password' fullWidth required/>
+                <FormControlLabel
+                    control={
+                    <Checkbox
+                        name="checkedB"
+                        color="primary"
+                    />
+                    }
+                    label="Remember me"
+                 />
+                <Button type='submit' color='primary' variant="contained" style={btnstyle} fullWidth>Sign in</Button>
+                <Typography >
+                     <Link href="#" >
+                        Forgot password ?
+                </Link>
+                </Typography>
+                <Typography > Do you have an account ?
+                     <Link href="#" >
+                        Sign Up 
+                </Link>
+                </Typography>
+            </Paper>
+        </Grid>
+    )
+}
 
-      <div className='form-group'>
-        <label htmlFor='username'>Password</label>
-        <Field
-          id={'SignUp' + id++}
-          name='password'
-          type='password'
-          placeholder='******'
-        />
-      </div>
-
-      <button
-        id={'SignUp' + id++}
-        name='submit'
-        type='submit'
-        className='btn btn-success'
-      >
-        Login
-      </button>
-    </form>
-  );
-};
-export default Signin;
+export default Signin
