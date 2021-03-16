@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const MissingPersonSchema = new Schema({
+const PersonAlertSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -26,7 +26,9 @@ const MissingPersonSchema = new Schema({
         zipcode: { type: Number }
     },
     status: {
-        type: String
+        type: String,
+        enum: ['Missing', 'Found'],
+        default: 'Missing'
     },
     details: {
         type: String
@@ -40,5 +42,5 @@ const MissingPersonSchema = new Schema({
     }
 });
 
-const MissingPerson = mongoose.model('missing', MissingPersonSchema);
+const MissingPerson = mongoose.model('missing', PersonAlertSchema);
 module.exports = MissingPerson;

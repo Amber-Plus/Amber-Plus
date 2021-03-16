@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
-const MissingPerson = require('../models/MissingPerson');
+const PersonAlert = require('../models/PersonAlert');
 
 // @route     Get api/personAlert
 // @desc      Get all missing person
@@ -38,7 +38,7 @@ router.post(
         const { name, age, hair, height, eyes, location, status, details, image } = req.body;
 
         try {
-            let missing = new MissingPerson({
+            let missing = new PersonAlert({
                 name,
                 age,
                 hair,
@@ -51,7 +51,7 @@ router.post(
             });
 
             await missing.save()
-            res.send('Add missing person');
+            res.send('Added missing person');
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Server error');
