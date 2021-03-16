@@ -66,7 +66,7 @@ const EventMarker = ({
       onClick={handleClick}
       style={{ zIndex: 1200 }}
     >
-      <EventPopup />
+      <EventPopup person={person} />
     </Marker>
   );
 };

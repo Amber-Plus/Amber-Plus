@@ -1,10 +1,11 @@
 import React from "react";
 import { Popup } from "react-leaflet";
+import Typography from "@material-ui/core/Typography";
 
-const EventPopup = () => {
+const EventPopup = ({ person }) => {
   return (
     <Popup>
-      A popup that works!! <br /> Easily customizable.
+      <Typography>{person.name}</Typography>
     </Popup>
   );
 };
