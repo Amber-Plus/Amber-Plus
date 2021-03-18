@@ -6,6 +6,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import PhoneIcon from "@material-ui/icons/Phone";
 import CustomContainer from "components/common/CustomContainer";
+import Map from "components/common/Map";
 import getProfileObject from "utils/getProfileObject";
 
 import { testPeopleData } from "components/PersonAlert/testPeopleData";
@@ -123,6 +124,7 @@ const PersonAlertProfile = (props) => {
           </Grid>
         </Grid>
       </Grid>
+      <Map data={person} isProfile={true} />
     </CustomContainer>
   );
 };

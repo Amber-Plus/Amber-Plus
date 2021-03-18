@@ -1,7 +1,9 @@
 import React from "react";
+import Map from "components/common/Map";
+import { testPeopleData } from "components/PersonAlert/testPeopleData";
 
 const Search = () => {
-  return <div>Search Page</div>;
+  return <Map data={testPeopleData} isProfile={false} />;
 };
 
 export default Search;

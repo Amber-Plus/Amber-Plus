@@ -1,13 +1,12 @@
 import React from "react";
-import Signin from "../components/Login/Signin"
+import Signin from "../components/Login/Signin";
 
 const Home = () => {
-  return <div>
-    <Signin
-                      name="Signin"
-                      id="Signin"
-                    />
-  </div>;
+  return (
+    <div>
+      <Signin name="Signin" id="Signin" />
+    </div>
+  );
 };
 
 export default Home;
