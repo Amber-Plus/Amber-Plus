@@ -7,8 +7,10 @@ import "leaflet/dist/leaflet.css";
 import "./index.css";
 
 ReactDOM.render(
-  <MuiThemeProvider theme={theme}>
-    <Routes />
-  </MuiThemeProvider>,
+  <React.StrictMode>
+    <MuiThemeProvider theme={theme}>
+      <Routes />
+    </MuiThemeProvider>
+  </React.StrictMode>,
   document.getElementById("root")
 );
