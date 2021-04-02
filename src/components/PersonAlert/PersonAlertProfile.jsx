@@ -8,7 +8,6 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import CustomContainer from "components/common/CustomContainer";
 import Map from "components/common/Map";
 import getProfileObject from "utils/getProfileObject";
-
 import { testPeopleData } from "components/PersonAlert/testPeopleData";
 
 const useStyles = makeStyles((theme) => ({

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { renderToString } from "react-dom/server";
 import { Marker } from "react-leaflet";
@@ -6,7 +6,6 @@ import L from "leaflet";
 import EventButton from "./EventButton";
 import EventPopup from "./EventPopup";
 import RoomIcon from "@material-ui/icons/Room";
-import { getLatLng } from "utils/getLatLng";
 
 const useStyles = makeStyles((theme) => ({
   eventButton: {
@@ -25,29 +24,14 @@ const useStyles = makeStyles((theme) => ({
     border: `1.5px solid white`,
     borderRadius: "50%",
     boxShadow: `0px 0px 20px 3px white`,
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
   },
 }));
 
-function EventMarker({
-  person = null,
-  isOpen = false,
-  handleClick = null,
-  eventType = "",
-}) {
+function EventMarker({ person = null, isOpen = false, eventType = "" }) {
   const classes = useStyles();
   const position = person.position;
-  const [geo, setGeo] = useState();
-
-  useEffect(() => {
-    (async () => {
-      const coords = await getLatLng(person.location);
-      setGeo(coords);
-    })();
-  }, [person]);
-
-  console.log("lat", geo);
 
   const iconHtml = renderToString(
     <div className={classes.eventButton}>
@@ -71,12 +55,7 @@ function EventMarker({
   });
 
   return (
-    <Marker
-      position={position}
-      icon={divIcon}
-      onClick={handleClick}
-      style={{ zIndex: 1200 }}
-    >
+    <Marker position={position} icon={divIcon}>
       <EventPopup person={person} />
     </Marker>
   );
