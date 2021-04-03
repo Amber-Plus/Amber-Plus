@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PersonAlertCard from "./PersonAlertCard";
+import handleNavigation from "utils/handleNavigation";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -16,11 +17,6 @@ const PersonAlertList = ({ people, status }) => {
   const handleShare = () => {
     //temporary
     console.log("share post");
-  };
-
-  const handleNavigation = (name, index) => {
-    const nameParam = name.replace(/ /g, "-");
-    return `/person-alert/${index}/${nameParam}`;
   };
 
   return (

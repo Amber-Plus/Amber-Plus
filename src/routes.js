@@ -19,7 +19,6 @@ const Routes = () => {
         <Route path={PAGE_ROUTES[MISSING]} exact component={Missing} />
         <Route path={PAGE_ROUTES[FOUND]} exact component={Found} />
         <Route path={PAGE_ROUTES[SEARCH]} exact component={Search} />
-
         <Route path={PERSON_ALERT_URL} component={PersonAlertProfile} />
       </Switch>
     </Router>
