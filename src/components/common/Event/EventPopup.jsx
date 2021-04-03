@@ -2,6 +2,7 @@ import React from "react";
 import { Popup } from "react-leaflet";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import handleNavigation from "utils/handleNavigation";
 
 const useStyles = makeStyles((theme) => ({
   popup: {
@@ -10,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
       "&> .leaflet-popup-content p": {
         margin: 0,
       },
-      padding: theme.spacing(1, 5, 4.5),
+      padding: theme.spacing(1, 5),
     },
   },
   container: {
@@ -20,9 +21,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   title: {
-    color: theme.palette.primary.main,
+    color: `${theme.palette.primary.main} !important`,
     fontWeight: "bold",
     marginBottom: theme.spacing(1),
+    textDecoration: "none",
+    "&:hover": {
+      color: `${theme.palette.secondary.light} !important`,
+    },
   },
 }));
 
@@ -33,7 +38,8 @@ const EventPopup = ({ person }) => {
     <Popup className={classes.popup} offset={[0, 40]}>
       <div className={classes.container}>
         <Typography
-          component="div"
+          component="a"
+          href={handleNavigation(person.name, person.id)}
           className={`${classes.title} ${classes.text}`}
         >
           {person.name}

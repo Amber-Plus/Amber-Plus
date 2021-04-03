@@ -16,9 +16,8 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     outline: 0,
     minWidth: 0,
-    zIndex: 300,
     padding: 0,
-    transform: "translate3d(0px, -15px, 0px)",
+    transform: "translate3d(0px, 35px, 0px)",
   },
   personMarker: {
     border: `1.5px solid white`,
@@ -55,9 +54,11 @@ function EventMarker({ person = null, isOpen = false, eventType = "" }) {
   });
 
   return (
-    <Marker position={position} icon={divIcon}>
-      <EventPopup person={person} />
-    </Marker>
+    <>
+      <Marker position={position} icon={divIcon}>
+        <EventPopup person={person} />
+      </Marker>
+    </>
   );
 }
 
