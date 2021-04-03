@@ -1,4 +1,5 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
   Paper,
@@ -9,25 +10,38 @@ import {
   Link,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-const Signin = () => {
-  const paperStyle = {
+
+const useStyles = makeStyles((theme) => ({
+  paperStyle: {
     padding: 20,
     height: "70vh",
     width: 280,
     margin: "20px auto",
-  };
-  const avatarStyle = { backgroundColor: "#1bbd7e" };
-  const btnstyle = { margin: "8px 0" };
+  },
+  avatarStyle: {
+    backgroundColor: theme.palette.secondary.light,
+  },
+  btnStyle: {
+    margin: theme.spacing(3, 0, 1),
+  },
+  title: {
+    fontWeight: "bold",
+    marginTop: theme.spacing(1.5),
+  },
+}));
+
+const Signin = () => {
+  const classes = useStyles();
   return (
     <Grid>
-      <Paper elevation={10} style={paperStyle}>
+      <Paper elevation={10} className={classes.paperStyle}>
         <Grid align="center">
-          <Avatar style={avatarStyle}>
+          <Avatar className={classes.avatarStyle}>
             <LockOutlinedIcon />
           </Avatar>
-          <h2>Login</h2>
+          <Typography variant="h3" className={classes.title}>
+            Login
+          </Typography>
         </Grid>
         <TextField
           label="Username"
@@ -42,25 +56,19 @@ const Signin = () => {
           fullWidth
           required
         />
-        <FormControlLabel
-          control={<Checkbox name="checkedB" color="primary" />}
-          label="Remember me"
-        />
         <Button
           type="submit"
           color="primary"
           variant="contained"
-          style={btnstyle}
+          className={classes.btnStyle}
           fullWidth
         >
           Sign in
         </Button>
-        <Typography>
-          <Link href="#">Forgot password ?</Link>
-        </Typography>
+
         <Typography>
           {" "}
-          Do you have an account ?<Link href="#">Sign Up</Link>
+          Don't have an account? <Link href="#">Sign Up</Link>
         </Typography>
       </Paper>
     </Grid>
