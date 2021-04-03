@@ -119,24 +119,24 @@ const PersonAlertCard = ({ person, pathTo, handleShare }) => {
       </CardActionArea>
       <CardActions className={classes.shareButton}>
       <FacebookShareButton
-     url={"http://www.camperstribe.com"}
-     quote={"CampersTribe - World is yours to explore"}
-     hashtag="#camperstribe"
+     url={"#"}
+     quote={"AmberPlus-Help us share alert"}
+     hashtag="#Amberplusalert"
      className={classes.socialMediaButton}
    >
      <FacebookIcon size={36} />
    </FacebookShareButton>
    <TwitterShareButton
-     url={"http://www.camperstribe.com"}
-     title={"CampersTribe - World is yours to explore"}
-     hashtag="#camperstribe"
+     url={"#"}
+     title={"AmberPlus-Help us share alert"}
+     hashtag="#amberplus"
      className={classes.socialMediaButton}
    >
      <TwitterIcon size={36} />
    </TwitterShareButton>
    <EmailShareButton
-     url={"http://www.camperstribe.com"}
-     title={"CampersTribe - World is yours to explore"}
+     url={"#"}
+     title={"AmberPlus-Help us share alert"}
      separator=":: "
      className={classes.socialMediaButton}
    >
