@@ -1,5 +1,6 @@
 //temporary image
 import temp from "images/temp.jpeg";
+import tempCar from "images/car.jpg";
 
 export const testPeopleData = [
   {
@@ -21,6 +22,13 @@ export const testPeopleData = [
     details:
       "small green dude went missing. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     image: temp,
+    vehicle: {
+      year: "2018",
+      make: "toyota",
+      model: "tacoma",
+      color: "blue",
+      image: tempCar,
+    },
   },
   {
     id: 2,
@@ -41,6 +49,13 @@ export const testPeopleData = [
     details:
       "small green dude went missing Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     image: temp,
+    vehicle: {
+      year: "2018",
+      make: "toyota",
+      model: "tacoma",
+      color: "blue",
+      image: tempCar,
+    },
   },
   {
     id: 3,
@@ -61,6 +76,13 @@ export const testPeopleData = [
     details:
       "small green dude went missing Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     image: temp,
+    vehicle: {
+      year: "2018",
+      make: "toyota",
+      model: "tacoma",
+      color: "blue",
+      image: tempCar,
+    },
   },
   {
     id: 4,
@@ -81,6 +103,13 @@ export const testPeopleData = [
     details:
       "small green dude went missing Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     image: temp,
+    vehicle: {
+      year: "2018",
+      make: "toyota",
+      model: "tacoma",
+      color: "blue",
+      image: tempCar,
+    },
   },
   {
     id: 5,
