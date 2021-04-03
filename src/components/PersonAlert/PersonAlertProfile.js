@@ -1,11 +1,10 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, IconButton } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import CustomContainer from "components/common/CustomContainer";
 import Map from "components/common/Map";
 import getProfileObject from "utils/getProfileObject";
-
 import { testPeopleData } from "components/PersonAlert/testPeopleData";
 import {
   EmailShareButton,
@@ -57,11 +56,12 @@ const useStyles = makeStyles((theme) => ({
 const PersonAlertProfile = (props) => {
   const classes = useStyles();
   const { name, key } = useParams();
+  const link = window.location.href;
   const originalName = name.replace(/-/g, " ");
   const person = testPeopleData.find(
     ({ name, id }) => name === originalName && id.toString() === key
   );
-
+  console.log(link);
   const profile = getProfileObject(person, "profile");
 
   return (
@@ -86,40 +86,31 @@ const PersonAlertProfile = (props) => {
               className={classes.root}
             >
               <Grid container item justify="center" sm={3} xs={2}>
-                <IconButton>
-                  <FacebookShareButton
-                    url={"#"}
-                    quote={"AmberPlus-Help us share alert"}
-                    hashtag="#Amberplusalert"
-                    className={classes.socialMediaButton}
-                  >
-                    <FacebookIcon size={36} />
-                  </FacebookShareButton>
-                </IconButton>
+                <FacebookShareButton
+                  url={link}
+                  quote={`AmberPlus - Help us find ${person.name}`}
+                  hashtag="#AmberPlusAlert"
+                >
+                  <FacebookIcon size={36} />
+                </FacebookShareButton>
               </Grid>
               <Grid container item justify="center" sm={3} xs={2}>
-                <IconButton>
-                  <TwitterShareButton
-                    url={"#"}
-                    title={"AmberPlus-Help us share alert"}
-                    hashtag="#Amberplusalert"
-                    className={classes.socialMediaButton}
-                  >
-                    <TwitterIcon size={36} />
-                  </TwitterShareButton>
-                </IconButton>
+                <TwitterShareButton
+                  url={link}
+                  title={`AmberPlus - Help us find ${person.name}`}
+                  hashtag="#AmberPlusAlert"
+                >
+                  <TwitterIcon size={36} />
+                </TwitterShareButton>
               </Grid>
               <Grid container item justify="center" sm={3} xs={2}>
-                <IconButton>
-                  <EmailShareButton
-                    url={"#"}
-                    title={"AmberPlus-Help us share alert"}
-                    separator=":: "
-                    className={classes.socialMediaButton}
-                  >
-                    <EmailIcon size={36} />
-                  </EmailShareButton>
-                </IconButton>
+                <EmailShareButton
+                  url={"help@amberplus.com"}
+                  title={`AmberPlus - Help us find ${person.name}`}
+                  separator=":: "
+                >
+                  <EmailIcon size={36} />
+                </EmailShareButton>
               </Grid>
             </Grid>
           </Grid>

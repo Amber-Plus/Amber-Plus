@@ -63,11 +63,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PersonAlertCard = ({ person, pathTo, handleShare }) => {
+const PersonAlertCard = ({ person, pathTo }) => {
   const isMobile = useMediaQuery("(max-width: 600px)", {
     noSsr: true,
   });
   const classes = useStyles(isMobile);
+  const link = `${window.location.origin}${pathTo}`;
 
   const { name, image } = person;
   const profile = getProfileObject(person, "card");
@@ -120,26 +121,23 @@ const PersonAlertCard = ({ person, pathTo, handleShare }) => {
       </CardActionArea>
       <CardActions className={classes.shareButton}>
         <FacebookShareButton
-          url={"#"}
-          quote={"AmberPlus-Help us share alert"}
-          hashtag="#Amberplusalert"
-          className={classes.socialMediaButton}
+          url={link}
+          quote={`AmberPlus - Help us find ${person.name}`}
+          hashtag="#AmberPlusAlert"
         >
           <FacebookIcon size={36} />
         </FacebookShareButton>
         <TwitterShareButton
-          url={"#"}
-          title={"AmberPlus-Help us share alert"}
-          hashtag="#amberplus"
-          className={classes.socialMediaButton}
+          url={link}
+          title={`AmberPlus - Help us find ${person.name}`}
+          hashtag="#AmberPlusAlert"
         >
           <TwitterIcon size={36} />
         </TwitterShareButton>
         <EmailShareButton
-          url={"#"}
-          title={"AmberPlus-Help us share alert"}
+          url={"help@amberplus.com"}
+          title={`AmberPlus - Help us find ${person.name}`}
           separator=":: "
-          className={classes.socialMediaButton}
         >
           <EmailIcon size={36} />
         </EmailShareButton>
