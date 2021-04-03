@@ -2,6 +2,7 @@ import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import SearchIcon from "@material-ui/icons/Search";
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 
 export const HOME = "Home";
 export const MISSING = "Missing";
@@ -31,3 +32,6 @@ export const usePageStatus = (page) => {
 
   return { route, icon, label };
 };
+
+export const PROFILE = "Profile";
+export const PROFILE_ICON = <PersonOutlineIcon />;

@@ -39,7 +39,7 @@ const EventPopup = ({ person }) => {
       <div className={classes.container}>
         <Typography
           component="a"
-          href={handleNavigation(person.name, person.id)}
+          href={handleNavigation("person-alert", person.name, person.id)}
           className={`${classes.title} ${classes.text}`}
         >
           {person.name}

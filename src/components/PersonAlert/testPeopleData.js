@@ -5,6 +5,7 @@ import tempCar from "images/car.jpg";
 export const testPeopleData = [
   {
     id: 1,
+    parentId: "a1",
     name: "the child elvis",
     age: 50,
     hair: "black",
@@ -32,6 +33,7 @@ export const testPeopleData = [
   },
   {
     id: 2,
+    parentId: "a1",
     name: "the child yoda",
     age: 50,
     hair: "black",
@@ -59,6 +61,7 @@ export const testPeopleData = [
   },
   {
     id: 3,
+    parentId: "a2",
     name: "the child bean",
     age: 50,
     hair: "black",
@@ -86,6 +89,7 @@ export const testPeopleData = [
   },
   {
     id: 4,
+    parentId: "a3",
     name: "the child",
     age: 50,
     hair: "black",
@@ -113,6 +117,7 @@ export const testPeopleData = [
   },
   {
     id: 5,
+    parentId: "a3",
     name: "the child",
     age: 50,
     hair: "black",
