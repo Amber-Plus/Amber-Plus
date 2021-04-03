@@ -2,19 +2,20 @@ import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
-  IconButton,
   Typography,
   Grid,
   Card,
   CardActionArea,
   CardActions,
 } from "@material-ui/core";
-import ShareIcon from "@material-ui/icons/Share";
 import getProfileObject from "utils/getProfileObject";
 import {
-  EmailShareButton, EmailIcon,
-  FacebookShareButton, FacebookIcon,
-  TwitterShareButton, TwitterIcon
+  EmailShareButton,
+  EmailIcon,
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
 } from "react-share";
 
 const useStyles = makeStyles((theme) => ({
@@ -118,30 +119,30 @@ const PersonAlertCard = ({ person, pathTo, handleShare }) => {
         </Grid>
       </CardActionArea>
       <CardActions className={classes.shareButton}>
-      <FacebookShareButton
-     url={"#"}
-     quote={"AmberPlus-Help us share alert"}
-     hashtag="#Amberplusalert"
-     className={classes.socialMediaButton}
-   >
-     <FacebookIcon size={36} />
-   </FacebookShareButton>
-   <TwitterShareButton
-     url={"#"}
-     title={"AmberPlus-Help us share alert"}
-     hashtag="#amberplus"
-     className={classes.socialMediaButton}
-   >
-     <TwitterIcon size={36} />
-   </TwitterShareButton>
-   <EmailShareButton
-     url={"#"}
-     title={"AmberPlus-Help us share alert"}
-     separator=":: "
-     className={classes.socialMediaButton}
-   >
-     <EmailIcon size={36} />
-   </EmailShareButton>
+        <FacebookShareButton
+          url={"#"}
+          quote={"AmberPlus-Help us share alert"}
+          hashtag="#Amberplusalert"
+          className={classes.socialMediaButton}
+        >
+          <FacebookIcon size={36} />
+        </FacebookShareButton>
+        <TwitterShareButton
+          url={"#"}
+          title={"AmberPlus-Help us share alert"}
+          hashtag="#amberplus"
+          className={classes.socialMediaButton}
+        >
+          <TwitterIcon size={36} />
+        </TwitterShareButton>
+        <EmailShareButton
+          url={"#"}
+          title={"AmberPlus-Help us share alert"}
+          separator=":: "
+          className={classes.socialMediaButton}
+        >
+          <EmailIcon size={36} />
+        </EmailShareButton>
       </CardActions>
     </Card>
   );
