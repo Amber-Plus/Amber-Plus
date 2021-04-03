@@ -11,6 +11,11 @@ import {
 } from "@material-ui/core";
 import ShareIcon from "@material-ui/icons/Share";
 import getProfileObject from "utils/getProfileObject";
+import {
+  EmailShareButton, EmailIcon,
+  FacebookShareButton, FacebookIcon,
+  TwitterShareButton, TwitterIcon
+} from "react-share";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -113,13 +118,30 @@ const PersonAlertCard = ({ person, pathTo, handleShare }) => {
         </Grid>
       </CardActionArea>
       <CardActions className={classes.shareButton}>
-        <IconButton
-          aria-label="share"
-          onClick={handleShare}
-          className={classes.shareIcon}
-        >
-          <ShareIcon />
-        </IconButton>
+      <FacebookShareButton
+     url={"http://www.camperstribe.com"}
+     quote={"CampersTribe - World is yours to explore"}
+     hashtag="#camperstribe"
+     className={classes.socialMediaButton}
+   >
+     <FacebookIcon size={36} />
+   </FacebookShareButton>
+   <TwitterShareButton
+     url={"http://www.camperstribe.com"}
+     title={"CampersTribe - World is yours to explore"}
+     hashtag="#camperstribe"
+     className={classes.socialMediaButton}
+   >
+     <TwitterIcon size={36} />
+   </TwitterShareButton>
+   <EmailShareButton
+     url={"http://www.camperstribe.com"}
+     title={"CampersTribe - World is yours to explore"}
+     separator=":: "
+     className={classes.socialMediaButton}
+   >
+     <EmailIcon size={36} />
+   </EmailShareButton>
       </CardActions>
     </Card>
   );
