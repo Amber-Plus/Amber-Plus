@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
       isProfile ? theme.spacing(5, 0, 10) : theme.spacing(0, 0, 7),
   },
 }));
+
 const Map = ({ data, isProfile }) => {
   const classes = useStyles(isProfile);
   const center = getMapCenter(data);
@@ -20,7 +21,7 @@ const Map = ({ data, isProfile }) => {
   return (
     <MapContainer
       center={center}
-      zoom={isProfile ? 15 : 12}
+      zoom={isProfile ? 15 : 13}
       scrollWheelZoom={false}
       className={classes.map}
     >
