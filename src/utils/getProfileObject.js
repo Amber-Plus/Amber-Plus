@@ -6,7 +6,8 @@ export const getProfileObject = (person, type) => {
 
     if (type === "profile")
       return Object.keys(person).filter(
-        (key) => !["image", "details", "id", "position"].includes(key)
+        (key) =>
+          !["image", "details", "id", "position", "vehicle"].includes(key)
       );
   };
 
