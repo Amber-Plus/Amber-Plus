@@ -2,15 +2,21 @@ import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
-  IconButton,
   Typography,
   Grid,
   Card,
   CardActionArea,
   CardActions,
 } from "@material-ui/core";
-import ShareIcon from "@material-ui/icons/Share";
 import getProfileObject from "utils/getProfileObject";
+import {
+  EmailShareButton,
+  EmailIcon,
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+} from "react-share";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,11 +63,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PersonAlertCard = ({ person, pathTo, handleShare }) => {
+const PersonAlertCard = ({ person, pathTo }) => {
   const isMobile = useMediaQuery("(max-width: 600px)", {
     noSsr: true,
   });
   const classes = useStyles(isMobile);
+  const link = `${window.location.origin}${pathTo}`;
 
   const { name, image } = person;
   const profile = getProfileObject(person, "card");
@@ -113,13 +120,27 @@ const PersonAlertCard = ({ person, pathTo, handleShare }) => {
         </Grid>
       </CardActionArea>
       <CardActions className={classes.shareButton}>
-        <IconButton
-          aria-label="share"
-          onClick={handleShare}
-          className={classes.shareIcon}
+        <FacebookShareButton
+          url={link}
+          quote={`AmberPlus - Help us find ${person.name}`}
+          hashtag="#AmberPlusAlert"
         >
-          <ShareIcon />
-        </IconButton>
+          <FacebookIcon size={36} />
+        </FacebookShareButton>
+        <TwitterShareButton
+          url={link}
+          title={`AmberPlus - Help us find ${person.name}`}
+          hashtag="#AmberPlusAlert"
+        >
+          <TwitterIcon size={36} />
+        </TwitterShareButton>
+        <EmailShareButton
+          url={"help@amberplus.com"}
+          title={`AmberPlus - Help us find ${person.name}`}
+          separator=":: "
+        >
+          <EmailIcon size={36} />
+        </EmailShareButton>
       </CardActions>
     </Card>
   );

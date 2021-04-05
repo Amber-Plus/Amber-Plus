@@ -17,7 +17,7 @@ const PersonAlertList = ({ people, status }) => {
 
   const handleShare = () => {
     //temporary
-    console.log("share post");
+    console.log(" post");
   };
 
   return (
