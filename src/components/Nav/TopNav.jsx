@@ -12,9 +12,9 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { PAGE_ROUTES, HOME, PROFILE_ICON } from "constants/pages";
-import handleNavigation from "utils/handleNavigation";
+import { PAGE_ROUTES, MISSING } from "constants/pages";
 import PageList from "./PageList";
+import LoginButton from "components/Login/LoginButton";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -39,17 +39,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
 }));
-
-const Profile = () => {
-  return (
-    <IconButton
-      component="a"
-      href={handleNavigation("profile", "Joahn Jones", "a1")}
-    >
-      {PROFILE_ICON}
-    </IconButton>
-  );
-};
 
 const MobileTopMenu = () => {
   const classes = useStyles();
@@ -89,7 +78,7 @@ const TopNav = () => {
       <Toolbar className={clsx(isMobile && classes.mobileTopMenu)}>
         <Typography
           component="a"
-          href={PAGE_ROUTES[HOME]}
+          href={PAGE_ROUTES[MISSING]}
           className={classes.title}
         >
           Amber+
@@ -100,7 +89,9 @@ const TopNav = () => {
           alignItems="center"
         >
           <Grid item>{isMobile ? <MobileTopMenu /> : <PageList />}</Grid>
-          <Grid item>{Profile()}</Grid>
+          <Grid item>
+            <LoginButton />
+          </Grid>
         </Grid>
       </Toolbar>
     </AppBar>

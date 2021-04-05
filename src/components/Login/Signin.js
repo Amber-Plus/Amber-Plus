@@ -10,6 +10,8 @@ import {
   Link,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { useSetRecoilState } from "recoil";
+import { loginStatus, userStatus } from "state/loginState";
 import { testUserData } from "constants/testUserData";
 import handleNavigation from "utils/handleNavigation";
 
@@ -37,12 +39,16 @@ const Signin = () => {
   const [username, setUsername] = useState();
   const [pass, setPass] = useState();
   const [user, setUser] = useState({ name: "", id: "" });
+  const setLoginState = useSetRecoilState(loginStatus);
+  const setUserState = useSetRecoilState(userStatus);
 
   const handleSubmit = () => {
     const profile = testUserData.find(
       (person) => person.email === username && person.pass === pass
     );
     setUser(profile);
+    setLoginState("logout");
+    setUserState({ username: username, password: pass });
   };
 
   return (
@@ -88,7 +94,7 @@ const Signin = () => {
 
         <Typography>
           {" "}
-          Don't have an account? <Link href="#">Sign Up</Link>
+          Don't have an account? <Link href="/login">Sign Up</Link>
         </Typography>
       </Paper>
     </Grid>
