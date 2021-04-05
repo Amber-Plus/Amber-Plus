@@ -44,7 +44,7 @@ const Profile = () => {
   return (
     <IconButton
       component="a"
-      href={handleNavigation("profile", "mandalorian", "a1")}
+      href={handleNavigation("profile", "Joahn Jones", "a1")}
     >
       {PROFILE_ICON}
     </IconButton>

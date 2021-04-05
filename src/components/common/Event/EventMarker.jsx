@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: `0px 0px 20px 3px white`,
     width: 70,
     height: 70,
+    objectFit: "cover",
   },
 }));
 

@@ -7,7 +7,7 @@ import CustomContainer from "components/common/CustomContainer";
 import Map from "components/common/Map";
 import getProfileObject from "utils/getProfileObject";
 import getVehicleString from "utils/getVehicleString";
-import { testPeopleData } from "components/PersonAlert/testPeopleData";
+import { testPeopleData } from "constants/testPeopleData";
 import {
   EmailShareButton,
   EmailIcon,
@@ -63,7 +63,7 @@ const PersonAlertProfile = (props) => {
   const person = testPeopleData.find(
     ({ name, id }) => name === originalName && id.toString() === key
   );
-  console.log(link);
+
   const profile = getProfileObject(person, "profile");
   const car = !isEmpty(person.vehicle) && person.vehicle;
   const carString = getVehicleString(car);

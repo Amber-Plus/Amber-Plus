@@ -1,8 +1,9 @@
 import React from "react";
 import { Route, Router, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import { Home, Missing, Found, Search, UserProfile } from "pages";
+import { Home, Missing, Found, Search } from "pages";
 import PersonAlertProfile from "components/PersonAlert/PersonAlertProfile";
+import UserProfile from "components/UserProfile";
 import { PAGE_ROUTES, HOME, MISSING, FOUND, SEARCH } from "constants/pages";
 import Nav from "components/Nav";
 
