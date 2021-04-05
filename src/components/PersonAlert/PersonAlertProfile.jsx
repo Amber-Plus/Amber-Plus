@@ -1,10 +1,12 @@
 import React from "react";
+import { isEmpty } from "lodash";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import CustomContainer from "components/common/CustomContainer";
 import Map from "components/common/Map";
 import getProfileObject from "utils/getProfileObject";
+import getVehicleString from "utils/getVehicleString";
 import { testPeopleData } from "components/PersonAlert/testPeopleData";
 import {
   EmailShareButton,
@@ -63,6 +65,8 @@ const PersonAlertProfile = (props) => {
   );
   console.log(link);
   const profile = getProfileObject(person, "profile");
+  const car = !isEmpty(person.vehicle) && person.vehicle;
+  const carString = getVehicleString(car);
 
   return (
     <CustomContainer className={classes.root}>
@@ -125,15 +129,39 @@ const PersonAlertProfile = (props) => {
             </Grid>
           ))}
         </Grid>
-        <Grid container item className={classes.details}>
-          <Grid item>
-            <Typography variant="h6" className={classes.title}>
-              Details
-            </Typography>
+        <Grid
+          container
+          item
+          justify="space-between"
+          className={classes.details}
+        >
+          <Grid item sm={car ? 6 : 12} xs={car ? 6 : 12}>
+            <Grid item>
+              <Typography variant="h6" className={classes.title}>
+                Details
+              </Typography>
+            </Grid>
+            <Grid item sm={12}>
+              <Typography>{person.details}</Typography>
+            </Grid>
           </Grid>
-          <Grid item sm={12}>
-            <Typography>{person.details}</Typography>
-          </Grid>
+          {car && (
+            <Grid item sm={5} xs={5}>
+              <Grid item>
+                <Typography variant="h6" className={classes.title}>
+                  Suspect Vehicle
+                </Typography>
+              </Grid>
+              <Grid container item justify="center">
+                <Typography>{carString}</Typography>
+                <img
+                  src={person.vehicle.image}
+                  alt={carString}
+                  className={classes.img}
+                />
+              </Grid>
+            </Grid>
+          )}
         </Grid>
       </Grid>
       <Map data={person} isProfile={true} />

@@ -5,7 +5,6 @@ import TopNav from "./TopNav";
 import BottomNav from "./BottomNav";
 
 const useStyles = makeStyles((theme) => ({
-  top: {},
   root: {
     "& .MuiBottomNavigation-root": {
       bottom: 0,
@@ -23,13 +22,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Nav = () => {
   const classes = useStyles();
-  const isMobile = useMediaQuery("(max-width: 600px)", {
+  const isMobile = useMediaQuery("(max-width: 780px)", {
     noSsr: true,
   });
 
   return (
     <div className={classes.root}>
-      <TopNav className={classes.top} />
+      <TopNav />
       {isMobile && <BottomNav />}
     </div>
   );

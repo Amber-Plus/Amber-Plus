@@ -3,12 +3,12 @@
   height: 100%;
 }
 
-.leaflet-popup-tip {
+/* .leaflet-popup-tip {
   width: 0px;
   height: 0px;
   border: 0px;
-}
+} */
 
-.leaflet-marker-pane {
+/* .leaflet-marker-pane {
   z-index: 1200;
-}
+} */

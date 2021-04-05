@@ -8,10 +8,12 @@ import {
   Typography,
   IconButton,
   Drawer,
+  Grid,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { PAGE_ROUTES, HOME } from "constants/pages";
+import { PAGE_ROUTES, HOME, PROFILE_ICON } from "constants/pages";
+import handleNavigation from "utils/handleNavigation";
 import PageList from "./PageList";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +39,17 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
 }));
+
+const Profile = () => {
+  return (
+    <IconButton
+      component="a"
+      href={handleNavigation("profile", "mandalorian", "a1")}
+    >
+      {PROFILE_ICON}
+    </IconButton>
+  );
+};
 
 const MobileTopMenu = () => {
   const classes = useStyles();
@@ -67,7 +80,7 @@ const MobileTopMenu = () => {
 
 const TopNav = () => {
   const classes = useStyles();
-  const isMobile = useMediaQuery("(max-width: 600px)", {
+  const isMobile = useMediaQuery("(max-width: 780px)", {
     noSsr: true,
   });
 
@@ -81,7 +94,14 @@ const TopNav = () => {
         >
           Amber+
         </Typography>
-        {isMobile ? <MobileTopMenu /> : <PageList />}
+        <Grid
+          container
+          justify={isMobile ? "flex-end" : "space-between"}
+          alignItems="center"
+        >
+          <Grid item>{isMobile ? <MobileTopMenu /> : <PageList />}</Grid>
+          <Grid item>{Profile()}</Grid>
+        </Grid>
       </Toolbar>
     </AppBar>
   );

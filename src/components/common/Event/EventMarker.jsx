@@ -16,25 +16,19 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     outline: 0,
     minWidth: 0,
-    zIndex: 300,
     padding: 0,
-    transform: "translate3d(0px, -15px, 0px)",
+    transform: "translate3d(0px, 35px, 0px)",
   },
   personMarker: {
     border: `1.5px solid white`,
     borderRadius: "50%",
     boxShadow: `0px 0px 20px 3px white`,
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
   },
 }));
 
-const EventMarker = ({
-  person = null,
-  isOpen = false,
-  handleClick = null,
-  eventType = "",
-}) => {
+function EventMarker({ person = null, isOpen = false, eventType = "" }) {
   const classes = useStyles();
   const position = person.position;
 
@@ -60,15 +54,12 @@ const EventMarker = ({
   });
 
   return (
-    <Marker
-      position={position}
-      icon={divIcon}
-      onClick={handleClick}
-      style={{ zIndex: 1200 }}
-    >
-      <EventPopup person={person} />
-    </Marker>
+    <>
+      <Marker position={position} icon={divIcon}>
+        <EventPopup person={person} />
+      </Marker>
+    </>
   );
-};
+}
 
 export default EventMarker;
