@@ -1,7 +1,7 @@
 import React from "react";
 
 import PersonAlertList from "components/PersonAlert/PersonAlertList";
-import { testPeopleData } from "components/PersonAlert/testPeopleData";
+import { testPeopleData } from "constants/testPeopleData";
 
 const Missing = () => {
   return (

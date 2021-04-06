@@ -37,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
   media: {
     width: "100%",
     height: "auto",
+    maxHeight: 250,
+    objectFit: "cover",
     [theme.breakpoints.down("xs")]: {
       width: theme.spacing(10),
       height: theme.spacing(10),
@@ -57,6 +59,8 @@ const useStyles = makeStyles((theme) => ({
   shareButton: {
     display: "flex",
     flexDirection: (isMobile) => (isMobile ? "center" : "flex-end"),
+    marginRight: theme.spacing(0.5),
+    marginTop: (isMobile) => (isMobile ? 0 : theme.spacing(2)),
   },
   shareIcon: {
     padding: 8,
@@ -120,27 +124,39 @@ const PersonAlertCard = ({ person, pathTo }) => {
         </Grid>
       </CardActionArea>
       <CardActions className={classes.shareButton}>
-        <FacebookShareButton
-          url={link}
-          quote={`AmberPlus - Help us find ${person.name}`}
-          hashtag="#AmberPlusAlert"
+        <Grid
+          container
+          direction={isMobile ? "column" : "row"}
+          justify={isMobile ? "center" : "flex-end"}
         >
-          <FacebookIcon size={36} />
-        </FacebookShareButton>
-        <TwitterShareButton
-          url={link}
-          title={`AmberPlus - Help us find ${person.name}`}
-          hashtag="#AmberPlusAlert"
-        >
-          <TwitterIcon size={36} />
-        </TwitterShareButton>
-        <EmailShareButton
-          url={"help@amberplus.com"}
-          title={`AmberPlus - Help us find ${person.name}`}
-          separator=":: "
-        >
-          <EmailIcon size={36} />
-        </EmailShareButton>
+          <Grid item>
+            <FacebookShareButton
+              url={link}
+              quote={`AmberPlus - Help us find ${person.name}`}
+              hashtag="#AmberPlusAlert"
+            >
+              <FacebookIcon size={isMobile ? 20 : 36} />
+            </FacebookShareButton>
+          </Grid>
+          <Grid item>
+            <TwitterShareButton
+              url={link}
+              title={`AmberPlus - Help us find ${person.name}`}
+              hashtag="#AmberPlusAlert"
+            >
+              <TwitterIcon size={isMobile ? 20 : 36} />
+            </TwitterShareButton>
+          </Grid>
+          <Grid item>
+            <EmailShareButton
+              url={"help@amberplus.com"}
+              title={`AmberPlus - Help us find ${person.name}`}
+              separator=":: "
+            >
+              <EmailIcon size={isMobile ? 20 : 36} />
+            </EmailShareButton>
+          </Grid>
+        </Grid>
       </CardActions>
     </Card>
   );
