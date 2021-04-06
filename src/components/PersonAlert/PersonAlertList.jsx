@@ -15,11 +15,6 @@ const useStyles = makeStyles((theme) => ({
 const PersonAlertList = ({ people, status }) => {
   const classes = useStyles();
 
-  const handleShare = () => {
-    //temporary
-    console.log(" post");
-  };
-
   return (
     <div className={classes.container}>
       {people &&
@@ -30,7 +25,6 @@ const PersonAlertList = ({ people, status }) => {
               person={person}
               key={person.id}
               pathTo={handleNavigation("person-alert", person.name, person.id)}
-              handleShare={handleShare}
             />
           ))}
     </div>

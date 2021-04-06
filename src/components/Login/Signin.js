@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
@@ -10,6 +10,10 @@ import {
   Link,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { useSetRecoilState } from "recoil";
+import { loginStatus, userStatus } from "state/loginState";
+import { testUserData } from "constants/testUserData";
+import handleNavigation from "utils/handleNavigation";
 
 const useStyles = makeStyles((theme) => ({
   paperStyle: {
@@ -32,6 +36,21 @@ const useStyles = makeStyles((theme) => ({
 
 const Signin = () => {
   const classes = useStyles();
+  const [username, setUsername] = useState();
+  const [pass, setPass] = useState();
+  const [user, setUser] = useState({ name: "", id: "" });
+  const setLoginState = useSetRecoilState(loginStatus);
+  const setUserState = useSetRecoilState(userStatus);
+
+  const handleSubmit = () => {
+    const profile = testUserData.find(
+      (person) => person.email === username && person.pass === pass
+    );
+    setUser(profile);
+    setLoginState("logout");
+    setUserState({ username: username, password: pass });
+  };
+
   return (
     <Grid>
       <Paper elevation={10} className={classes.paperStyle}>
@@ -44,15 +63,19 @@ const Signin = () => {
           </Typography>
         </Grid>
         <TextField
+          id="username"
           label="Username"
           placeholder="Enter username"
+          onChange={(e) => setUsername(e.target.value)}
           fullWidth
           required
         />
         <TextField
+          id="password"
           label="Password"
           placeholder="Enter password"
           type="password"
+          onChange={(e) => setPass(e.target.value)}
           fullWidth
           required
         />
@@ -60,6 +83,9 @@ const Signin = () => {
           type="submit"
           color="primary"
           variant="contained"
+          component="a"
+          onClick={() => handleSubmit()}
+          href={handleNavigation("profile", user.name, user.id)}
           className={classes.btnStyle}
           fullWidth
         >
@@ -68,7 +94,7 @@ const Signin = () => {
 
         <Typography>
           {" "}
-          Don't have an account? <Link href="#">Sign Up</Link>
+          Don't have an account? <Link href="/login">Sign Up</Link>
         </Typography>
       </Paper>
     </Grid>

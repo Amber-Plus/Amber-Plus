@@ -5,8 +5,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Grid, Typography } from "@material-ui/core";
 import CustomContainer from "components/common/CustomContainer";
 import PersonAlertList from "components/PersonAlert/PersonAlertList";
-import { testUserData } from "components/PersonAlert/testUserData";
-import { testPeopleData } from "components/PersonAlert/testPeopleData";
+import { testUserData } from "constants/testUserData";
+import { testPeopleData } from "constants/testPeopleData";
 import defaultImg from "images/defaultImg.png";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,8 +50,10 @@ const UserProfile = () => {
   const { name, key } = useParams();
   const originalName = name.replace(/-/g, " ");
   const user = testUserData.find(
-    ({ name, id }) => name.toLowerCase() === originalName && id === key
+    ({ name, id }) =>
+      name.toLowerCase() === originalName.toLowerCase() && id === key
   );
+
   const posts = user.posts.map((post) =>
     testPeopleData.find((person) => post === person.id)
   );
