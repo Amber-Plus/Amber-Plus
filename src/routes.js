@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from "react";
 import { Route, Router, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
