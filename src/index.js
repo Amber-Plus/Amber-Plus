@@ -6,16 +6,19 @@ import Routes from "./routes";
 import theme from "./theme";
 import "leaflet/dist/leaflet.css";
 
+import PersonAlertState from "./context/personAlert/PersonAlertState";
 import AuthState from "./context/auth/AuthState";
 import "./index.css";
 
 ReactDOM.render(
   <AuthState>
-    <RecoilRoot>
-      <MuiThemeProvider theme={theme}>
-        <Routes />
-      </MuiThemeProvider>
-    </RecoilRoot>
+    <PersonAlertState>
+      <RecoilRoot>
+        <MuiThemeProvider theme={theme}>
+          <Routes />
+        </MuiThemeProvider>
+      </RecoilRoot>
+    </PersonAlertState>
   </AuthState>,
   document.getElementById("root")
 );
