@@ -11,8 +11,6 @@ import {
   Link,
 } from "@material-ui/core";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
-import { testUserData } from "constants/testUserData";
-import handleNavigation from "utils/handleNavigation";
 import AuthContext from "../../context/auth/authContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +40,7 @@ const SignUp = () => {
   const history = useHistory();
   const authContext = useContext(AuthContext);
   const { register, error, clearErrors, isAuthenticated } = authContext;
-  //emaail
+  //email
   const [email, setEmail] = useState();
   const [emailConfirm, setEmailConfirm] = useState();
   //password
@@ -56,8 +54,6 @@ const SignUp = () => {
   const [passError, setPassError] = useState(false);
   //helper text
   const [helperText, setHelperText] = useState("");
-  //set user
-  const [user, setUser] = useState({ name: "", id: "" });
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -71,11 +67,8 @@ const SignUp = () => {
   }, [error, isAuthenticated]);
 
   const handleSubmit = () => {
-    const id = `a${testUserData.length + 1}`;
     const name = `${fName} ${lName}`;
-    const profile = { id: id, name: name, email: email, pass: pass };
-
-    setUser({ name: name, id: id });
+    const profile = { name: name, email: email, pass: pass };
 
     profile.email !== "" && register(profile);
   };
@@ -185,7 +178,7 @@ const SignUp = () => {
           variant="contained"
           component="a"
           onClick={() => handleSubmit()}
-          href={handleNavigation("profile", user.name, user.id)}
+          href={"/"}
           className={classes.btnStyle}
           fullWidth
         >

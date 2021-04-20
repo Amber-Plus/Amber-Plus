@@ -36,19 +36,18 @@ const useStyles = makeStyles((theme) => ({
 
 const Signin = (props) => {
   const authContext = useContext(AuthContext);
-
   const { login, error, clearErrors, isAuthenticated } = authContext;
 
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push("/");
+      props.history.replace("/missing");
     }
 
     if (error === "Invalid Credentials") {
       clearErrors();
     }
     // eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
+  }, [error, isAuthenticated]);
 
   const classes = useStyles();
   const [user, setUser] = useState({ email: "", password: "" });

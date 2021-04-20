@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { Fragment } from "react";
-import { Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Home, Missing, Found, Search } from "pages";
 import Nav from "components/Nav";
