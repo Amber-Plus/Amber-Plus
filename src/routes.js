@@ -6,6 +6,7 @@ import { Home, Missing, Found, Search } from "pages";
 import PersonAlertProfile from "components/PersonAlert/PersonAlertProfile";
 import UserProfile from "components/UserProfile";
 import Login from "components/Login";
+import SignUp from "components/Login/SignUp";
 import { PAGE_ROUTES, HOME, MISSING, FOUND, SEARCH } from "constants/pages";
 import Nav from "components/Nav";
 
@@ -14,6 +15,7 @@ const history = createBrowserHistory();
 export const PERSON_ALERT_URL = "/person-alert/:key/:name";
 export const USER_PROFILE_URL = "/profile/:key/:name";
 export const LOGIN_URL = "/login";
+export const SIGNUP_URL = "/signup";
 
 const Routes = () => {
   return (
@@ -29,6 +31,7 @@ const Routes = () => {
         <Route path={PERSON_ALERT_URL} component={PersonAlertProfile} />
         <Route path={USER_PROFILE_URL} component={UserProfile} />
         <Route path={LOGIN_URL} component={Login} />
+        <Route path={SIGNUP_URL} component={SignUp} />
       </Switch>
     </Router>
   );

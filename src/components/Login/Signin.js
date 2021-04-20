@@ -94,7 +94,7 @@ const Signin = () => {
 
         <Typography>
           {" "}
-          Don't have an account? <Link href="/login">Sign Up</Link>
+          Don't have an account? <Link href="/signup">Sign Up</Link>
         </Typography>
       </Paper>
     </Grid>
