@@ -1,9 +1,10 @@
-import React from "react";
-import PropTypes from 'prop-types';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import TopNav from "./TopNav";
 import BottomNav from "./BottomNav";
+import AuthContext from '../../context/auth/authContext';
+import PersonAlertContext from '../../context/personAlert/personAlertContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,10 +23,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Nav = () => {
+  const authContext = useContext(AuthContext);
+  const personAlertContext = useContext(PersonAlertContext);
   const classes = useStyles();
   const isMobile = useMediaQuery("(max-width: 780px)", {
     noSsr: true,
   });
+
+  const { isAuthenticated, logout, user, loadUser } = authContext;
+  const { clearPersonAlerts } = personAlertContext;
+
+  useEffect(() => {
+    loadUser();
+    // eslint-disable-next-line
+  }, []);
+
+  const onLogout = () => {
+    logout();
+    clearPersonAlerts();
+  };
 
   return (
     <div className={classes.root}>

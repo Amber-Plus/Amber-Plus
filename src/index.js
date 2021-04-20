@@ -5,14 +5,17 @@ import Routes from './routes';
 import theme from './theme';
 import 'leaflet/dist/leaflet.css';
 
+import PersonAlertState from './context/personAlert/PersonAlertState';
 import AuthState from './context/auth/AuthState';
 import './index.css';
 
 ReactDOM.render(
   <AuthState>
-    <MuiThemeProvider theme={theme}>
-      <Routes />
-    </MuiThemeProvider>
+    <PersonAlertState>
+      <MuiThemeProvider theme={theme}>
+        <Routes />
+      </MuiThemeProvider>
+    </PersonAlertState>
   </AuthState>,
   document.getElementById('root')
 );
