@@ -2,12 +2,10 @@ import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Button } from "@material-ui/core";
 import CustomContainer from "components/common/CustomContainer";
 import PersonAlertList from "components/PersonAlert/PersonAlertList";
 import AuthContext from "context/auth/authContext";
-import { testUserData } from "constants/testUserData";
-import { testPeopleData } from "constants/testPeopleData";
 import defaultImg from "images/defaultImg.png";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: theme.spacing(25),
     borderRadius: "50%",
   },
-  imgDefault: {},
   title: {
     fontWeight: "bold",
     marginBottom: theme.spacing(2),
@@ -41,12 +38,15 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center ",
   },
+  postBtn: {
+    marginTop: theme.spacing(4),
+  },
 }));
 
 const UserProfile = () => {
   const classes = useStyles();
   const authContext = useContext(AuthContext);
-  const { user } = authContext;
+  const { user, isAuthenticated } = authContext;
   const isMobile = useMediaQuery("(max-width: 600px)", {
     noSsr: true,
   });
@@ -57,12 +57,7 @@ const UserProfile = () => {
   //     name.toLowerCase() === originalName.toLowerCase() && id === key
   // );
 
-  // const posts = user.posts.map((post) =>
-  //   testPeopleData.find((person) => post === person.id)
-  // );
-  const userLocal = JSON.parse(localStorage.getItem("user"));
-
-  console.log(userLocal);
+  // const posts = user.posts;
 
   return (
     <CustomContainer>
@@ -130,6 +125,26 @@ const UserProfile = () => {
               </Typography>
               <Typography>{user && user.email}</Typography>
             </Grid>
+            {isAuthenticated && (
+              <Grid
+                container
+                item
+                alignItems={isMobile ? "center" : "flex-start"}
+                direction="column"
+                sm={12}
+                xs={12}
+              >
+                <Button
+                  component="a"
+                  href={"/create-post"}
+                  variant="contained"
+                  color="primary"
+                  className={classes.postBtn}
+                >
+                  Create New Post
+                </Button>
+              </Grid>
+            )}
           </div>
         </Grid>
         <Grid
@@ -145,7 +160,7 @@ const UserProfile = () => {
           <Typography variant="h6" className={classes.title}>
             Posts
           </Typography>
-          {/* <PersonAlertList people={posts} /> */}
+          {/* {posts && <PersonAlertList people={posts} />} */}
         </Grid>
       </Grid>
     </CustomContainer>

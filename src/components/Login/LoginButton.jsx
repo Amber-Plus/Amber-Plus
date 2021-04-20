@@ -3,13 +3,14 @@ import { IconButton, Button } from "@material-ui/core";
 import { PROFILE_ICON } from "constants/pages";
 import handleNavigation from "utils/handleNavigation";
 import AuthContext from "context/auth/authContext";
+import PersonAlertContext from "../../context/personAlert/personAlertContext";
 
-const Profile = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const { name, _id } = user;
-
+const Profile = ({ user }) => {
   return (
-    <IconButton component="a" href={handleNavigation("profile", name, _id)}>
+    <IconButton
+      component="a"
+      href={user && handleNavigation("profile", user.name, user._id)}
+    >
       {PROFILE_ICON}
     </IconButton>
   );
@@ -17,15 +18,16 @@ const Profile = () => {
 
 const LoginButton = () => {
   const authContext = useContext(AuthContext);
-  const { user, logout } = authContext;
-  user && localStorage.setItem("user", JSON.stringify(user));
-  const userLocal = localStorage.getItem("user");
-  let status = userLocal ? "logout" : "login";
+  const personAlertContext = useContext(PersonAlertContext);
+  const { isAuthenticated, logout, user } = authContext;
+  const { clearPersonAlerts } = personAlertContext;
+
+  let status = isAuthenticated ? "logout" : "login";
 
   const handleOnClick = () => {
     if (status === "logout") {
       logout();
-      localStorage.clear();
+      clearPersonAlerts();
     }
   };
 
@@ -38,7 +40,7 @@ const LoginButton = () => {
       >
         {status}
       </Button>
-      {status === "logout" && <Profile />}
+      {status === "logout" && <Profile user={user} />}
     </>
   );
 };
