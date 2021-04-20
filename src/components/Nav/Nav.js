@@ -4,7 +4,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import TopNav from "./TopNav";
 import BottomNav from "./BottomNav";
 import AuthContext from "../../context/auth/authContext";
-import PersonAlertContext from "../../context/personAlert/personAlertContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,24 +23,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Nav = () => {
   const authContext = useContext(AuthContext);
-  const personAlertContext = useContext(PersonAlertContext);
   const classes = useStyles();
   const isMobile = useMediaQuery("(max-width: 780px)", {
     noSsr: true,
   });
-
-  const { isAuthenticated, logout, user, loadUser } = authContext;
-  const { clearPersonAlerts } = personAlertContext;
+  const { loadUser } = authContext;
 
   useEffect(() => {
     loadUser();
     // eslint-disable-next-line
   }, []);
-
-  const onLogout = () => {
-    logout();
-    clearPersonAlerts();
-  };
 
   return (
     <div className={classes.root}>

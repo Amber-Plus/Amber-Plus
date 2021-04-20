@@ -3,48 +3,44 @@ import { IconButton, Button } from "@material-ui/core";
 import { PROFILE_ICON } from "constants/pages";
 import handleNavigation from "utils/handleNavigation";
 import AuthContext from "context/auth/authContext";
+import PersonAlertContext from "../../context/personAlert/personAlertContext";
 
-const Profile = () => {
-  const authContext = useContext(AuthContext);
-  const { user } = authContext;
-  const { name, _id } = user;
-
+const Profile = ({ user }) => {
   return (
-    <IconButton component="a" href={handleNavigation("profile", name, _id)}>
+    <IconButton
+      component="a"
+      href={user && handleNavigation("profile", user.name, user._id)}
+    >
       {PROFILE_ICON}
     </IconButton>
   );
 };
 
-const LoginStatus = () => {
+const LoginButton = () => {
   const authContext = useContext(AuthContext);
-  const { user, logout } = authContext;
-  let status = user ? "logout" : "login";
+  const personAlertContext = useContext(PersonAlertContext);
+  const { isAuthenticated, logout, user } = authContext;
+  const { clearPersonAlerts } = personAlertContext;
+
+  let status = isAuthenticated ? "logout" : "login";
 
   const handleOnClick = () => {
-    status === "logout" && logout();
+    if (status === "logout") {
+      logout();
+      clearPersonAlerts();
+    }
   };
 
   return (
-    <Button
-      component="a"
-      href={status === "login" ? "/login" : "/missing"}
-      onClick={() => handleOnClick()}
-    >
-      {status}
-    </Button>
-  );
-};
-
-const LoginButton = () => {
-  const authContext = useContext(AuthContext);
-  const { user } = authContext;
-  let status = user ? "logout" : "login";
-
-  return (
     <>
-      <LoginStatus />
-      {status === "logout" && <Profile />}
+      <Button
+        component="a"
+        href={status === "login" ? "/login" : "/missing"}
+        onClick={() => handleOnClick()}
+      >
+        {status}
+      </Button>
+      {status === "logout" && <Profile user={user} />}
     </>
   );
 };

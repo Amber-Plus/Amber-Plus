@@ -8,12 +8,14 @@ import PersonAlertProfile from "components/PersonAlert/PersonAlertProfile";
 import UserProfile from "components/UserProfile";
 import Login from "components/Login";
 import SignUp from "components/Login/SignUp";
+import CreatePost from "components/UserProfile/CreatePost";
 import { PAGE_ROUTES, HOME, MISSING, FOUND, SEARCH } from "constants/pages";
 
 export const PERSON_ALERT_URL = "/person-alert/:key/:name";
 export const USER_PROFILE_URL = "/profile/:key/:name";
 export const LOGIN_URL = "/login";
 export const SIGNUP_URL = "/signup";
+export const POST_URL = "/create-post";
 
 const history = createBrowserHistory();
 
@@ -32,6 +34,7 @@ const Routes = () => {
         <Route path={USER_PROFILE_URL} component={UserProfile} />
         <Route exact path={LOGIN_URL} component={Login} />
         <Route path={SIGNUP_URL} component={SignUp} />
+        <Route path={POST_URL} component={CreatePost} />
       </Switch>
     </Router>
   );
