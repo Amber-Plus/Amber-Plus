@@ -24,8 +24,8 @@ const LoginStatus = () => {
   let status = localStorage.getItem("recoil-persist");
   const setUser = useSetRecoilState(userStatus);
 
-  const storage = JSON.parse(status).loginUser.username !== "";
-  status = storage ? "logout" : "login";
+  // const storage = JSON.parse(status).loginUser.username !== "";
+  // status = storage ? "logout" : "login";
 
   const handleOnClick = () => {
     status === "logout" &&
@@ -49,8 +49,8 @@ const LoginStatus = () => {
 const LoginButton = () => {
   let status = localStorage.getItem("recoil-persist");
 
-  const storage = JSON.parse(status).loginUser.username !== "";
-  status = storage ? "logout" : "login";
+  // const storage = JSON.parse(status).loginUser.username !== "";
+  // status = storage ? "logout" : "login";
 
   return (
     <>
