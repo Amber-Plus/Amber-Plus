@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import TopNav from "./TopNav";
 import BottomNav from "./BottomNav";
-import AuthContext from '../../context/auth/authContext';
-import PersonAlertContext from '../../context/personAlert/personAlertContext';
+import AuthContext from "../../context/auth/authContext";
+import PersonAlertContext from "../../context/personAlert/personAlertContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {

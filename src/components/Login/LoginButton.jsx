@@ -1,38 +1,28 @@
-import React from "react";
-import { useSetRecoilState, useRecoilValue } from "recoil";
-import { userStatus } from "state/loginState";
+import React, { useContext } from "react";
 import { IconButton, Button } from "@material-ui/core";
 import { PROFILE_ICON } from "constants/pages";
 import handleNavigation from "utils/handleNavigation";
-import { testUserData } from "constants/testUserData";
+import AuthContext from "context/auth/authContext";
 
 const Profile = () => {
-  const user = useRecoilValue(userStatus);
-  const profile = testUserData.find(
-    (person) => person.email === user.username && person.pass === user.password
-  );
-  const { name, id } = profile;
+  const authContext = useContext(AuthContext);
+  const { user } = authContext;
+  const { name, _id } = user;
 
   return (
-    <IconButton component="a" href={handleNavigation("profile", name, id)}>
+    <IconButton component="a" href={handleNavigation("profile", name, _id)}>
       {PROFILE_ICON}
     </IconButton>
   );
 };
 
 const LoginStatus = () => {
-  let status = localStorage.getItem("recoil-persist");
-  const setUser = useSetRecoilState(userStatus);
-
-  // const storage = JSON.parse(status).loginUser.username !== "";
-  // status = storage ? "logout" : "login";
+  const authContext = useContext(AuthContext);
+  const { user, logout } = authContext;
+  let status = user ? "logout" : "login";
 
   const handleOnClick = () => {
-    status === "logout" &&
-      setUser({
-        username: "",
-        password: "",
-      });
+    status === "logout" && logout();
   };
 
   return (
@@ -47,10 +37,9 @@ const LoginStatus = () => {
 };
 
 const LoginButton = () => {
-  let status = localStorage.getItem("recoil-persist");
-
-  // const storage = JSON.parse(status).loginUser.username !== "";
-  // status = storage ? "logout" : "login";
+  const authContext = useContext(AuthContext);
+  const { user } = authContext;
+  let status = user ? "logout" : "login";
 
   return (
     <>
