@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
@@ -10,11 +11,7 @@ import {
   Link,
 } from "@material-ui/core";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
-import { useSetRecoilState } from "recoil";
-import { loginStatus, userStatus } from "state/loginState";
-import { userData } from "state/userState";
-import { testUserData } from "constants/testUserData";
-import handleNavigation from "utils/handleNavigation";
+import AuthContext from "../../context/auth/authContext";
 
 const useStyles = makeStyles((theme) => ({
   paperStyle: {
@@ -40,52 +37,55 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = () => {
   const classes = useStyles();
+  const history = useHistory();
+  const authContext = useContext(AuthContext);
+  const { register, error, clearErrors, isAuthenticated } = authContext;
+  //email
   const [email, setEmail] = useState();
   const [emailConfirm, setEmailConfirm] = useState();
+  //password
   const [pass, setPass] = useState();
   const [passConfirm, setPassConfirm] = useState();
+  //name
   const [fName, setFName] = useState();
   const [lName, setLName] = useState();
+  //error handling
   const [emailError, setEmailError] = useState(false);
   const [passError, setPassError] = useState(false);
-  const [emailHelper, setEmailHelper] = useState("");
-  const [passHelper, setPassHelper] = useState("");
-  const [user, setUser] = useState({ name: "", id: "" });
+  //helper text
+  const [helperText, setHelperText] = useState("");
 
-  const setLoginState = useSetRecoilState(loginStatus);
-  const setUserState = useSetRecoilState(userStatus);
-  const setUserDataState = useSetRecoilState(userData);
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/");
+    }
+
+    if (error === "Invalid Credentials") {
+      clearErrors();
+    }
+    // eslint-disable-next-line
+  }, [error, isAuthenticated]);
 
   const handleSubmit = () => {
-    const id = `a${testUserData.length + 1}`;
     const name = `${fName} ${lName}`;
-    const profile = { id: id, name: name, email: email, pass: pass };
+    const profile = { name: name, email: email, pass: pass };
 
-    setUserDataState([...userData, profile]);
-    setUser({ name: name, id: id });
-    setLoginState("logout");
-    setUserState({ username: email, password: pass });
+    profile.email !== "" && register(profile);
   };
 
   useEffect(() => {
     if (pass !== passConfirm) {
       setPassError(true);
-      setPassHelper("Passwords do not match");
+      setHelperText("Passwords do not match");
+    } else if (email !== emailConfirm) {
+      setEmailError(true);
+      setHelperText("Emails do not match");
     } else {
       setPassError(false);
-      setPassHelper("");
-    }
-  }, [pass, passConfirm]);
-
-  useEffect(() => {
-    if (email !== emailConfirm) {
-      setEmailError(true);
-      setEmailHelper("Emails do not match");
-    } else {
       setEmailError(false);
-      setEmailHelper("");
+      setHelperText("");
     }
-  }, [email, emailConfirm]);
+  }, [pass, passConfirm, email, emailConfirm]);
 
   return (
     <Grid>
@@ -125,7 +125,7 @@ const SignUp = () => {
         <Grid container>
           <TextField
             error={emailError}
-            helperText={emailHelper}
+            helperText={emailError && helperText}
             id="email"
             label="Email"
             placeholder="Enter your email"
@@ -136,7 +136,7 @@ const SignUp = () => {
           />
           <TextField
             error={emailError}
-            helperText={emailHelper}
+            helperText={emailError && helperText}
             id="emailConfirm"
             label="Confirm Email"
             placeholder="Confirm email"
@@ -147,7 +147,7 @@ const SignUp = () => {
           />
           <TextField
             error={passError}
-            helperText={passHelper}
+            helperText={passError && helperText}
             id="password"
             label="Password"
             placeholder="Enter password"
@@ -159,7 +159,7 @@ const SignUp = () => {
           />
           <TextField
             error={passError}
-            helperText={passHelper}
+            helperText={passError && helperText}
             id="passwordConfirm"
             label="Confirm Password"
             placeholder="Confirm password"
@@ -178,7 +178,7 @@ const SignUp = () => {
           variant="contained"
           component="a"
           onClick={() => handleSubmit()}
-          href={handleNavigation("profile", user.name, user.id)}
+          href={"/"}
           className={classes.btnStyle}
           fullWidth
         >
