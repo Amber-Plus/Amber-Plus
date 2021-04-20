@@ -5,8 +5,7 @@ import handleNavigation from "utils/handleNavigation";
 import AuthContext from "context/auth/authContext";
 
 const Profile = () => {
-  const authContext = useContext(AuthContext);
-  const { user } = authContext;
+  const user = JSON.parse(localStorage.getItem("user"));
   const { name, _id } = user;
 
   return (
@@ -16,34 +15,29 @@ const Profile = () => {
   );
 };
 
-const LoginStatus = () => {
+const LoginButton = () => {
   const authContext = useContext(AuthContext);
   const { user, logout } = authContext;
-  let status = user ? "logout" : "login";
+  user && localStorage.setItem("user", JSON.stringify(user));
+  const userLocal = localStorage.getItem("user");
+  let status = userLocal ? "logout" : "login";
 
   const handleOnClick = () => {
-    status === "logout" && logout();
+    if (status === "logout") {
+      logout();
+      localStorage.clear();
+    }
   };
 
   return (
-    <Button
-      component="a"
-      href={status === "login" ? "/login" : "/missing"}
-      onClick={() => handleOnClick()}
-    >
-      {status}
-    </Button>
-  );
-};
-
-const LoginButton = () => {
-  const authContext = useContext(AuthContext);
-  const { user } = authContext;
-  let status = user ? "logout" : "login";
-
-  return (
     <>
-      <LoginStatus />
+      <Button
+        component="a"
+        href={status === "login" ? "/login" : "/missing"}
+        onClick={() => handleOnClick()}
+      >
+        {status}
+      </Button>
       {status === "logout" && <Profile />}
     </>
   );

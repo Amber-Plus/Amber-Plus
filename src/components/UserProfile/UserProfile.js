@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Grid, Typography } from "@material-ui/core";
 import CustomContainer from "components/common/CustomContainer";
 import PersonAlertList from "components/PersonAlert/PersonAlertList";
+import AuthContext from "context/auth/authContext";
 import { testUserData } from "constants/testUserData";
 import { testPeopleData } from "constants/testPeopleData";
 import defaultImg from "images/defaultImg.png";
@@ -44,19 +45,24 @@ const useStyles = makeStyles((theme) => ({
 
 const UserProfile = () => {
   const classes = useStyles();
+  const authContext = useContext(AuthContext);
+  const { user } = authContext;
   const isMobile = useMediaQuery("(max-width: 600px)", {
     noSsr: true,
   });
   const { name, key } = useParams();
-  const originalName = name.replace(/-/g, " ");
-  const user = testUserData.find(
-    ({ name, id }) =>
-      name.toLowerCase() === originalName.toLowerCase() && id === key
-  );
+  //const originalName = name.replace(/-/g, " ");
+  // const user = testUserData.find(
+  //   ({ name, id }) =>
+  //     name.toLowerCase() === originalName.toLowerCase() && id === key
+  // );
 
-  const posts = user.posts.map((post) =>
-    testPeopleData.find((person) => post === person.id)
-  );
+  // const posts = user.posts.map((post) =>
+  //   testPeopleData.find((person) => post === person.id)
+  // );
+  const userLocal = JSON.parse(localStorage.getItem("user"));
+
+  console.log(userLocal);
 
   return (
     <CustomContainer>
@@ -86,10 +92,14 @@ const UserProfile = () => {
               xs={12}
               className={classes.imgContainer}
             >
-              {user.image ? (
+              {user && user.image ? (
                 <img src={user.image} alt={user.name} className={classes.img} />
               ) : (
-                <img src={defaultImg} alt={user.name} className={classes.img} />
+                <img
+                  src={defaultImg}
+                  alt={user ? user.name : name}
+                  className={classes.img}
+                />
               )}
             </Grid>
             <Grid
@@ -104,7 +114,7 @@ const UserProfile = () => {
                 className={classes.title}
                 style={{ color: "black" }}
               >
-                {user.name}
+                {user && user.name}
               </Typography>
             </Grid>
             <Grid
@@ -118,7 +128,7 @@ const UserProfile = () => {
               <Typography className={classes.title} style={{ marginBottom: 0 }}>
                 Contact
               </Typography>
-              <Typography>{user.email}</Typography>
+              <Typography>{user && user.email}</Typography>
             </Grid>
           </div>
         </Grid>
@@ -135,7 +145,7 @@ const UserProfile = () => {
           <Typography variant="h6" className={classes.title}>
             Posts
           </Typography>
-          <PersonAlertList people={posts} />
+          {/* <PersonAlertList people={posts} /> */}
         </Grid>
       </Grid>
     </CustomContainer>
