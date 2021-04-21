@@ -1,5 +1,6 @@
 import {
     GET_PERSON_ALERTS,
+    GET_USER_ALERTS,
     ADD_PERSON_ALERT,
     DELETE_PERSON_ALERT,
     SET_CURRENT,
@@ -14,6 +15,7 @@ import {
 export default (state, action) => {
     switch (action.type) {
         case GET_PERSON_ALERTS:
+        case GET_USER_ALERTS:
             return {
                 ...state,
                 personAlerts: action.payload,

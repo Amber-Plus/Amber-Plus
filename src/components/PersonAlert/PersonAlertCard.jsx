@@ -1,4 +1,5 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
+import PersonAlertContext from '../../context/personAlert/personAlertContext';
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
@@ -71,11 +72,25 @@ const PersonAlertCard = ({ person, pathTo }) => {
   const isMobile = useMediaQuery("(max-width: 600px)", {
     noSsr: true,
   });
+  const personAlertContext = useContext(PersonAlertContext);
+  const { deletePersonAlert, setCurrent, clearCurrent } = personAlertContext;
+
   const classes = useStyles(isMobile);
   const link = `${window.location.origin}${pathTo}`;
 
-  const { name, image } = person;
+  // const { name, image } = person;
+  const { _id, name, image } = person;
+
+  const img = "images/" + image + ".png";
+
   const profile = getProfileObject(person, "card");
+
+
+
+  const onDelete = () => {
+    deletePersonAlert(_id);
+    clearCurrent();
+  };
 
   return (
     <Card className={classes.root}>
@@ -95,7 +110,7 @@ const PersonAlertCard = ({ person, pathTo }) => {
             sm={12}
             xs={4}
           >
-            <img src={image} alt={name} className={classes.media} />
+            <img src={img} alt={name} className={classes.media} />
           </Grid>
           <Grid
             container

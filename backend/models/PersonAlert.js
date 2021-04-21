@@ -46,5 +46,4 @@ const PersonAlertSchema = new Schema({
     }
 });
 
-const MissingPerson = mongoose.model('missing', PersonAlertSchema);
-module.exports = MissingPerson;
+module.exports = PersonAlert = mongoose.model('personAlerts', PersonAlertSchema);
