@@ -13,21 +13,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PersonAlertList = () => {
+const UserAlertList = () => {
   const classes = useStyles();
   const personAlertContext = useContext(PersonAlertContext);
 
-  const { personAlerts, filtered, getPersonAlerts, loading } = personAlertContext;
+  const { personAlerts, filtered, getUserAlerts, loading } = personAlertContext;
 
   useEffect(() => {
-    getPersonAlerts();
+    getUserAlerts();
     // eslint-disable-next-line
   }, []);
 
   console.log("person alerts: ", personAlerts);
 
   if (personAlerts !== null && personAlerts.length === 0 && !loading) {
-    return <h4>There are no missing persons.</h4>;
+    return (
+      <div className={classes.container}>
+        <h2>You have not reported a missing person.</h2>
+      </div>
+    )
   }
 
   return (
@@ -49,4 +53,4 @@ const PersonAlertList = () => {
   );
 };
 
-export default PersonAlertList;
+export default UserAlertList;

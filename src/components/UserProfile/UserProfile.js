@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Grid, Typography, Button } from "@material-ui/core";
 import CustomContainer from "components/common/CustomContainer";
-import PersonAlertList from "components/PersonAlert/PersonAlertList";
+import UserAlertList from "components/PersonAlert/UserAlertList";
 import AuthContext from "context/auth/authContext";
 import defaultImg from "images/defaultImg.png";
 
@@ -160,7 +160,7 @@ const UserProfile = () => {
           <Typography variant="h6" className={classes.title}>
             Posts
           </Typography>
-          {/* {posts && <PersonAlertList people={posts} />} */}
+          <UserAlertList />
         </Grid>
       </Grid>
     </CustomContainer>

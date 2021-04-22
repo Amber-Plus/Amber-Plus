@@ -17,7 +17,7 @@ import {
 
 const PersonAlertState = props => {
     const initialState = {
-        contacts: null,
+        personAlerts: null,
         current: null,
         filtered: null,
         error: null
@@ -29,6 +29,23 @@ const PersonAlertState = props => {
     const getPersonAlerts = async () => {
         try {
             const res = await axios.get('/api/personAlert');
+
+            dispatch({
+                type: GET_PERSON_ALERTS,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({
+                type: PERSON_ALERT_ERROR,
+                payload: err.response.msg
+            });
+        }
+    };
+
+    // Get a User's Person Alerts
+    const getUserAlerts = async () => {
+        try {
+            const res = await axios.get('/api/personAlert/me');
 
             dispatch({
                 type: GET_PERSON_ALERTS,
@@ -137,7 +154,7 @@ const PersonAlertState = props => {
     return (
         <PersonAlertContext.Provider
             value={{
-                personAlerts: state.contacts,
+                personAlerts: state.personAlerts,
                 current: state.current,
                 filtered: state.filtered,
                 error: state.error,
@@ -149,6 +166,7 @@ const PersonAlertState = props => {
                 filterPersonAlerts,
                 clearFilter,
                 getPersonAlerts,
+                getUserAlerts,
                 clearPersonAlerts
             }}
         >

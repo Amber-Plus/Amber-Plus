@@ -9,7 +9,20 @@ const PersonAlert = require('../models/PersonAlert');
 // @route     Get api/personAlert
 // @desc      Get all missing person
 // @access    Public
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
+    try {
+        const personAlerts = await PersonAlert.find().populate('personAlerts');
+        res.json(personAlerts);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route     Get api/personAlert
+// @desc      Get all missing person from a user
+// @access    Public
+router.get('/me', auth, async (req, res) => {
     try {
         const personAlerts = await PersonAlert.find({ user: req.user.id }).sort({
             date: -1,
@@ -49,7 +62,8 @@ router.post(
                 location,
                 status,
                 details,
-                image
+                image,
+                user: req.user.id,
             });
 
             const personAlert = await newPersonAlert.save();
