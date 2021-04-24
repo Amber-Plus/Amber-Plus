@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useContext, useEffect } from "react";
 import { isEmpty } from "lodash";
 import { useParams } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -9,6 +9,7 @@ import Map from "components/common/Map";
 import getProfileObject from "utils/getProfileObject";
 import getVehicleString from "utils/getVehicleString";
 import { testPeopleData } from "constants/testPeopleData";
+import PersonAlertContext from '../../context/personAlert/personAlertContext';
 import {
   EmailShareButton,
   EmailIcon,
@@ -61,19 +62,41 @@ const PersonAlertProfile = (props) => {
   const isMobile = useMediaQuery("(max-width: 600px)", {
     noSsr: true,
   });
-  const { name, key } = useParams();
-  const link = window.location.href;
-  const originalName = name.replace(/-/g, " ");
-  const person = testPeopleData.find(
-    ({ name, id }) => name === originalName && id.toString() === key
-  );
+  // const { name, key } = useParams();
 
-  const profile = getProfileObject(person, "profile");
-  const car = !isEmpty(person.vehicle) && person.vehicle;
-  const carString = getVehicleString(car);
+  // TODO Replace with something better
+  const link = window.location.href;
+  console.log("link: ",link);
+  const parse = link.split('/');
+  console.log("parse: ", parse);
+  const id = parse[4];
+  const name = parse[5];
+
+  // const originalName = name.replace(/-/g, " ");
+
+  // const profile = getProfileObject(person, "profile");
+  // const car = !isEmpty(person.vehicle) && person.vehicle;
+  // const carString = getVehicleString(car);
+
+  const personAlertContext = useContext(PersonAlertContext);
+
+  const { personAlerts, filtered, getPersonAlert, loading } = personAlertContext;
+
+  useEffect(() => {
+    getPersonAlert(id,name);
+    // eslint-disable-next-line
+  }, []);
+
+  const person = personAlerts;
+  let profile;
+  if (personAlerts !== null && personAlerts.length !== 0) {
+    profile = getProfileObject(person, "profile");
+  }
+  console.log("Profile: ", profile);
 
   return (
     <CustomContainer className={classes.root}>
+      {personAlerts !== null && !loading ?(
       <Grid container spacing={3}>
         <Grid container item sm={5} xs={12} className={classes.imgContainer}>
           <img src={person.image} alt={person.name} className={classes.img} />
@@ -147,7 +170,7 @@ const PersonAlertProfile = (props) => {
         >
           <Grid
             item
-            sm={car ? 6 : 12}
+            // sm={car ? 6 : 12}
             xs={12}
             style={{ marginBottom: isMobile && "24px" }}
           >
@@ -157,10 +180,10 @@ const PersonAlertProfile = (props) => {
               </Typography>
             </Grid>
             <Grid item sm={12}>
-              <Typography>{person.details}</Typography>
+              {/* <Typography>{person.details}</Typography> */}
             </Grid>
           </Grid>
-          {car && (
+          {/* {car && (
             <Grid container item sm={5} xs={12}>
               <Grid item>
                 <Typography variant="h6" className={classes.title}>
@@ -176,10 +199,13 @@ const PersonAlertProfile = (props) => {
                 />
               </Grid>
             </Grid>
-          )}
+          )} */}
         </Grid>
       </Grid>
-      <Map data={person} isProfile={true} />
+      ) : (
+        <h2>Loading...</h2>
+      )}
+      {/* <Map data={person} isProfile={true} /> */}
     </CustomContainer>
   );
 };
