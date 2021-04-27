@@ -26,7 +26,7 @@ const Routes = () => {
       <Switch>
         {/* <Route path={PAGE_ROUTES[HOME]} exact component={Home} /> */}
 
-        <Route exact path={"/"} component={Missing} />
+        <Route exact path={"/"} component={Home} />
         <Route path={PAGE_ROUTES[MISSING]} exact component={Missing} />
         <Route path={PAGE_ROUTES[FOUND]} exact component={Found} />
         <Route path={PAGE_ROUTES[SEARCH]} exact component={Search} />
