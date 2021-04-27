@@ -1,18 +1,19 @@
 import getVehicleString from "./getVehicleString";
+
 const exampleVehicle = {
-    make: "",
-    model: "",
-    year: "",
-    color: "",
+    make: "Honda",
+    model: "Civic",
+    year: "2018",
+    color: "Black",
 };
 
 describe("getVehicleString", () => {
     test("show the vehicle string", () => {
-        const expected = [
-            { title: "color:", value: "" },
-            { title: "make:", value: "" },
-            { title: "model:", value: "" },
-            { title: "year:", value: "" },
-        ];
+        const expected = "Black Honda Civic 2018";
+        
+        const actual = getVehicleString(exampleVehicle);
+
+        expect(actual).toEqual(expected);
+
     });
 });
