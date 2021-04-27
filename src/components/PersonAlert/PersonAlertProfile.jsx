@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useContext, useEffect } from "react";
+import { isEmpty } from "lodash";
 import { useParams } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
@@ -79,9 +80,15 @@ const PersonAlertProfile = (props) => {
   }, []);
 
   const person = personAlerts;
+
+  // profile, car, and carString vars create errors if not null checked prior
   let profile;
+  let car;
+  let carString;
   if (personAlerts !== null && personAlerts.length !== 0) {
     profile = getProfileObject(person, "profile");
+    car = !isEmpty(person.vehicle) && person.vehicle;
+    carString = car && getVehicleString(car);
   }
 
   return (
@@ -164,7 +171,7 @@ const PersonAlertProfile = (props) => {
           >
             <Grid
               item
-              // sm={car ? 6 : 12}
+              sm={car ? 6 : 12}
               xs={12}
               style={{ marginBottom: isMobile && "24px" }}
             >
@@ -174,32 +181,34 @@ const PersonAlertProfile = (props) => {
                 </Typography>
               </Grid>
               <Grid item sm={12}>
-                {/* <Typography>{person.details}</Typography> */}
+                <Typography>{person.details}</Typography>
               </Grid>
             </Grid>
-            {/* {car && (
-            <Grid container item sm={5} xs={12}>
-              <Grid item>
-                <Typography variant="h6" className={classes.title}>
-                  Suspect Vehicle
-                </Typography>
+            {car && (
+              <Grid container item sm={5} xs={12}>
+                <Grid item>
+                  <Typography variant="h6" className={classes.title}>
+                    Suspect Vehicle
+                  </Typography>
+                </Grid>
+                <Grid container item justify="center">
+                  <Typography>{carString}</Typography>
+                  <img
+                    src={person.vehicle.image}
+                    alt={carString}
+                    className={classes.img}
+                  />
+                </Grid>
               </Grid>
-              <Grid container item justify="center">
-                <Typography>{carString}</Typography>
-                <img
-                  src={person.vehicle.image}
-                  alt={carString}
-                  className={classes.img}
-                />
-              </Grid>
-            </Grid>
-          )} */}
+            )}
           </Grid>
         </Grid>
       ) : (
-        <h2>Loading...</h2>
+        <Typography variant="h6">Loading...</Typography>
       )}
-      {/* <Map data={person} isProfile={true} /> */}
+      {personAlerts !== null && !loading && (
+        <Map data={person} isProfile={true} />
+      )}
     </CustomContainer>
   );
 };
