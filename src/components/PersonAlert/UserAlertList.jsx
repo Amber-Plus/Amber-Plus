@@ -1,8 +1,9 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import PersonAlertCard from "./PersonAlertCard";
 import handleNavigation from "utils/handleNavigation";
-import PersonAlertContext from '../../context/personAlert/personAlertContext';
+import PersonAlertContext from "../../context/personAlert/personAlertContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -17,37 +18,41 @@ const UserAlertList = () => {
   const classes = useStyles();
   const personAlertContext = useContext(PersonAlertContext);
 
-  const { personAlerts, filtered, getUserAlerts, loading } = personAlertContext;
+  const { personAlerts, getUserAlerts, loading } = personAlertContext;
 
   useEffect(() => {
     getUserAlerts();
     // eslint-disable-next-line
   }, []);
 
-  console.log("person alerts: ", personAlerts);
-
   if (personAlerts !== null && personAlerts.length === 0 && !loading) {
     return (
       <div className={classes.container}>
-        <h2>You have not reported a missing person.</h2>
+        <Typography variant="h6">
+          You have not reported a missing person.
+        </Typography>
       </div>
-    )
+    );
   }
 
   return (
     <div className={classes.container}>
       {personAlerts !== null && !loading ? (
         <Fragment>
-          {personAlerts.map(personAlert => (
+          {personAlerts.map((personAlert) => (
             <PersonAlertCard
               person={personAlert}
               key={personAlert._id}
-              pathTo={handleNavigation("person-alert", personAlert.name, personAlert._id)}
+              pathTo={handleNavigation(
+                "person-alert",
+                personAlert.name,
+                personAlert._id
+              )}
             />
           ))}
         </Fragment>
       ) : (
-        <h2>Loading...</h2>
+        <Typography variant="h6">Loading...</Typography>
       )}
     </div>
   );

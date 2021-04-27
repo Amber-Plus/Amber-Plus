@@ -11,9 +11,9 @@ import {
   CLEAR_FILTER,
   PERSON_ALERT_ERROR,
   CLEAR_PERSON_ALERTS,
-} from '../types';
+} from "../types";
 
-export default (state, action) => {
+const personAlertReducer = (state, action) => {
   switch (action.type) {
     case GET_PERSON_ALERTS:
     case GET_PERSON_ALERT:
@@ -67,7 +67,7 @@ export default (state, action) => {
       return {
         ...state,
         filtered: state.personAlerts.filter((personAlert) => {
-          const regex = new RegExp(`${action.payload}`, 'gi');
+          const regex = new RegExp(`${action.payload}`, "gi");
           return (
             personAlert.name.match(regex) || personAlert.email.match(regex)
           );
@@ -87,3 +87,5 @@ export default (state, action) => {
       return state;
   }
 };
+
+export default personAlertReducer;

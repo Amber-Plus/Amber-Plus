@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
     border: `1.5px solid white`,
     borderRadius: "50%",
     boxShadow: `0px 0px 20px 3px white`,
-    width: 70,
-    height: 70,
+    width: 50,
+    height: 50,
     objectFit: "cover",
   },
 }));
