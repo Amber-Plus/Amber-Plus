@@ -29,7 +29,7 @@ const UserAlertList = () => {
     return (
       <div className={classes.container}>
         <Typography variant="h6">
-          You have not reported a missing person.
+          You have not reported a person alert.
         </Typography>
       </div>
     );
