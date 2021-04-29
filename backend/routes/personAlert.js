@@ -73,9 +73,11 @@ router.post(
       height,
       eyes,
       location,
+      position,
       status,
       details,
       image,
+      vehicle,
     } = req.body;
 
     try {
@@ -86,9 +88,11 @@ router.post(
         height,
         eyes,
         location,
+        position,
         status,
         details,
         image,
+        vehicle,
         user: req.user.id,
       });
 
@@ -113,9 +117,11 @@ router.put('/:id', auth, async (req, res) => {
     height,
     eyes,
     location,
+    position,
     status,
     details,
     image,
+    vehicle,
   } = req.body;
 
   // Build contact object
@@ -126,9 +132,11 @@ router.put('/:id', auth, async (req, res) => {
   if (height) personAlertFields.height = height;
   if (eyes) personAlertFields.eyes = eyes;
   if (location) personAlertFields.location = location;
+  if (position) personAlertFields.position = position;
   if (status) personAlertFields.status = status;
   if (details) personAlertFields.details = details;
   if (image) personAlertFields.image = image;
+  if (vehicle) personAlertFields.vehicle = vehicle;
 
   try {
     let personAlert = await personAlert.findById(req.params.id);
