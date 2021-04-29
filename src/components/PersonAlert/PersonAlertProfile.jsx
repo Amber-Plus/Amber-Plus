@@ -1,5 +1,5 @@
-import React from "react";
-import { isEmpty } from "lodash";
+/* eslint-disable */
+import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,7 +8,7 @@ import CustomContainer from "components/common/CustomContainer";
 import Map from "components/common/Map";
 import getProfileObject from "utils/getProfileObject";
 import getVehicleString from "utils/getVehicleString";
-import { testPeopleData } from "constants/testPeopleData";
+import PersonAlertContext from "../../context/personAlert/personAlertContext";
 import {
   EmailShareButton,
   EmailIcon,
@@ -61,106 +61,123 @@ const PersonAlertProfile = (props) => {
   const isMobile = useMediaQuery("(max-width: 600px)", {
     noSsr: true,
   });
+  const personAlertContext = useContext(PersonAlertContext);
   const { name, key } = useParams();
   const link = window.location.href;
-  const originalName = name.replace(/-/g, " ");
-  const person = testPeopleData.find(
-    ({ name, id }) => name === originalName && id.toString() === key
-  );
+  const id = key;
 
-  const profile = getProfileObject(person, "profile");
-  const car = !isEmpty(person.vehicle) && person.vehicle;
-  const carString = getVehicleString(car);
+  const {
+    personAlerts,
+    filtered,
+    getPersonAlert,
+    loading,
+  } = personAlertContext;
+
+  useEffect(() => {
+    getPersonAlert(id, name);
+    // eslint-disable-next-line
+  }, []);
+
+  const person = personAlerts;
+  let profile;
+  if (personAlerts !== null && personAlerts.length !== 0) {
+    profile = getProfileObject(person, "profile");
+  }
 
   return (
     <CustomContainer className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid container item sm={5} xs={12} className={classes.imgContainer}>
-          <img src={person.image} alt={person.name} className={classes.img} />
-        </Grid>
-        <Grid container item sm={7} xs={12} className={classes.infoContainer}>
-          <Grid container item justify="space-between" sm={12} xs={12}>
-            <Grid item xs={6}>
-              <Typography variant="h6" className={classes.title}>
-                Information
-              </Typography>
-            </Grid>
-            <Grid
-              container
-              item
-              justify="flex-end"
-              alignItems="flex-start"
-              md={4}
-              sm={6}
-              xs={6}
-              className={classes.root}
-            >
-              <Grid item justify="center" sm={3} xs={4}>
-                <FacebookShareButton
-                  url={link}
-                  quote={`AmberPlus - Help us find ${person.name}`}
-                  hashtag="#AmberPlusAlert"
-                  className={classes.socialBtn}
-                >
-                  <FacebookIcon size={36} />
-                </FacebookShareButton>
-              </Grid>
-              <Grid item justify="center" sm={3} xs={4}>
-                <TwitterShareButton
-                  url={link}
-                  title={`AmberPlus - Help us find ${person.name}`}
-                  hashtag="#AmberPlusAlert"
-                  className={classes.socialBtn}
-                >
-                  <TwitterIcon size={36} />
-                </TwitterShareButton>
-              </Grid>
-              <Grid item justify="center" sm={3} xs={4}>
-                <EmailShareButton
-                  url={"help@amberplus.com"}
-                  title={`AmberPlus - Help us find ${person.name}`}
-                  separator=":: "
-                  className={classes.socialBtn}
-                >
-                  <EmailIcon size={36} />
-                </EmailShareButton>
-              </Grid>
-            </Grid>
+      {personAlerts !== null && !loading ? (
+        <Grid container spacing={3}>
+          <Grid container item sm={5} xs={12} className={classes.imgContainer}>
+            <img
+              src={`/images/${person.image}.png`}
+              alt={person.name}
+              className={classes.img}
+            />
           </Grid>
-          {profile.map((data) => (
-            <Grid item sm={12} xs={12} key={data.value}>
-              <Typography className={classes.dataTitle}>
-                {data.title}
-              </Typography>
-              <Typography className={classes.dataValue}>
-                {data.value}
-              </Typography>
+          <Grid container item sm={7} xs={12} className={classes.infoContainer}>
+            <Grid container item justify="space-between" sm={12} xs={12}>
+              <Grid item xs={6}>
+                <Typography variant="h6" className={classes.title}>
+                  Information
+                </Typography>
+              </Grid>
+              <Grid
+                container
+                item
+                justify="flex-end"
+                alignItems="flex-start"
+                md={4}
+                sm={6}
+                xs={6}
+                className={classes.root}
+              >
+                <Grid container item justify="center" sm={3} xs={4}>
+                  <FacebookShareButton
+                    url={link}
+                    quote={`AmberPlus - Help us find ${person.name}`}
+                    hashtag="#AmberPlusAlert"
+                    className={classes.socialBtn}
+                  >
+                    <FacebookIcon size={36} />
+                  </FacebookShareButton>
+                </Grid>
+                <Grid container item justify="center" sm={3} xs={4}>
+                  <TwitterShareButton
+                    url={link}
+                    title={`AmberPlus - Help us find ${person.name}`}
+                    hashtag="#AmberPlusAlert"
+                    className={classes.socialBtn}
+                  >
+                    <TwitterIcon size={36} />
+                  </TwitterShareButton>
+                </Grid>
+                <Grid container item justify="center" sm={3} xs={4}>
+                  <EmailShareButton
+                    url={"help@amberplus.com"}
+                    title={`AmberPlus - Help us find ${person.name}`}
+                    separator=":: "
+                    className={classes.socialBtn}
+                  >
+                    <EmailIcon size={36} />
+                  </EmailShareButton>
+                </Grid>
+              </Grid>
             </Grid>
-          ))}
-        </Grid>
-        <Grid
-          container
-          item
-          justify="space-between"
-          direction={isMobile ? "column" : "row"}
-          className={classes.details}
-        >
+            {profile.map((data) => (
+              <Grid item sm={12} xs={12} key={data.value}>
+                <Typography className={classes.dataTitle}>
+                  {data.title}
+                </Typography>
+                <Typography className={classes.dataValue}>
+                  {data.value}
+                </Typography>
+              </Grid>
+            ))}
+          </Grid>
           <Grid
+            container
             item
-            sm={car ? 6 : 12}
-            xs={12}
-            style={{ marginBottom: isMobile && "24px" }}
+            justify="space-between"
+            direction={isMobile ? "column" : "row"}
+            className={classes.details}
           >
-            <Grid item>
-              <Typography variant="h6" className={classes.title}>
-                Details
-              </Typography>
+            <Grid
+              item
+              // sm={car ? 6 : 12}
+              xs={12}
+              style={{ marginBottom: isMobile && "24px" }}
+            >
+              <Grid item>
+                <Typography variant="h6" className={classes.title}>
+                  Details
+                </Typography>
+              </Grid>
+              <Grid item sm={12}>
+                {/* <Typography>{person.details}</Typography> */}
+              </Grid>
             </Grid>
-            <Grid item sm={12}>
-              <Typography>{person.details}</Typography>
-            </Grid>
-          </Grid>
-          {car && (
+            {/* {car && (
             <Grid container item sm={5} xs={12}>
               <Grid item>
                 <Typography variant="h6" className={classes.title}>
@@ -176,10 +193,13 @@ const PersonAlertProfile = (props) => {
                 />
               </Grid>
             </Grid>
-          )}
+          )} */}
+          </Grid>
         </Grid>
-      </Grid>
-      <Map data={person} isProfile={true} />
+      ) : (
+        <h2>Loading...</h2>
+      )}
+      {/* <Map data={person} isProfile={true} /> */}
     </CustomContainer>
   );
 };
