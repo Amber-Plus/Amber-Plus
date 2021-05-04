@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Button, TextField, Paper } from "@material-ui/core";
+import { Grid, Typography, Button, TextField, Paper, Input } from "@material-ui/core";
 import CustomContainer from "components/common/CustomContainer";
+import PersonAlertContext from "../../context/personAlert/personAlertContext";
+import axios from 'axios';
+const crypto = require('crypto');
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -19,8 +22,12 @@ const useStyles = makeStyles((theme) => ({
 
 const CreatePost = () => {
   const classes = useStyles();
-  const [fName, setFName] = useState();
-  const [lName, setLName] = useState();
+  const personAlertContext = useContext(PersonAlertContext);
+
+  const [file, setFile] = useState('');
+  const [filename, setFilename] = useState('Choose File');
+  const [fName, setFName] = useState('');
+  const [lName, setLName] = useState('');
   const [post, setPost] = useState({
     name: "",
     age: "",
@@ -28,11 +35,12 @@ const CreatePost = () => {
     eyes: "",
     height: "",
     details: "",
+    image: "",
     location: {
-      street: "",
+      line1: "",
       city: "",
       state: "",
-      zip: "",
+      zipcode: "",
     },
     vehicle: {
       make: "",
@@ -42,19 +50,122 @@ const CreatePost = () => {
     },
   });
 
+  const { addPersonAlert, updatePersonAlert, clearCurrent, current } = personAlertContext;
+
+  const { name, age, hair, eyes, height, details, image, location, vehicle } = post;
+
   const handleChange = (field, value, type) => {
     if (type === "location") {
-      setPost({ ...post, location: { ...post.location, [field]: value } });
+      setPost({ ...post, location: { ...location, [field]: value } });
     } else if (type === "vehicle") {
-      setPost({ ...post, vehicle: { ...post.vehicle, [field]: value } });
+      setPost({ ...post, vehicle: { ...vehicle, [field]: value } });
     } else {
       setPost({ ...post, [field]: value });
     }
   };
 
+  const onFileChange = e => {
+    try {
+      setFile(e.target.files[0]);
+
+      const buf = crypto.randomBytes(16);
+      const fileName = buf.toString('hex') + e.target.files[0].name.replace(/ /g, "_");
+      setFilename(fileName);
+      setPost({ ...post, image: fileName });
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onNameChange = (type, value) => {
+    if (type === "first") {
+      setFName(value);
+    } else if (type === "last") {
+      setLName(value);
+    }
+    setPost({ ...post, name: `${fName} ${lName}` });
+  }
+
   useEffect(() => {
-    fName && lName && setPost({ ...post, name: `${fName} ${lName}` });
-  }, [fName, lName, post]);
+    if (name !== `${fName} ${lName}`) {
+      fName && lName && setPost({ ...post, name: `${fName} ${lName}` });
+    }
+  }, [fName, lName, name, post]);
+
+  const onSubmit = () => {
+    // e.preventDefault();
+    setPost({ ...post, name: `${fName} ${lName}` });
+    if (name === '' || age === '' || hair === '' || image === '') {
+      console.log('Please enter all fields', 'danger');
+    } else if (current === null) {
+      addPersonAlert(post);
+      uploadImage();
+      clearAll();
+    } else {
+      updatePersonAlert(post);
+      uploadImage();
+      clearAll();
+    }
+
+  };
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append('file', file, filename);
+    // console.log(filename);
+
+    try {
+      await axios.post('/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        proxy: {
+          host: 'localhost',
+          port: 5000
+        }
+      });
+    } catch (err) {
+      if (err.response.status === 500) {
+        console.log('There was a problem with the server');
+      } else {
+        console.log(err.response.data.msg);
+      }
+    }
+  }
+
+  const clearAll = () => {
+    setFName('');
+    setLName('');
+
+    setPost({
+      name: "",
+      age: "",
+      hair: "",
+      eyes: "",
+      height: "",
+      details: "",
+      image: "",
+      location: {
+        line1: "",
+        city: "",
+        state: "",
+        zipcode: "",
+      },
+      vehicle: {
+        make: "",
+        model: "",
+        year: "",
+        color: "",
+      }
+    });
+
+    setFile('');
+    setFilename('');
+
+
+    clearCurrent();
+  }
 
   return (
     <CustomContainer>
@@ -83,7 +194,8 @@ const CreatePost = () => {
                   id="firstName"
                   label="First Name"
                   placeholder="Enter first name"
-                  onChange={(e) => setFName(e.target.value)}
+                  value={fName}
+                  onChange={(e) => onNameChange("first", e.target.value)}
                   fullWidth
                   required
                   className={classes.inputField}
@@ -94,7 +206,8 @@ const CreatePost = () => {
                   id="lastName"
                   label="Last Name"
                   placeholder="Enter last name"
-                  onChange={(e) => setLName(e.target.value)}
+                  value={lName}
+                  onChange={(e) => onNameChange("last", e.target.value)}
                   fullWidth
                   required
                   className={classes.inputField}
@@ -105,6 +218,7 @@ const CreatePost = () => {
                   id="age"
                   label="Age"
                   placeholder="Enter age"
+                  value={age}
                   onChange={(e) => handleChange("age", e.target.value)}
                   fullWidth
                   required
@@ -124,6 +238,7 @@ const CreatePost = () => {
                   id="hair"
                   label="Hair Color"
                   placeholder="Enter hair color"
+                  value={hair}
                   onChange={(e) => handleChange("hair", e.target.value)}
                   fullWidth
                   className={classes.inputField}
@@ -134,6 +249,7 @@ const CreatePost = () => {
                   id="eyes"
                   label="Eye Color"
                   placeholder="Enter eye color"
+                  value={eyes}
                   onChange={(e) => handleChange("eyes", e.target.value)}
                   fullWidth
                   className={classes.inputField}
@@ -144,6 +260,7 @@ const CreatePost = () => {
                   id="height"
                   label="Height"
                   placeholder="Enter height"
+                  value={height}
                   onChange={(e) => handleChange("height", e.target.value)}
                   fullWidth
                   className={classes.inputField}
@@ -154,6 +271,7 @@ const CreatePost = () => {
                   id="details"
                   label="Extra Details"
                   placeholder="Enter extra details"
+                  value={details}
                   onChange={(e) => handleChange("details", e.target.value)}
                   fullWidth
                   className={classes.inputField}
@@ -174,8 +292,9 @@ const CreatePost = () => {
                   id="street"
                   label="Street"
                   placeholder="Enter street address"
+                  value={location.line1}
                   onChange={(e) =>
-                    handleChange("street", e.target.value, "location")
+                    handleChange("line1", e.target.value, "location")
                   }
                   fullWidth
                   required
@@ -187,6 +306,7 @@ const CreatePost = () => {
                   id="city"
                   label="City"
                   placeholder="Enter city"
+                  value={location.city}
                   onChange={(e) =>
                     handleChange("city", e.target.value, "location")
                   }
@@ -200,6 +320,7 @@ const CreatePost = () => {
                   id="state"
                   label="State"
                   placeholder="Enter state"
+                  value={location.state}
                   onChange={(e) =>
                     handleChange("state", e.target.value, "location")
                   }
@@ -213,8 +334,9 @@ const CreatePost = () => {
                   id="zipcode"
                   label="Zip Code"
                   placeholder="Enter zip code"
+                  value={location.zipcode}
                   onChange={(e) =>
-                    handleChange("zip", e.target.value, "location")
+                    handleChange("zipcode", e.target.value, "location")
                   }
                   fullWidth
                   required
@@ -234,6 +356,7 @@ const CreatePost = () => {
                   id="make"
                   label="Make"
                   placeholder="Enter car make"
+                  value={vehicle.make}
                   onChange={(e) =>
                     handleChange("make", e.target.value, "vehicle")
                   }
@@ -246,6 +369,7 @@ const CreatePost = () => {
                   id="model"
                   label="Model"
                   placeholder="Enter car model"
+                  value={vehicle.model}
                   onChange={(e) =>
                     handleChange("model", e.target.value, "vehicle")
                   }
@@ -258,6 +382,7 @@ const CreatePost = () => {
                   id="year"
                   label="Year"
                   placeholder="Enter car year"
+                  value={vehicle.year}
                   onChange={(e) =>
                     handleChange("year", e.target.value, "vehicle")
                   }
@@ -270,11 +395,28 @@ const CreatePost = () => {
                   id="color"
                   label="Color"
                   placeholder="Enter car color"
+                  value={vehicle.color}
                   onChange={(e) =>
                     handleChange("color", e.target.value, "vehicle")
                   }
                   fullWidth
                   className={classes.inputField}
+                />
+              </Grid>
+            </Grid>
+            <Grid container item xs={12} justify="space-between">
+              <Grid item xs={12}>
+                <Typography variant="h5" className={classes.title}>
+                  Picture:
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  id="image"
+                  lable="Image"
+                  type="file"
+                  onChange={onFileChange}
+                  onClick={(e) => { e.target.value = null }}
                 />
               </Grid>
             </Grid>
@@ -289,6 +431,7 @@ const CreatePost = () => {
               <Button
                 variant="contained"
                 color="primary"
+                onClick={() => onSubmit()}
                 className={classes.submit}
               >
                 Submit Post

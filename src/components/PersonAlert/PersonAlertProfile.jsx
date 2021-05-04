@@ -69,7 +69,7 @@ const PersonAlertProfile = (props) => {
 
   const {
     personAlerts,
-    filtered,
+    // filtered,
     getPersonAlert,
     loading,
   } = personAlertContext;
@@ -97,7 +97,7 @@ const PersonAlertProfile = (props) => {
         <Grid container spacing={3}>
           <Grid container item sm={5} xs={12} className={classes.imgContainer}>
             <img
-              src={`/images/${person.image}.png`}
+              src={`/uploads/${person.image}`}
               alt={person.name}
               className={classes.img}
             />
