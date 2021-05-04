@@ -30,7 +30,6 @@ const PersonAlertList = ({ status }) => {
       status ? person.status === status : person
     );
   }
-  console.log(personAlerts);
 
   if (personAlerts !== null && people.length === 0 && !loading) {
     return (

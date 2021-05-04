@@ -206,7 +206,7 @@ const PersonAlertProfile = (props) => {
       ) : (
         <Typography variant="h6">Loading...</Typography>
       )}
-      {personAlerts !== null && !loading && (
+      {personAlerts !== null && !loading && person.position && (
         <Map data={person} isProfile={true} />
       )}
     </CustomContainer>

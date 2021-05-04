@@ -46,8 +46,7 @@ function EventMarker({ person = null, isOpen = false, eventType = "" }) {
     lat: person.position.latitude,
     lng: person.position.longitude,
   };
-  const img = "/images/" + person.image + ".png";
-  console.log(person);
+  const img = `/uploads/${person.image}`;
 
   const iconHtml = renderToString(
     <div className={classes.eventButton}>
