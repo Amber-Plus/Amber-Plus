@@ -1,10 +1,20 @@
 import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Button, TextField, Paper, Input } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Button,
+  TextField,
+  Paper,
+  Input,
+} from "@material-ui/core";
 import CustomContainer from "components/common/CustomContainer";
 import PersonAlertContext from "../../context/personAlert/personAlertContext";
-import axios from 'axios';
-const crypto = require('crypto');
+import AuthContext from "context/auth/authContext";
+import handleNavigation from "utils/handleNavigation";
+
+const crypto = require("crypto");
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -23,11 +33,12 @@ const useStyles = makeStyles((theme) => ({
 const CreatePost = () => {
   const classes = useStyles();
   const personAlertContext = useContext(PersonAlertContext);
-
-  const [file, setFile] = useState('');
-  const [filename, setFilename] = useState('Choose File');
-  const [fName, setFName] = useState('');
-  const [lName, setLName] = useState('');
+  const authContext = useContext(AuthContext);
+  const { user, isAuthenticated } = authContext;
+  const [file, setFile] = useState("");
+  const [filename, setFilename] = useState("Choose File");
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
   const [post, setPost] = useState({
     name: "",
     age: "",
@@ -50,9 +61,24 @@ const CreatePost = () => {
     },
   });
 
-  const { addPersonAlert, updatePersonAlert, clearCurrent, current } = personAlertContext;
+  const {
+    addPersonAlert,
+    updatePersonAlert,
+    clearCurrent,
+    current,
+  } = personAlertContext;
 
-  const { name, age, hair, eyes, height, details, image, location, vehicle } = post;
+  const {
+    name,
+    age,
+    hair,
+    eyes,
+    height,
+    details,
+    image,
+    location,
+    vehicle,
+  } = post;
 
   const handleChange = (field, value, type) => {
     if (type === "location") {
@@ -64,15 +90,15 @@ const CreatePost = () => {
     }
   };
 
-  const onFileChange = e => {
+  const onFileChange = (e) => {
     try {
       setFile(e.target.files[0]);
 
       const buf = crypto.randomBytes(16);
-      const fileName = buf.toString('hex') + e.target.files[0].name.replace(/ /g, "_");
+      const fileName =
+        buf.toString("hex") + e.target.files[0].name.replace(/ /g, "_");
       setFilename(fileName);
       setPost({ ...post, image: fileName });
-
     } catch (err) {
       console.error(err);
     }
@@ -85,7 +111,7 @@ const CreatePost = () => {
       setLName(value);
     }
     setPost({ ...post, name: `${fName} ${lName}` });
-  }
+  };
 
   useEffect(() => {
     if (name !== `${fName} ${lName}`) {
@@ -96,8 +122,8 @@ const CreatePost = () => {
   const onSubmit = () => {
     // e.preventDefault();
     setPost({ ...post, name: `${fName} ${lName}` });
-    if (name === '' || age === '' || hair === '' || image === '') {
-      console.log('Please enter all fields', 'danger');
+    if (name === "" || age === "" || hair === "" || image === "") {
+      console.log("Please enter all fields", "danger");
     } else if (current === null) {
       addPersonAlert(post);
       uploadImage();
@@ -107,36 +133,35 @@ const CreatePost = () => {
       uploadImage();
       clearAll();
     }
-
   };
 
   const uploadImage = async () => {
     const formData = new FormData();
-    formData.append('file', file, filename);
+    formData.append("file", file, filename);
     // console.log(filename);
 
     try {
-      await axios.post('/upload', formData, {
+      await axios.post("/upload", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          "Content-Type": "multipart/form-data",
         },
         proxy: {
-          host: 'localhost',
-          port: 5000
-        }
+          host: "localhost",
+          port: 5000,
+        },
       });
     } catch (err) {
       if (err.response.status === 500) {
-        console.log('There was a problem with the server');
+        console.log("There was a problem with the server");
       } else {
         console.log(err.response.data.msg);
       }
     }
-  }
+  };
 
   const clearAll = () => {
-    setFName('');
-    setLName('');
+    setFName("");
+    setLName("");
 
     setPost({
       name: "",
@@ -157,15 +182,14 @@ const CreatePost = () => {
         model: "",
         year: "",
         color: "",
-      }
+      },
     });
 
-    setFile('');
-    setFilename('');
-
+    setFile("");
+    setFilename("");
 
     clearCurrent();
-  }
+  };
 
   return (
     <CustomContainer>
@@ -416,7 +440,9 @@ const CreatePost = () => {
                   lable="Image"
                   type="file"
                   onChange={onFileChange}
-                  onClick={(e) => { e.target.value = null }}
+                  onClick={(e) => {
+                    e.target.value = null;
+                  }}
                 />
               </Grid>
             </Grid>
@@ -431,6 +457,11 @@ const CreatePost = () => {
               <Button
                 variant="contained"
                 color="primary"
+                component="a"
+                href={
+                  isAuthenticated &&
+                  handleNavigation("profile", user.name, user._id)
+                }
                 onClick={() => onSubmit()}
                 className={classes.submit}
               >
