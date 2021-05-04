@@ -60,9 +60,27 @@ router.post(
   check('age', 'Wow thats old').isInt(),
   check('hair', 'Hair is required').notEmpty(),
   check('height', 'Height is required').notEmpty(),
+  check('image').custom((value, { req }) => {
+    console.log('value: ' + value);
+
+    // Allowed ext
+    const filetypes = /jpeg|jpg|png|gif/;
+    // Check ext
+    const extname = filetypes.test(value);
+    // Check File Type
+    if (!extname) {
+      console.log("Error???");
+      throw new Error('Error: Images Only!');
+      // return Promise.reject('Error: Images Only!');
+    }
+    console.log('No error :)');
+    return true;
+  }),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log("Somethings wrong :<");
+      console.log(errors.array());
       return res.status(400).json({ error: errors.array() });
     }
 
@@ -79,6 +97,8 @@ router.post(
       image,
       vehicle,
     } = req.body;
+
+    console.log("Image: " + image);
 
     try {
       let newPersonAlert = new PersonAlert({

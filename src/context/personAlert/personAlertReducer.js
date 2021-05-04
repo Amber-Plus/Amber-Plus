@@ -26,7 +26,7 @@ const personAlertReducer = (state, action) => {
     case ADD_PERSON_ALERT:
       return {
         ...state,
-        personAlerts: [action.payload, ...state.personAlerts],
+        personAlerts: action.payload,
         loading: false,
       };
     case UPDATE_PERSON_ALERT:
