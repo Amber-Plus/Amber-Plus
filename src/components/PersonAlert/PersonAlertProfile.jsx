@@ -86,9 +86,15 @@ const PersonAlertProfile = (props) => {
   let car;
   let carString;
   if (personAlerts !== null && personAlerts.length !== 0) {
+    //set profile object for Information section
     profile = getProfileObject(person, "profile");
-    car = !isEmpty(person.vehicle) && person.vehicle;
-    carString = car && getVehicleString(car);
+    //set car value if vehicle exists
+    car =
+      !isEmpty(person.vehicle) && person.vehicle.make !== "" && person.vehicle;
+    //if car exists, then create Vehicle title string
+    carString = car
+      ? getVehicleString(car)
+      : "No suspect vehicle known at this time";
   }
 
   return (
@@ -184,23 +190,24 @@ const PersonAlertProfile = (props) => {
                 <Typography>{person.details}</Typography>
               </Grid>
             </Grid>
-            {car && (
-              <Grid container item sm={5} xs={12}>
-                <Grid item>
-                  <Typography variant="h6" className={classes.title}>
-                    Suspect Vehicle
-                  </Typography>
-                </Grid>
-                <Grid container item justify="center">
-                  <Typography>{carString}</Typography>
+
+            <Grid container item sm={5} xs={12}>
+              <Grid item>
+                <Typography variant="h6" className={classes.title}>
+                  Suspect Vehicle
+                </Typography>
+              </Grid>
+              <Grid container item justify="center">
+                <Typography>{carString}</Typography>
+                {car && (
                   <img
                     src={person.vehicle.image}
                     alt={carString}
                     className={classes.img}
                   />
-                </Grid>
+                )}
               </Grid>
-            )}
+            </Grid>
           </Grid>
         </Grid>
       ) : (
