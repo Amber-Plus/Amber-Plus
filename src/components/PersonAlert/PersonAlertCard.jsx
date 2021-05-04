@@ -81,7 +81,7 @@ const PersonAlertCard = ({ person, pathTo }) => {
 
   const { _id, name, image } = person;
 
-  const img = "/images/" + image + ".png";
+  const img = ("/uploads/" + image).replace(/ /g, "");
 
   const profile = getProfileObject(person, "card");
 
