@@ -178,7 +178,6 @@ const PersonAlertProfile = (props) => {
             container
             item
             justify="space-between"
-            direction={isMobile ? "column" : "row"}
             className={classes.details}
           >
             {person.details && (
