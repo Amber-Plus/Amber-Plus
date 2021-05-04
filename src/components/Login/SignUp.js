@@ -43,22 +43,22 @@ const SignUp = () => {
   const { register, error, clearErrors, isAuthenticated } = authContext;
 
   const [user, setUser] = useState({
-    name: '',
-    email: '',
-    email2: '',
-    password: '',
-    password2: ''
+    name: "",
+    email: "",
+    email2: "",
+    password: "",
+    password2: "",
   });
 
   const { email, email2, password, password2 } = user;
 
-  const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
+  const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
 
   //name
-  const [fullName, setFullName] = useState({ fName: '', lName: '' });
+  const [fullName, setFullName] = useState({ fName: "", lName: "" });
   const { fName, lName } = fullName;
-  const onNameChange = e => setFullName({ ...fullName, [e.target.name]: e.target.value });
-
+  const onNameChange = (e) =>
+    setFullName({ ...fullName, [e.target.name]: e.target.value });
 
   //error handling
   const [emailError, setEmailError] = useState(false);
@@ -76,7 +76,7 @@ const SignUp = () => {
       setPassError(true);
       setPassHelperText("Passwords do not match");
     } else {
-      setPassError(false);;
+      setPassError(false);
       setPassHelperText("");
     }
 
@@ -96,16 +96,15 @@ const SignUp = () => {
 
   const handleSubmit = () => {
     // e.preventDefault();
-
     const name = `${fName} ${lName}`;
 
-    if (name === '' || email === '' || password === '') {
+    if (name === "" || email === "" || password === "") {
       console.log("One or more fields are empty");
     } else if (email === email2 && password === password2) {
       register({
         name,
         email,
-        password
+        password,
       });
     }
   };

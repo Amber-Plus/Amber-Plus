@@ -44,12 +44,18 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     width: "100%",
+    height: "100%",
     maxWidth: theme.spacing(65),
+    objectFit: "cover",
     [theme.breakpoints.down("xs")]: {
       maxWidth: "100vw",
       width: "100vw",
       margin: theme.spacing(0, -3),
     },
+  },
+  imgContainer: {
+    width: "100%",
+    maxHeight: theme.spacing(62),
   },
   infoContainer: {
     height: "100%",
