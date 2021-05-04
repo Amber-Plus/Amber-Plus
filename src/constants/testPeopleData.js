@@ -29,6 +29,7 @@ export const testPeopleData = [
       color: "blue",
       image: tempCar,
     },
+    data: "2021-05-02T07:42:32.102Z",
   },
   {
     id: "60879c00d640020b9c5da3aa",
@@ -57,6 +58,7 @@ export const testPeopleData = [
       color: "blue",
       image: tempCar,
     },
+    data: "2021-05-02T07:44:13.680Z",
   },
   {
     id: 3,
@@ -85,6 +87,7 @@ export const testPeopleData = [
       color: "blue",
       image: tempCar,
     },
+    data: "2021-05-04T00:13:13.326Z",
   },
   {
     id: 4,
@@ -113,6 +116,7 @@ export const testPeopleData = [
       color: "blue",
       image: tempCar,
     },
+    data: "2021-05-04T01:22:56.455Z",
   },
   {
     id: 5,
@@ -134,6 +138,7 @@ export const testPeopleData = [
     details:
       "Johnny went missing on March 3rd. He was wearing brown cargo pants with red crocs. Please help bring him back home to us!!",
     image: "child5",
+    data: "2021-05-04T04:20:18.355Z",
   },
 ];
 

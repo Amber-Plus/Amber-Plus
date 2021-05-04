@@ -181,29 +181,35 @@ const PersonAlertProfile = (props) => {
             direction={isMobile ? "column" : "row"}
             className={classes.details}
           >
-            <Grid
-              item
-              sm={car ? 6 : 12}
-              xs={12}
-              style={{ marginBottom: isMobile && "24px" }}
-            >
-              <Grid item>
-                <Typography variant="h6" className={classes.title}>
-                  Details
-                </Typography>
+            {person.details && (
+              <Grid
+                item
+                sm={6}
+                xs={12}
+                style={{ marginBottom: isMobile && "24px" }}
+              >
+                <Grid item>
+                  <Typography variant="h6" className={classes.title}>
+                    Details
+                  </Typography>
+                </Grid>
+                <Grid item sm={12}>
+                  <Typography>{person.details}</Typography>
+                </Grid>
               </Grid>
-              <Grid item sm={12}>
-                <Typography>{person.details}</Typography>
-              </Grid>
-            </Grid>
+            )}
 
-            <Grid container item sm={5} xs={12}>
+            <Grid container item sm={person.details ? 5 : 12} xs={12}>
               <Grid item>
                 <Typography variant="h6" className={classes.title}>
                   Suspect Vehicle
                 </Typography>
               </Grid>
-              <Grid container item justify="center">
+              <Grid
+                container
+                item
+                justify={person.details ? "center" : "flex-start"}
+              >
                 <Typography>{carString}</Typography>
                 {car && (
                   <img

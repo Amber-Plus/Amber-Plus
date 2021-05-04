@@ -6,6 +6,7 @@ import L from "leaflet";
 import EventButton from "./EventButton";
 import EventPopup from "./EventPopup";
 import RoomIcon from "@material-ui/icons/Room";
+import getPostTimeDifference from "utils/getPostTimeDifference";
 
 const useStyles = makeStyles((theme) => ({
   eventButton: {
@@ -48,6 +49,10 @@ function EventMarker({ person = null, isOpen = false, eventType = "" }) {
   };
   const img = `/uploads/${person.image}`;
 
+  const offset =
+    getPostTimeDifference(person) < 40 ? getPostTimeDifference(person) : 40;
+  const time = 40 + offset;
+
   const iconHtml = renderToString(
     <div className={classes.eventButton}>
       <EventButton eventType={eventType} active={isOpen}>
@@ -71,7 +76,7 @@ function EventMarker({ person = null, isOpen = false, eventType = "" }) {
         <CircleMarker
           center={position}
           pathOptions={{ fillColor: "red" }}
-          radius={50}
+          radius={time}
           stroke={false}
           className={classes.circleMarker}
         />
