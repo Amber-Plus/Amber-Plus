@@ -78,7 +78,7 @@ const TopNav = () => {
       <Toolbar className={clsx(isMobile && classes.mobileTopMenu)}>
         <Typography
           component="a"
-          href={PAGE_ROUTES[MISSING]}
+          href={"/"}
           className={classes.title}
         >
           Amber+
