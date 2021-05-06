@@ -1,49 +1,61 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PersonAlertSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
+        ref: "users",
     },
     name: {
         type: String,
-        required: true
+        required: true,
     },
     age: {
         type: Number,
     },
     hair: {
-        type: String
+        type: String,
     },
     height: {
-        type: String
+        type: String,
     },
     eyes: {
-        type: String
+        type: String,
     },
     location: {
         line1: { type: String },
         line2: { type: String },
         city: { type: String },
         state: { type: String },
-        zipcode: { type: Number }
+        zipcode: { type: Number },
+    },
+    position: {
+        latitude: { type: Number },
+        longitude: { type: Number }
     },
     status: {
         type: String,
-        enum: ['Missing', 'Found'],
-        default: 'Missing'
+        enum: ["Missing", "Found"],
+        default: "Missing",
     },
     details: {
-        type: String
+        type: String,
     },
     image: {
-        type: String
+        type: String,
+    },
+    vehicle: {
+        year: { type: Number },
+        make: { type: String },
+        model: { type: String },
+        color: { type: String },
+        image: { type: String },
     },
     data: {
         type: Date,
-        default: Date.now
-    }
+        default: Date.now,
+    },
 });
 
-module.exports = PersonAlert = mongoose.model('personAlerts', PersonAlertSchema);
+const PersonAlert = mongoose.model("personAlerts", PersonAlertSchema);
+module.exports = PersonAlert;

@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+// import { withRouter } from "react-router-dom";
 import {
   Grid,
   Paper,
@@ -40,52 +41,73 @@ const SignUp = () => {
   const history = useHistory();
   const authContext = useContext(AuthContext);
   const { register, error, clearErrors, isAuthenticated } = authContext;
-  //email
-  const [email, setEmail] = useState();
-  const [emailConfirm, setEmailConfirm] = useState();
-  //password
-  const [pass, setPass] = useState();
-  const [passConfirm, setPassConfirm] = useState();
+
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    email2: "",
+    password: "",
+    password2: "",
+  });
+
+  const { email, email2, password, password2 } = user;
+
+  const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
+
   //name
-  const [fName, setFName] = useState();
-  const [lName, setLName] = useState();
+  const [fullName, setFullName] = useState({ fName: "", lName: "" });
+  const { fName, lName } = fullName;
+  const onNameChange = (e) =>
+    setFullName({ ...fullName, [e.target.name]: e.target.value });
+
   //error handling
   const [emailError, setEmailError] = useState(false);
   const [passError, setPassError] = useState(false);
   //helper text
-  const [helperText, setHelperText] = useState("");
+  const [emailHelperText, setEmailHelperText] = useState("");
+  const [passHelperText, setPassHelperText] = useState("");
 
   useEffect(() => {
     if (isAuthenticated) {
       history.push("/");
     }
 
+    if (password !== password2) {
+      setPassError(true);
+      setPassHelperText("Passwords do not match");
+    } else {
+      setPassError(false);
+      setPassHelperText("");
+    }
+
+    if (email !== email2) {
+      setEmailError(true);
+      setEmailHelperText("Emails do not match");
+    } else {
+      setEmailError(false);
+      setEmailHelperText("");
+    }
+
     if (error === "Invalid Credentials") {
       clearErrors();
     }
     // eslint-disable-next-line
-  }, [error, isAuthenticated]);
+  }, [error, isAuthenticated, password, password2, email, email2]);
 
   const handleSubmit = () => {
+    // e.preventDefault();
     const name = `${fName} ${lName}`;
-    const profile = { name: name, email: email, pass: pass };
 
-    profile.email !== "" && register(profile);
-  };
-
-  useEffect(() => {
-    if (pass !== passConfirm) {
-      setPassError(true);
-      setHelperText("Passwords do not match");
-    } else if (email !== emailConfirm) {
-      setEmailError(true);
-      setHelperText("Emails do not match");
-    } else {
-      setPassError(false);
-      setEmailError(false);
-      setHelperText("");
+    if (name === "" || email === "" || password === "") {
+      console.log("One or more fields are empty");
+    } else if (email === email2 && password === password2) {
+      register({
+        name,
+        email,
+        password,
+      });
     }
-  }, [pass, passConfirm, email, emailConfirm]);
+  };
 
   return (
     <Grid>
@@ -101,10 +123,12 @@ const SignUp = () => {
         <Grid container justify="space-between">
           <Grid item xs={6} style={{ paddingRight: "8px" }}>
             <TextField
-              id="firstName"
+              id="fName"
               label="First Name"
               placeholder="Enter your first name"
-              onChange={(e) => setFName(e.target.value)}
+              name="fName"
+              value={fName}
+              onChange={onNameChange}
               fullWidth
               required
               className={classes.inputField}
@@ -112,10 +136,12 @@ const SignUp = () => {
           </Grid>
           <Grid item xs={6} style={{ paddingLeft: "8px" }}>
             <TextField
-              id="lastName"
+              id="lName"
               label="Last Name"
               placeholder="Enter your last name"
-              onChange={(e) => setLName(e.target.value)}
+              name="lName"
+              value={lName}
+              onChange={onNameChange}
               fullWidth
               required
               className={classes.inputField}
@@ -125,46 +151,51 @@ const SignUp = () => {
         <Grid container>
           <TextField
             error={emailError}
-            helperText={emailError && helperText}
+            helperText={emailError && emailHelperText}
             id="email"
             label="Email"
             placeholder="Enter your email"
-            onChange={(e) => setEmail(e.target.value)}
+            name="email"
+            value={email}
+            onChange={onChange}
             fullWidth
             required
             className={classes.inputField}
           />
           <TextField
             error={emailError}
-            helperText={emailError && helperText}
-            id="emailConfirm"
+            helperText={emailError && emailHelperText}
+            id="email2"
             label="Confirm Email"
             placeholder="Confirm email"
-            onChange={(e) => setEmailConfirm(e.target.value)}
+            name="email2"
+            onChange={onChange}
             fullWidth
             required
             className={classes.inputField}
           />
           <TextField
             error={passError}
-            helperText={passError && helperText}
+            helperText={passError && passHelperText}
             id="password"
             label="Password"
             placeholder="Enter password"
+            name="password"
             type="password"
-            onChange={(e) => setPass(e.target.value)}
+            onChange={onChange}
             fullWidth
             required
             className={classes.inputField}
           />
           <TextField
             error={passError}
-            helperText={passError && helperText}
+            helperText={passError && passHelperText}
             id="passwordConfirm"
             label="Confirm Password"
             placeholder="Confirm password"
+            name="password2"
             type="password"
-            onChange={(e) => setPassConfirm(e.target.value)}
+            onChange={onChange}
             fullWidth
             required
             className={classes.inputField}
@@ -178,7 +209,6 @@ const SignUp = () => {
           variant="contained"
           component="a"
           onClick={() => handleSubmit()}
-          href={"/"}
           className={classes.btnStyle}
           fullWidth
         >

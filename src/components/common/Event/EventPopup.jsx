@@ -3,6 +3,7 @@ import { Popup } from "react-leaflet";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import handleNavigation from "utils/handleNavigation";
+import getPostTimeDifference from "utils/getPostTimeDifference";
 
 const useStyles = makeStyles((theme) => ({
   popup: {
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 const EventPopup = ({ person }) => {
   const classes = useStyles();
+  const time = getPostTimeDifference(person);
 
   return (
     <Popup className={classes.popup} offset={[0, 40]}>
@@ -45,7 +47,8 @@ const EventPopup = ({ person }) => {
           {person.name}
         </Typography>
         <Typography>Age: {person.age}</Typography>
-        <Typography>Last seen {person.location.line1}</Typography>
+        <Typography>Last seen at {person.location.line1}</Typography>
+        <Typography>{time} hours ago</Typography>
       </div>
     </Popup>
   );

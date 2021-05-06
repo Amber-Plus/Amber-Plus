@@ -6,7 +6,7 @@ import { testPeopleData } from "constants/testPeopleData";
 const Missing = () => {
   return (
     <div>
-      <PersonAlertList people={testPeopleData} status="missing" />
+      <PersonAlertList people={testPeopleData} status="Missing" />
     </div>
   );
 };

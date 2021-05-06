@@ -1,8 +1,9 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect } from "react";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import PersonAlertCard from "./PersonAlertCard";
 import handleNavigation from "utils/handleNavigation";
-import PersonAlertContext from '../../context/personAlert/personAlertContext';
+import PersonAlertContext from "../../context/personAlert/personAlertContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -10,40 +11,62 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
+    marginBottom: theme.spacing(8),
   },
 }));
 
-const PersonAlertList = () => {
+const PersonAlertList = ({ status }) => {
   const classes = useStyles();
   const personAlertContext = useContext(PersonAlertContext);
-
-  const { personAlerts, filtered, getPersonAlerts, loading } = personAlertContext;
+  let people;
+  const { personAlerts, getPersonAlerts, loading } = personAlertContext;
 
   useEffect(() => {
     getPersonAlerts();
     // eslint-disable-next-line
   }, []);
 
-  console.log("person alerts: ", personAlerts);
+  if (personAlerts !== null && !loading) {
+    people = personAlerts.filter((person) =>
+      status ? person.status === status : person
+    );
+  }
 
-  if (personAlerts !== null && personAlerts.length === 0 && !loading) {
-    return <h4>There are no missing persons.</h4>;
+  if (personAlerts !== null && people.length === 0 && !loading) {
+    return (
+      <div className={classes.container}>
+        {status === "Missing" ? (
+          <Typography variant="h6">
+            There are no alerts of missing persons.
+          </Typography>
+        ) : (
+          <Typography variant="h6">
+            There are no alerts of people found.
+          </Typography>
+        )}
+      </div>
+    );
   }
 
   return (
     <div className={classes.container}>
       {personAlerts !== null && !loading ? (
         <Fragment>
-          {personAlerts.map(personAlert => (
-            <PersonAlertCard
-              person={personAlert}
-              key={personAlert._id}
-              pathTo={handleNavigation("person-alert", personAlert.name, personAlert._id)}
-            />
-          ))}
+          {people &&
+            people.map((personAlert) => (
+              <PersonAlertCard
+                person={personAlert}
+                key={personAlert._id}
+                pathTo={handleNavigation(
+                  "person-alert",
+                  personAlert.name,
+                  personAlert._id
+                )}
+              />
+            ))}
         </Fragment>
       ) : (
-        <h2>Loading...</h2>
+        <Typography variant="h6">Loading...</Typography>
       )}
     </div>
   );

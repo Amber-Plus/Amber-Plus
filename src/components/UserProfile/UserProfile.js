@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
@@ -51,13 +52,6 @@ const UserProfile = () => {
     noSsr: true,
   });
   const { name, key } = useParams();
-  //const originalName = name.replace(/-/g, " ");
-  // const user = testUserData.find(
-  //   ({ name, id }) =>
-  //     name.toLowerCase() === originalName.toLowerCase() && id === key
-  // );
-
-  // const posts = user.posts;
 
   return (
     <CustomContainer>

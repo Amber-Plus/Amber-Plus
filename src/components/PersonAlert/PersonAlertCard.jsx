@@ -1,5 +1,6 @@
+/* eslint-disable */
 import React, { Fragment, useContext } from "react";
-import PersonAlertContext from '../../context/personAlert/personAlertContext';
+import PersonAlertContext from "../../context/personAlert/personAlertContext";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
@@ -78,14 +79,11 @@ const PersonAlertCard = ({ person, pathTo }) => {
   const classes = useStyles(isMobile);
   const link = `${window.location.origin}${pathTo}`;
 
-  // const { name, image } = person;
   const { _id, name, image } = person;
 
-  const img = "images/" + image + ".png";
+  const img = ("/uploads/" + image).replace(/ /g, "");
 
   const profile = getProfileObject(person, "card");
-
-
 
   const onDelete = () => {
     deletePersonAlert(_id);

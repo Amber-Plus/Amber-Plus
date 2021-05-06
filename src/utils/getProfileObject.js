@@ -1,19 +1,22 @@
-import getLocationString from "./getLocationString";
+import getLocationString from './getLocationString';
 
 export const getProfileObject = (person, type) => {
   const viewable = () => {
-    if (type === "card") return ["name", "age", "location"];
+    if (type === 'card') return ['name', 'age', 'location'];
 
-    if (type === "profile")
+    if (type === 'profile')
       return Object.keys(person).filter(
         (key) =>
           ![
-            "image",
-            "details",
-            "id",
-            "position",
-            "vehicle",
-            "parentId",
+            'image',
+            'details',
+            '_id',
+            'position',
+            'vehicle',
+            'parentId',
+            '__v',
+            'data',
+            'user',
           ].includes(key)
       );
   };
@@ -22,10 +25,10 @@ export const getProfileObject = (person, type) => {
   for (const [key, value] of Object.entries(person)) {
     if (viewable().includes(key)) {
       const val =
-        key === "location"
-          ? type === "card"
+        key === 'location'
+          ? type === 'card'
             ? value.line1
-            : type === "profile" && getLocationString(value)
+            : type === 'profile' && getLocationString(value)
           : value;
 
       const title = key.charAt(0).toUpperCase() + key.slice(1);
