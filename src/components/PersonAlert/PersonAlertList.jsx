@@ -11,13 +11,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
+    marginBottom: theme.spacing(8),
   },
 }));
 
-const PersonAlertList = () => {
+const PersonAlertList = ({ status }) => {
   const classes = useStyles();
   const personAlertContext = useContext(PersonAlertContext);
-
+  let people;
   const { personAlerts, getPersonAlerts, loading } = personAlertContext;
 
   useEffect(() => {
@@ -25,25 +26,44 @@ const PersonAlertList = () => {
     // eslint-disable-next-line
   }, []);
 
-  if (personAlerts !== null && personAlerts.length === 0 && !loading) {
-    return <Typography variant="h6">There are no missing persons.</Typography>;
+  if (personAlerts !== null && !loading) {
+    people = personAlerts.filter((person) =>
+      status ? person.status === status : person
+    );
+  }
+
+  if (personAlerts !== null && people.length === 0 && !loading) {
+    return (
+      <div className={classes.container}>
+        {status === "Missing" ? (
+          <Typography variant="h6">
+            There are no alerts of missing persons.
+          </Typography>
+        ) : (
+          <Typography variant="h6">
+            There are no alerts of people found.
+          </Typography>
+        )}
+      </div>
+    );
   }
 
   return (
     <div className={classes.container}>
       {personAlerts !== null && !loading ? (
         <Fragment>
-          {personAlerts.map((personAlert) => (
-            <PersonAlertCard
-              person={personAlert}
-              key={personAlert._id}
-              pathTo={handleNavigation(
-                "person-alert",
-                personAlert.name,
-                personAlert._id
-              )}
-            />
-          ))}
+          {people &&
+            people.map((personAlert) => (
+              <PersonAlertCard
+                person={personAlert}
+                key={personAlert._id}
+                pathTo={handleNavigation(
+                  "person-alert",
+                  personAlert.name,
+                  personAlert._id
+                )}
+              />
+            ))}
         </Fragment>
       ) : (
         <Typography variant="h6">Loading...</Typography>

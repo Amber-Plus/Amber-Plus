@@ -1,11 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { renderToString } from "react-dom/server";
-import { Marker } from "react-leaflet";
+import { Marker, LayerGroup, CircleMarker } from "react-leaflet";
 import L from "leaflet";
 import EventButton from "./EventButton";
 import EventPopup from "./EventPopup";
 import RoomIcon from "@material-ui/icons/Room";
+import getPostTimeDifference from "utils/getPostTimeDifference";
 
 const useStyles = makeStyles((theme) => ({
   eventButton: {
@@ -27,21 +28,36 @@ const useStyles = makeStyles((theme) => ({
     height: 50,
     objectFit: "cover",
   },
+  circleMarker: {
+    border: "none",
+    display: "flex",
+    outline: 0,
+    padding: 0,
+    position: "relative",
+    minWidth: 0,
+    transform: "translate3d(0px, 55px, 0px)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 }));
 
 function EventMarker({ person = null, isOpen = false, eventType = "" }) {
   const classes = useStyles();
-  const position = person.position;
+  const position = {
+    lat: person.position.latitude,
+    lng: person.position.longitude,
+  };
+  const img = `/uploads/${person.image}`;
+
+  const offset =
+    getPostTimeDifference(person) < 40 ? getPostTimeDifference(person) : 40;
+  const time = 40 + offset;
 
   const iconHtml = renderToString(
     <div className={classes.eventButton}>
       <EventButton eventType={eventType} active={isOpen}>
         {person ? (
-          <img
-            src={person.image}
-            alt={person.name}
-            className={classes.personMarker}
-          />
+          <img src={img} alt={person.name} className={classes.personMarker} />
         ) : (
           <RoomIcon />
         )}
@@ -56,9 +72,18 @@ function EventMarker({ person = null, isOpen = false, eventType = "" }) {
 
   return (
     <>
-      <Marker position={position} icon={divIcon}>
-        <EventPopup person={person} />
-      </Marker>
+      <LayerGroup>
+        <CircleMarker
+          center={position}
+          pathOptions={{ fillColor: "red" }}
+          radius={time}
+          stroke={false}
+          className={classes.circleMarker}
+        />
+        <Marker position={position} icon={divIcon}>
+          <EventPopup person={person} />
+        </Marker>
+      </LayerGroup>
     </>
   );
 }
