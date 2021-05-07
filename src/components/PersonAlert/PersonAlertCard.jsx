@@ -20,6 +20,7 @@ import {
   TwitterShareButton,
   TwitterIcon,
 } from "react-share";
+import handleNavigation from "utils/handleNavigation";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -147,7 +148,7 @@ const PersonAlertCard = ({ person, pathTo }) => {
             <Button
               color="primary"
               onClick={() => setCurrent(person)}
-            // href={"/create-post/${id}"}
+              href={handleNavigation("create-post", name, _id)}
             >
               Edit
             </Button>

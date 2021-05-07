@@ -1,14 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Grid,
-  Typography,
-  Button,
-  TextField,
-  Paper,
-  Input,
-} from "@material-ui/core";
+import { Grid, Typography, Button, TextField, Paper } from "@material-ui/core";
 import CustomContainer from "components/common/CustomContainer";
 import PersonAlertContext from "../../context/personAlert/personAlertContext";
 import AuthContext from "context/auth/authContext";
@@ -32,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CreatePost = () => {
   const classes = useStyles();
+  const { name, key } = useParams();
   const personAlertContext = useContext(PersonAlertContext);
   const authContext = useContext(AuthContext);
   const { user, isAuthenticated } = authContext;
@@ -39,46 +34,54 @@ const CreatePost = () => {
   const [filename, setFilename] = useState("Choose File");
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
-  const [post, setPost] = useState({
-    name: "",
-    age: "",
-    hair: "",
-    eyes: "",
-    height: "",
-    details: "",
-    image: "",
-    location: {
-      line1: "",
-      city: "",
-      state: "",
-      zipcode: "",
-    },
-    vehicle: {
-      make: "",
-      model: "",
-      year: "",
-      color: "",
-    },
-  });
 
   const {
+    personAlerts,
+    getPersonAlert,
     addPersonAlert,
     updatePersonAlert,
     clearCurrent,
     current,
   } = personAlertContext;
 
-  const {
-    name,
-    age,
-    hair,
-    eyes,
-    height,
-    details,
-    image,
-    location,
-    vehicle,
-  } = post;
+  useEffect(() => {
+    async function getPerson() {
+      await getPersonAlert(key, name);
+    }
+    getPerson();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const person = personAlerts;
+  console.log(person);
+
+  const [post, setPost] = useState(
+    person
+      ? person
+      : {
+          name: "",
+          age: "",
+          hair: "",
+          eyes: "",
+          height: "",
+          details: "",
+          image: "",
+          location: {
+            line1: "",
+            city: "",
+            state: "",
+            zipcode: "",
+          },
+          vehicle: {
+            make: "",
+            model: "",
+            year: "",
+            color: "",
+          },
+        }
+  );
+
+  const { age, hair, eyes, height, details, image, location, vehicle } = post;
 
   const handleChange = (field, value, type) => {
     if (type === "location") {
@@ -114,50 +117,55 @@ const CreatePost = () => {
   };
 
   useEffect(() => {
-    if (name !== `${fName} ${lName}`) {
+    if (post.name !== `${fName} ${lName}`) {
       fName && lName && setPost({ ...post, name: `${fName} ${lName}` });
     }
-  }, [fName, lName, name, post]);
+  }, [fName, lName, post.name, post]);
 
   useEffect(() => {
     if (current !== null) {
-      console.log('hello?');
-      setPost(current);
+      setPost(person ? person : current);
     } else {
-      setPost({
-        name: "",
-        age: "",
-        hair: "",
-        eyes: "",
-        height: "",
-        details: "",
-        image: "",
-        location: {
-          line1: "",
-          city: "",
-          state: "",
-          zipcode: "",
-        },
-        vehicle: {
-          make: "",
-          model: "",
-          year: "",
-          color: "",
-        },
-      });
+      setPost(
+        person
+          ? person
+          : {
+              name: "",
+              age: "",
+              hair: "",
+              eyes: "",
+              height: "",
+              details: "",
+              image: "",
+              location: {
+                line1: "",
+                city: "",
+                state: "",
+                zipcode: "",
+              },
+              vehicle: {
+                make: "",
+                model: "",
+                year: "",
+                color: "",
+              },
+            }
+      );
     }
   }, [personAlertContext, current]);
 
   const onSubmit = () => {
     // e.preventDefault();
     setPost({ ...post, name: `${fName} ${lName}` });
-    if (name === "" || age === "" || hair === "" || image === "") {
+    if (post.name === "" || age === "" || hair === "" || image === "") {
       console.log("Please enter all fields", "danger");
-    } else if (current === null) {
+    } else if (current === null && !key) {
+      console.log("create");
       addPersonAlert(post);
       uploadImage();
       clearAll();
     } else {
+      console.log("edits");
       updatePersonAlert(post);
       uploadImage();
       clearAll();
@@ -167,7 +175,6 @@ const CreatePost = () => {
   const uploadImage = async () => {
     const formData = new FormData();
     formData.append("file", file, filename);
-    // console.log(filename);
 
     try {
       await axios.post("/upload", formData, {
@@ -464,7 +471,7 @@ const CreatePost = () => {
                 </Typography>
               </Grid>
               <Grid item xs={6}>
-                <Input
+                <input
                   id="image"
                   lable="Image"
                   type="file"
