@@ -9,7 +9,10 @@ export const getMapCenter = (data) => {
       ? data.reduce((acc, curr) => acc + curr.lng, 0) / data.length
       : data.lng;
 
-  return [avgLat.toFixed(10), avgLng.toFixed(10)];
+  return {
+    lat: parseFloat(avgLat.toFixed(6)),
+    lng: parseFloat(avgLng.toFixed(6)),
+  };
 };
 
 export default getMapCenter;

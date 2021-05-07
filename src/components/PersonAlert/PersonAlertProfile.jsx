@@ -10,7 +10,7 @@ import Map from "components/common/Map";
 import getProfileObject from "utils/getProfileObject";
 import getVehicleString from "utils/getVehicleString";
 import getLatLng from "utils/getLatLng";
-import PersonAlertContext from "../../context/personAlert/personAlertContext";
+import PersonAlertContext from "context/personAlert/personAlertContext";
 import {
   EmailShareButton,
   EmailIcon,

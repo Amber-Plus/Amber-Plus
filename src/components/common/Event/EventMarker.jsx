@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { renderToString } from "react-dom/server";
 import { Marker, LayerGroup, CircleMarker } from "react-leaflet";
@@ -7,6 +7,7 @@ import EventButton from "./EventButton";
 import EventPopup from "./EventPopup";
 import RoomIcon from "@material-ui/icons/Room";
 import getPostTimeDifference from "utils/getPostTimeDifference";
+import getLatLng from "utils/getLatLng";
 
 const useStyles = makeStyles((theme) => ({
   eventButton: {
@@ -43,12 +44,21 @@ const useStyles = makeStyles((theme) => ({
 
 function EventMarker({ person = null, position, isProfile }) {
   const classes = useStyles();
-
+  const [pos, setPos] = useState();
   const img = `/uploads/${person.image}`;
 
   const offset =
     getPostTimeDifference(person) < 40 ? getPostTimeDifference(person) : 40;
   const time = 40 + offset;
+
+  //need to grab LatLng coords of each person if on Search page
+  //duplicative code since this could've been done via update position attribute of personAlert schema, but time be presssed
+  useEffect(() => {
+    async function getPosition() {
+      person && setPos(await getLatLng(person.location));
+    }
+    !isProfile && getPosition();
+  }, [person, isProfile]);
 
   const iconHtml = renderToString(
     <div className={classes.eventButton}>
@@ -69,18 +79,20 @@ function EventMarker({ person = null, position, isProfile }) {
 
   return (
     <>
-      <LayerGroup>
-        <CircleMarker
-          center={position}
-          pathOptions={{ fillColor: "red" }}
-          radius={time}
-          stroke={false}
-          className={classes.circleMarker}
-        />
-        <Marker position={position} icon={divIcon}>
-          <EventPopup person={person} />
-        </Marker>
-      </LayerGroup>
+      {(pos || position) && (
+        <LayerGroup>
+          <CircleMarker
+            center={position ? position : pos}
+            pathOptions={{ fillColor: "red" }}
+            radius={time}
+            stroke={false}
+            className={classes.circleMarker}
+          />
+          <Marker position={position ? position : pos} icon={divIcon}>
+            <EventPopup person={person} />
+          </Marker>
+        </LayerGroup>
+      )}
     </>
   );
 }
