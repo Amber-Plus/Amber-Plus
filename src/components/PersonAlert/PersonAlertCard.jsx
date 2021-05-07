@@ -6,6 +6,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
   Typography,
   Grid,
+  Button,
   Card,
   CardActionArea,
   CardActions,
@@ -142,6 +143,15 @@ const PersonAlertCard = ({ person, pathTo }) => {
           direction={isMobile ? "column" : "row"}
           justify={isMobile ? "center" : "flex-end"}
         >
+          <Grid item>
+            <Button
+              color="primary"
+              onClick={() => setCurrent(person)}
+            // href={"/create-post/${id}"}
+            >
+              Edit
+            </Button>
+          </Grid>
           <Grid item>
             <FacebookShareButton
               url={link}

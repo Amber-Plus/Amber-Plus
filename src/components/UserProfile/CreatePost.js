@@ -119,6 +119,35 @@ const CreatePost = () => {
     }
   }, [fName, lName, name, post]);
 
+  useEffect(() => {
+    if (current !== null) {
+      console.log('hello?');
+      setPost(current);
+    } else {
+      setPost({
+        name: "",
+        age: "",
+        hair: "",
+        eyes: "",
+        height: "",
+        details: "",
+        image: "",
+        location: {
+          line1: "",
+          city: "",
+          state: "",
+          zipcode: "",
+        },
+        vehicle: {
+          make: "",
+          model: "",
+          year: "",
+          color: "",
+        },
+      });
+    }
+  }, [personAlertContext, current]);
+
   const onSubmit = () => {
     // e.preventDefault();
     setPost({ ...post, name: `${fName} ${lName}` });
