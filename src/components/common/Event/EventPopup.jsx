@@ -48,7 +48,9 @@ const EventPopup = ({ person }) => {
         </Typography>
         <Typography>Age: {person.age}</Typography>
         <Typography>Last seen at {person.location.line1}</Typography>
-        <Typography>{time} hours ago</Typography>
+        <Typography>
+          {time < 60 ? "Under an hour ago" : `${time} hours ago`}
+        </Typography>
       </div>
     </Popup>
   );

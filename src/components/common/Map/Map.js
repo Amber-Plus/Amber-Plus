@@ -14,13 +14,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Map = ({ data, isProfile }) => {
+const Map = ({ data, position, isProfile }) => {
   const classes = useStyles(isProfile);
-  const center = getMapCenter(data);
+  const center = !isProfile && getMapCenter(data);
+
+  console.log(position);
+  console.log(center);
 
   return (
     <MapContainer
-      center={center}
+      center={position}
       zoom={isProfile ? 15 : 13}
       scrollWheelZoom={false}
       className={classes.map}
@@ -28,9 +31,11 @@ const Map = ({ data, isProfile }) => {
       <TileLayer attribution={config.attribution} url={config.url} />
       <FeatureGroup>
         {data.length > 1 ? (
-          data.map((person) => <EventMarker person={person} key={person.id} />)
+          data.map((person) => (
+            <EventMarker person={person} position={position} key={person.id} />
+          ))
         ) : (
-          <EventMarker person={data} key={data.id} />
+          <EventMarker person={data} position={position} key={data.id} />
         )}
       </FeatureGroup>
     </MapContainer>

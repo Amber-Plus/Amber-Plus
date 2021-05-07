@@ -41,12 +41,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function EventMarker({ person = null, isOpen = false, eventType = "" }) {
+function EventMarker({
+  person = null,
+  position,
+  isOpen = false,
+  eventType = "",
+}) {
   const classes = useStyles();
-  const position = {
-    lat: person.position.latitude,
-    lng: person.position.longitude,
-  };
+
   const img = `/uploads/${person.image}`;
 
   const offset =
