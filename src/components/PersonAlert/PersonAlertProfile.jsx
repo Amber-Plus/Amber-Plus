@@ -96,7 +96,6 @@ const PersonAlertProfile = (props) => {
     }
     getPosition();
   }, [person]);
-  console.log(position);
 
   // profile, car, and carString vars create errors if not null checked prior
   let profile;

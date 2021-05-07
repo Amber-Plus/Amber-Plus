@@ -41,12 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function EventMarker({
-  person = null,
-  position,
-  isOpen = false,
-  eventType = "",
-}) {
+function EventMarker({ person = null, position, isProfile }) {
   const classes = useStyles();
 
   const img = `/uploads/${person.image}`;
@@ -57,7 +52,7 @@ function EventMarker({
 
   const iconHtml = renderToString(
     <div className={classes.eventButton}>
-      <EventButton eventType={eventType} active={isOpen}>
+      <EventButton>
         {person ? (
           <img src={img} alt={person.name} className={classes.personMarker} />
         ) : (

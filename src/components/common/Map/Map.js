@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, FeatureGroup } from "react-leaflet";
 import { makeStyles } from "@material-ui/core/styles";
 import { EventMarker } from "components/common/Event";
 import { MAPBOX_CONFIG as config } from "./config/mapConfig";
 import getMapCenter from "utils/getMapCenter";
+import getLatLng from "utils/getLatLng";
 
 const useStyles = makeStyles((theme) => ({
   map: {
@@ -16,13 +17,30 @@ const useStyles = makeStyles((theme) => ({
 
 const Map = ({ data, position, isProfile }) => {
   const classes = useStyles(isProfile);
-  const center = !isProfile && getMapCenter(data);
+  const [posMap, setPosMap] = useState([]);
 
-  console.log(position);
-  console.log(center);
+  //if not profile (so multi person alerts), then create a map of latlng positions
+  useEffect(() => {
+    async function getPosMap() {
+      const result = [];
+      await Promise.all(
+        data.map(async (person) =>
+          result.push(await getLatLng(person.location))
+        )
+      );
+      setPosMap(result);
+    }
+    data.length > 1 && getPosMap();
+  }, [data]);
 
+  const center = !isProfile && posMap.length !== 0 && getMapCenter(posMap);
+
+  const centerPos = center ? center : { lat: 40.7753824, lng: -73.9664726 };
+
+  console.log("x", centerPos);
   return (
     <MapContainer
+      //center={isProfile ? position : centerPos}
       center={position}
       zoom={isProfile ? 15 : 13}
       scrollWheelZoom={false}
@@ -32,10 +50,20 @@ const Map = ({ data, position, isProfile }) => {
       <FeatureGroup>
         {data.length > 1 ? (
           data.map((person) => (
-            <EventMarker person={person} position={position} key={person.id} />
+            <EventMarker
+              person={person}
+              position={position}
+              isProfile={isProfile}
+              key={person.id}
+            />
           ))
         ) : (
-          <EventMarker person={data} position={position} key={data.id} />
+          <EventMarker
+            person={data}
+            position={position}
+            isProfile={isProfile}
+            key={data.id}
+          />
         )}
       </FeatureGroup>
     </MapContainer>
