@@ -1,28 +1,29 @@
-const express = require('express');
+/* eslint-disable */
+const express = require("express");
 const router = express.Router();
-const auth = require('../middleware/auth');
-const { check, validationResult } = require('express-validator');
+const auth = require("../middleware/auth");
+const { check, validationResult } = require("express-validator");
 
-const User = require('../models/User');
-const PersonAlert = require('../models/PersonAlert');
+const User = require("../models/User");
+const PersonAlert = require("../models/PersonAlert");
 
 // @route     Get api/personAlert
 // @desc      Get all missing persons
 // @access    Public
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const personAlerts = await PersonAlert.find().populate('personAlerts');
+    const personAlerts = await PersonAlert.find().populate("personAlerts");
     res.json(personAlerts);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
 // @route     Get api/personAlert/me
 // @desc      Get all missing persons from a user
 // @access    Public
-router.get('/me', auth, async (req, res) => {
+router.get("/me", auth, async (req, res) => {
   try {
     const personAlerts = await PersonAlert.find({ user: req.user.id }).sort({
       date: -1,
@@ -30,23 +31,23 @@ router.get('/me', auth, async (req, res) => {
     res.json(personAlerts);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
 // @route     Get api/personAlert
 // @desc      Get all missing persons
 // @access    Public
-router.get('/:id/:name', async (req, res) => {
+router.get("/:id/:name", async (req, res) => {
   try {
     let personAlert = await PersonAlert.findById(req.params.id);
 
-    if (!personAlert) return res.status(404).json({ msg: 'Contact not found' });
+    if (!personAlert) return res.status(404).json({ msg: "Contact not found" });
 
     res.json(personAlert);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
@@ -54,14 +55,14 @@ router.get('/:id/:name', async (req, res) => {
 // @desc      Add missing person
 // @access    Private
 router.post(
-  '/',
+  "/",
   auth,
-  check('name', 'Name is required').notEmpty(),
-  check('age', 'Wow thats old').isInt(),
-  check('hair', 'Hair is required').notEmpty(),
-  check('height', 'Height is required').notEmpty(),
-  check('image').custom((value, { req }) => {
-    console.log('value: ' + value);
+  check("name", "Name is required").notEmpty(),
+  check("age", "Wow thats old").isInt(),
+  check("hair", "Hair is required").notEmpty(),
+  check("height", "Height is required").notEmpty(),
+  check("image").custom((value, { req }) => {
+    console.log("value: " + value);
 
     // Allowed ext
     const filetypes = /jpeg|jpg|png|gif/;
@@ -70,10 +71,10 @@ router.post(
     // Check File Type
     if (!extname) {
       console.log("Error???");
-      throw new Error('Error: Images Only!');
+      throw new Error("Error: Images Only!");
       // return Promise.reject('Error: Images Only!');
     }
-    console.log('No error :)');
+    console.log("No error :)");
     return true;
   }),
   async (req, res) => {
@@ -121,7 +122,7 @@ router.post(
       res.json(personAlert);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server error');
+      res.status(500).send("Server error");
     }
   }
 );
@@ -129,7 +130,7 @@ router.post(
 // @route     PUT api/personAlert/:id
 // @desc      Update missing person
 // @access    Private
-router.put('/:id', auth, async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   const {
     name,
     age,
@@ -159,17 +160,17 @@ router.put('/:id', auth, async (req, res) => {
   if (vehicle) personAlertFields.vehicle = vehicle;
 
   try {
-    let personAlert = await personAlert.findById(req.params.id);
+    let personAlert = await PersonAlert.findById(req.params.id);
 
     if (!personAlert)
-      return res.status(404).json({ msg: 'PersonAlert not found' });
+      return res.status(404).json({ msg: "PersonAlert not found" });
 
     // Make sure user owns personAlert
     if (personAlert.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'Not authorized' });
+      return res.status(401).json({ msg: "Not authorized" });
     }
 
-    personAlert = await personAlert.findByIdAndUpdate(
+    personAlert = await PersonAlert.findByIdAndUpdate(
       req.params.id,
       { $set: personAlertFields },
       { new: true }
@@ -177,31 +178,31 @@ router.put('/:id', auth, async (req, res) => {
 
     res.json(personAlert);
   } catch (err) {
-    console.error(er.message);
-    res.status(500).send('Server Error');
+    console.error(err.message);
+    res.status(500).send("Server Error");
   }
 });
 
 // @route     DELETE api/personAlert
 // @desc      Delete missing person
 // @access    Private
-router.delete('/:id', auth, async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     let personAlert = await PersonAlert.findById(req.params.id);
 
-    if (!personAlert) return res.status(404).json({ msg: 'Contact not found' });
+    if (!personAlert) return res.status(404).json({ msg: "Contact not found" });
 
     // Make sure user owns contact
     if (personAlert.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'Not authorized' });
+      return res.status(401).json({ msg: "Not authorized" });
     }
 
     await PersonAlert.findByIdAndRemove(req.params.id);
 
-    res.json({ msg: 'Contact removed' });
+    res.json({ msg: "Contact removed" });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 

@@ -30,11 +30,6 @@ const CreatePost = () => {
   const personAlertContext = useContext(PersonAlertContext);
   const authContext = useContext(AuthContext);
   const { user, isAuthenticated } = authContext;
-  const [file, setFile] = useState("");
-  const [filename, setFilename] = useState("Choose File");
-  const [fName, setFName] = useState("");
-  const [lName, setLName] = useState("");
-
   const {
     personAlerts,
     getPersonAlert,
@@ -43,6 +38,10 @@ const CreatePost = () => {
     clearCurrent,
     current,
   } = personAlertContext;
+  const [file, setFile] = useState("");
+  const [filename, setFilename] = useState("Choose File");
+  const [fName, setFName] = useState(name && name.split("-")[0]);
+  const [lName, setLName] = useState(name && name.split("-")[1]);
 
   useEffect(() => {
     async function getPerson() {
@@ -53,7 +52,6 @@ const CreatePost = () => {
   }, []);
 
   const person = personAlerts;
-  console.log(person);
 
   const [post, setPost] = useState(
     person
@@ -152,7 +150,7 @@ const CreatePost = () => {
             }
       );
     }
-  }, [personAlertContext, current]);
+  }, [personAlertContext, current, person]);
 
   const onSubmit = () => {
     // e.preventDefault();
@@ -160,12 +158,10 @@ const CreatePost = () => {
     if (post.name === "" || age === "" || hair === "" || image === "") {
       console.log("Please enter all fields", "danger");
     } else if (current === null && !key) {
-      console.log("create");
       addPersonAlert(post);
       uploadImage();
       clearAll();
     } else {
-      console.log("edits");
       updatePersonAlert(post);
       uploadImage();
       clearAll();
@@ -473,7 +469,7 @@ const CreatePost = () => {
               <Grid item xs={6}>
                 <input
                   id="image"
-                  lable="Image"
+                  label="Image"
                   type="file"
                   onChange={onFileChange}
                   onClick={(e) => {
