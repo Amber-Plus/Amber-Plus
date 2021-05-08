@@ -29,7 +29,7 @@ const Map = ({ data, position, isProfile }) => {
   const personAlertContext = useContext(PersonAlertContext);
   const { personAlerts, getPersonAlerts, loading } = personAlertContext;
   const [posMap, setPosMap] = useState([]);
-
+  console.log(data);
   useEffect(() => {
     !isProfile && getPersonAlerts();
     // eslint-disable-next-line
@@ -69,7 +69,7 @@ const Map = ({ data, position, isProfile }) => {
                   person={person}
                   position={false}
                   isProfile={isProfile}
-                  key={person.id}
+                  key={person._id}
                 />
               ))
             ) : (
@@ -77,7 +77,7 @@ const Map = ({ data, position, isProfile }) => {
                 person={data}
                 position={position}
                 isProfile={isProfile}
-                key={data.id}
+                key={data._id}
               />
             )}
           </FeatureGroup>
