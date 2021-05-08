@@ -6,6 +6,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
   Typography,
   Grid,
+  Button,
   Card,
   CardActionArea,
   CardActions,
@@ -19,6 +20,7 @@ import {
   TwitterShareButton,
   TwitterIcon,
 } from "react-share";
+import handleNavigation from "utils/handleNavigation";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PersonAlertCard = ({ person, pathTo }) => {
+const PersonAlertCard = ({ person, pathTo, type }) => {
   const isMobile = useMediaQuery("(max-width: 600px)", {
     noSsr: true,
   });
@@ -140,34 +142,54 @@ const PersonAlertCard = ({ person, pathTo }) => {
         <Grid
           container
           direction={isMobile ? "column" : "row"}
-          justify={isMobile ? "center" : "flex-end"}
+          justify={isMobile ? "center" : "space-between"}
         >
-          <Grid item>
-            <FacebookShareButton
-              url={link}
-              quote={`AmberPlus - Help us find ${person.name}`}
-              hashtag="#AmberPlusAlert"
-            >
-              <FacebookIcon size={isMobile ? 20 : 36} />
-            </FacebookShareButton>
-          </Grid>
-          <Grid item>
-            <TwitterShareButton
-              url={link}
-              title={`AmberPlus - Help us find ${person.name}`}
-              hashtag="#AmberPlusAlert"
-            >
-              <TwitterIcon size={isMobile ? 20 : 36} />
-            </TwitterShareButton>
-          </Grid>
-          <Grid item>
-            <EmailShareButton
-              url={"help@amberplus.com"}
-              title={`AmberPlus - Help us find ${person.name}`}
-              separator=":: "
-            >
-              <EmailIcon size={isMobile ? 20 : 36} />
-            </EmailShareButton>
+          {type === "onProfile" && (
+            <Grid container item xs={6}>
+              <Grid item>
+                <Button
+                  color="primary"
+                  onClick={() => setCurrent(person)}
+                  href={handleNavigation("create-post", name, _id)}
+                >
+                  Edit
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button color="primary" onClick={() => onDelete(person)}>
+                  Delete
+                </Button>
+              </Grid>
+            </Grid>
+          )}
+          <Grid container item xs={6} justify="flex-end">
+            <Grid item>
+              <FacebookShareButton
+                url={link}
+                quote={`AmberPlus - Help us find ${person.name}`}
+                hashtag="#AmberPlusAlert"
+              >
+                <FacebookIcon size={isMobile ? 20 : 36} />
+              </FacebookShareButton>
+            </Grid>
+            <Grid item>
+              <TwitterShareButton
+                url={link}
+                title={`AmberPlus - Help us find ${person.name}`}
+                hashtag="#AmberPlusAlert"
+              >
+                <TwitterIcon size={isMobile ? 20 : 36} />
+              </TwitterShareButton>
+            </Grid>
+            <Grid item>
+              <EmailShareButton
+                url={"help@amberplus.com"}
+                title={`AmberPlus - Help us find ${person.name}`}
+                separator=":: "
+              >
+                <EmailIcon size={isMobile ? 20 : 36} />
+              </EmailShareButton>
+            </Grid>
           </Grid>
         </Grid>
       </CardActions>

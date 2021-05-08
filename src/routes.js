@@ -15,7 +15,7 @@ export const PERSON_ALERT_URL = "/person-alert/:key/:name";
 export const USER_PROFILE_URL = "/profile/:key/:name";
 export const LOGIN_URL = "/login";
 export const SIGNUP_URL = "/signup";
-export const POST_URL = "/create-post";
+export const POST_URL = "/create-post/:key?/:name?";
 
 const history = createBrowserHistory();
 

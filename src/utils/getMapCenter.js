@@ -1,17 +1,18 @@
 export const getMapCenter = (data) => {
   const avgLat =
     data.length > 1
-      ? data.reduce((acc, curr) => acc + curr.position.latitude, 0) /
-        data.length
-      : data.position.latitude;
+      ? data.reduce((acc, curr) => acc + curr.lat, 0) / data.length
+      : data.lat;
 
   const avgLng =
     data.length > 1
-      ? data.reduce((acc, curr) => acc + curr.position.longitude, 0) /
-        data.length
-      : data.position.longitude;
+      ? data.reduce((acc, curr) => acc + curr.lng, 0) / data.length
+      : data.lng;
 
-  return [avgLat.toFixed(10), avgLng.toFixed(10)];
+  return {
+    lat: parseFloat(avgLat.toFixed(6)),
+    lng: parseFloat(avgLng.toFixed(6)),
+  };
 };
 
 export default getMapCenter;

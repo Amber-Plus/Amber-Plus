@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { isEmpty } from "lodash";
 import { useParams } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -9,7 +9,8 @@ import CustomContainer from "components/common/CustomContainer";
 import Map from "components/common/Map";
 import getProfileObject from "utils/getProfileObject";
 import getVehicleString from "utils/getVehicleString";
-import PersonAlertContext from "../../context/personAlert/personAlertContext";
+import getLatLng from "utils/getLatLng";
+import PersonAlertContext from "context/personAlert/personAlertContext";
 import {
   EmailShareButton,
   EmailIcon,
@@ -18,6 +19,7 @@ import {
   TwitterShareButton,
   TwitterIcon,
 } from "react-share";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiIconButton-root": {
@@ -72,6 +74,7 @@ const PersonAlertProfile = (props) => {
   const { name, key } = useParams();
   const link = window.location.href;
   const id = key;
+  const [position, setPosition] = useState();
 
   const {
     personAlerts,
@@ -86,6 +89,13 @@ const PersonAlertProfile = (props) => {
   }, []);
 
   const person = personAlerts;
+
+  useEffect(() => {
+    async function getPosition() {
+      person && setPosition(await getLatLng(person.location));
+    }
+    getPosition();
+  }, [person]);
 
   // profile, car, and carString vars create errors if not null checked prior
   let profile;
@@ -224,8 +234,8 @@ const PersonAlertProfile = (props) => {
       ) : (
         <Typography variant="h6">Loading...</Typography>
       )}
-      {personAlerts !== null && !loading && person.position && (
-        <Map data={person} isProfile={true} />
+      {personAlerts !== null && !loading && position && (
+        <Map data={person} position={position} isProfile={true} />
       )}
     </CustomContainer>
   );
