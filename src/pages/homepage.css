@@ -1,0 +1,19 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    'A A B B'
+    'A A B B'
+    '. . B B';
+}
+.A {
+  grid-area: A;
+
+  justify-content: center;
+  align-content: center;
+}
+.B {
+  grid-area: B;
+}
