@@ -48,6 +48,7 @@ const UserAlertList = () => {
                 personAlert.name,
                 personAlert._id
               )}
+              type="onProfile"
             />
           ))}
         </Fragment>

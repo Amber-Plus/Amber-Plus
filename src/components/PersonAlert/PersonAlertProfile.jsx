@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { isEmpty } from "lodash";
 import { useParams } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -9,7 +9,9 @@ import CustomContainer from "components/common/CustomContainer";
 import Map from "components/common/Map";
 import getProfileObject from "utils/getProfileObject";
 import getVehicleString from "utils/getVehicleString";
-import PersonAlertContext from "../../context/personAlert/personAlertContext";
+import getLatLng from "utils/getLatLng";
+import getCarImage from "utils/getCarImage";
+import PersonAlertContext from "context/personAlert/personAlertContext";
 import {
   EmailShareButton,
   EmailIcon,
@@ -18,6 +20,7 @@ import {
   TwitterShareButton,
   TwitterIcon,
 } from "react-share";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiIconButton-root": {
@@ -41,6 +44,11 @@ const useStyles = makeStyles((theme) => ({
   },
   dataValue: {
     width: "auto",
+  },
+  carImg: {
+    width: "70%",
+    height: "100%",
+    objectFit: "contain",
   },
   img: {
     width: "100%",
@@ -72,6 +80,8 @@ const PersonAlertProfile = (props) => {
   const { name, key } = useParams();
   const link = window.location.href;
   const id = key;
+  const [position, setPosition] = useState();
+  const [carImg, setCarImg] = useState();
 
   const {
     personAlerts,
@@ -86,6 +96,13 @@ const PersonAlertProfile = (props) => {
   }, []);
 
   const person = personAlerts;
+
+  useEffect(() => {
+    async function getPosition() {
+      person && setPosition(await getLatLng(person.location));
+    }
+    getPosition();
+  }, [person]);
 
   // profile, car, and carString vars create errors if not null checked prior
   let profile;
@@ -103,10 +120,17 @@ const PersonAlertProfile = (props) => {
       : "No suspect vehicle known at this time";
   }
 
+  useEffect(() => {
+    async function getCarImg() {
+      person && setCarImg(await getCarImage(person.vehicle));
+    }
+    person && getCarImg();
+  }, [person]);
+
   return (
     <CustomContainer className={classes.root}>
       {personAlerts !== null && !loading ? (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{ marginBottom: '50px' }}>
           <Grid container item sm={5} xs={12} className={classes.imgContainer}>
             <img
               src={`/uploads/${person.image}`}
@@ -131,34 +155,23 @@ const PersonAlertProfile = (props) => {
                 xs={6}
                 className={classes.root}
               >
-                <Grid container item justify="center" sm={3} xs={4}>
-                  <FacebookShareButton
-                    url={link}
-                    quote={`AmberPlus - Help us find ${person.name}`}
-                    hashtag="#AmberPlusAlert"
-                    className={classes.socialBtn}
-                  >
-                    <FacebookIcon size={36} />
-                  </FacebookShareButton>
-                </Grid>
+
                 <Grid container item justify="center" sm={3} xs={4}>
                   <TwitterShareButton
                     url={link}
                     title={`AmberPlus - Help us find ${person.name}`}
-                    hashtag="#AmberPlusAlert"
-                    className={classes.socialBtn}
+                    hashtags={['AmberPlusAlert', `Find${person.name.replace(/ /g, "")}`]}
                   >
-                    <TwitterIcon size={36} />
+                    <TwitterIcon size={isMobile ? 20 : 36} />
                   </TwitterShareButton>
                 </Grid>
                 <Grid container item justify="center" sm={3} xs={4}>
                   <EmailShareButton
-                    url={"help@amberplus.com"}
-                    title={`AmberPlus - Help us find ${person.name}`}
-                    separator=":: "
-                    className={classes.socialBtn}
+                    subject={`AmberPlus - Help us find ${person.name}`}
+                    body={`The whereabout of ${person.name} is currently unknown. See more information about ${person.name} with the following link:`}
+                    url={link}
                   >
-                    <EmailIcon size={36} />
+                    <EmailIcon size={isMobile ? 20 : 36} />
                   </EmailShareButton>
                 </Grid>
               </Grid>
@@ -209,23 +222,26 @@ const PersonAlertProfile = (props) => {
                 item
                 justify={person.details ? "center" : "flex-start"}
               >
-                <Typography>{carString}</Typography>
-                {car && (
-                  <img
-                    src={person.vehicle.image}
-                    alt={carString}
-                    className={classes.img}
-                  />
-                )}
+
+                {car && carImg ? (
+                  <>
+                    <Typography>{carString}</Typography>
+                    <img
+                      src={carImg && carImg}
+                      alt={carString}
+                      className={classes.carImg}
+                    />
+                  </>
+                ) : <Typography >Loading...</Typography>}
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       ) : (
-        <Typography variant="h6">Loading...</Typography>
-      )}
-      {personAlerts !== null && !loading && person.position && (
-        <Map data={person} isProfile={true} />
+          <Typography variant="h6">Loading...</Typography>
+        )}
+      {personAlerts !== null && !loading && position && (
+        <Map data={person} position={position} isProfile={true} />
       )}
     </CustomContainer>
   );

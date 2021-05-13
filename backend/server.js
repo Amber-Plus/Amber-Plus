@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const connectDB = require('./config/db');
 const path = require('path');
 const fileUpload = require('express-fileupload');
@@ -9,6 +10,7 @@ const app = express();
 connectDB();
 // Init Middleware
 app.use(express.json({ extended: false }));
+app.use(cors({ origin: ['*', 'http://localhost:3000/'], credentials: true, allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'], methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS', 'PATCH'], preflightContinue: true }))
 
 app.use(fileUpload());
 

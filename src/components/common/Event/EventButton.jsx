@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EventButton = ({ eventType, active, children }) => {
+const EventButton = ({ children }) => {
   const classes = useStyles();
 
   return <button className={classes.button}>{children} </button>;
