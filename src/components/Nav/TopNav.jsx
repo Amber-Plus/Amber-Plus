@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { PAGE_ROUTES, MISSING } from "constants/pages";
+import { PAGE_ROUTES, HOME } from "constants/pages";
 import PageList from "./PageList";
 import LoginButton from "components/Login/LoginButton";
 
@@ -78,7 +78,7 @@ const TopNav = () => {
       <Toolbar className={clsx(isMobile && classes.mobileTopMenu)}>
         <Typography
           component="a"
-          href={"/"}
+          href={PAGE_ROUTES[HOME]}
           className={classes.title}
         >
           Amber+
