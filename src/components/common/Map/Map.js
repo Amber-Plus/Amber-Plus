@@ -69,7 +69,7 @@ const Map = ({ data, position, isProfile }) => {
                   person={person}
                   position={false}
                   isProfile={isProfile}
-                  key={person.id}
+                  key={person._id}
                 />
               ))
             ) : (
@@ -77,7 +77,7 @@ const Map = ({ data, position, isProfile }) => {
                 person={data}
                 position={position}
                 isProfile={isProfile}
-                key={data.id}
+                key={data._id}
               />
             )}
           </FeatureGroup>

@@ -15,8 +15,6 @@ import getProfileObject from "utils/getProfileObject";
 import {
   EmailShareButton,
   EmailIcon,
-  FacebookShareButton,
-  FacebookIcon,
   TwitterShareButton,
   TwitterIcon,
 } from "react-share";
@@ -162,23 +160,15 @@ const PersonAlertCard = ({ person, pathTo, type }) => {
               </Grid>
             </Grid>
           )}
-          <Grid container item xs={6} justify="flex-end">
-            <Grid item>
-              <FacebookShareButton
-                url={link}
-                quote={`AmberPlus - Help us find ${person.name}`}
-                hashtag="#AmberPlusAlert"
-              >
-                <FacebookIcon size={isMobile ? 20 : 36} />
-              </FacebookShareButton>
-            </Grid>
-            <Grid item>
+          <Grid container item xs={6} justify={type === "onProfile" ? "flex-end" : "flex-start"} style={{ padding: '0px 8px' }}>
+            <Grid item style={{ paddingRight: '5px' }}>
               <TwitterShareButton
                 url={link}
                 title={`AmberPlus - Help us find ${person.name}`}
                 hashtag="#AmberPlusAlert"
+                className={classes.socialBtn}
               >
-                <TwitterIcon size={isMobile ? 20 : 36} />
+                <TwitterIcon size={36} />
               </TwitterShareButton>
             </Grid>
             <Grid item>
@@ -186,8 +176,9 @@ const PersonAlertCard = ({ person, pathTo, type }) => {
                 url={"help@amberplus.com"}
                 title={`AmberPlus - Help us find ${person.name}`}
                 separator=":: "
+                className={classes.socialBtn}
               >
-                <EmailIcon size={isMobile ? 20 : 36} />
+                <EmailIcon size={36} />
               </EmailShareButton>
             </Grid>
           </Grid>
