@@ -10,6 +10,7 @@ import Map from "components/common/Map";
 import getProfileObject from "utils/getProfileObject";
 import getVehicleString from "utils/getVehicleString";
 import getLatLng from "utils/getLatLng";
+import getCarImage from "utils/getCarImage";
 import PersonAlertContext from "context/personAlert/personAlertContext";
 import {
   EmailShareButton,
@@ -75,6 +76,7 @@ const PersonAlertProfile = (props) => {
   const link = window.location.href;
   const id = key;
   const [position, setPosition] = useState();
+  const [carImg, setCarImg] = useState();
 
   const {
     personAlerts,
@@ -113,6 +115,14 @@ const PersonAlertProfile = (props) => {
       : "No suspect vehicle known at this time";
   }
 
+  useEffect(() => {
+    async function getCarImg() {
+      person && setCarImg(await getCarImage(person.vehicle));
+    }
+    person && getCarImg();
+  }, [person]);
+
+  console.log(person && person.vehicle);
   return (
     <CustomContainer className={classes.root}>
       {personAlerts !== null && !loading ? (
