@@ -45,6 +45,11 @@ const useStyles = makeStyles((theme) => ({
   dataValue: {
     width: "auto",
   },
+  carImg: {
+    width: "70%",
+    height: "100%",
+    objectFit: "contain",
+  },
   img: {
     width: "100%",
     height: "100%",
@@ -122,11 +127,10 @@ const PersonAlertProfile = (props) => {
     person && getCarImg();
   }, [person]);
 
-  console.log(person && person.vehicle);
   return (
     <CustomContainer className={classes.root}>
       {personAlerts !== null && !loading ? (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{ marginBottom: '50px' }}>
           <Grid container item sm={5} xs={12} className={classes.imgContainer}>
             <img
               src={`/uploads/${person.image}`}
@@ -229,21 +233,24 @@ const PersonAlertProfile = (props) => {
                 item
                 justify={person.details ? "center" : "flex-start"}
               >
-                <Typography>{carString}</Typography>
-                {car && (
-                  <img
-                    src={person.vehicle.image}
-                    alt={carString}
-                    className={classes.img}
-                  />
-                )}
+
+                {car && carImg ? (
+                  <>
+                    <Typography>{carString}</Typography>
+                    <img
+                      src={carImg && carImg}
+                      alt={carString}
+                      className={classes.carImg}
+                    />
+                  </>
+                ) : <Typography >Loading...</Typography>}
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       ) : (
-        <Typography variant="h6">Loading...</Typography>
-      )}
+          <Typography variant="h6">Loading...</Typography>
+        )}
       {personAlerts !== null && !loading && position && (
         <Map data={person} position={position} isProfile={true} />
       )}

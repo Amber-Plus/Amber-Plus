@@ -11,12 +11,8 @@ export const getCarImage = async (car) => {
   };
 
   return await axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    .then(response => response.data.images[0].link)
+
 };
 
 export default getCarImage;
