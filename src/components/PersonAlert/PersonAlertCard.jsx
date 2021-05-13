@@ -165,20 +165,18 @@ const PersonAlertCard = ({ person, pathTo, type }) => {
               <TwitterShareButton
                 url={link}
                 title={`AmberPlus - Help us find ${person.name}`}
-                hashtag="#AmberPlusAlert"
-                className={classes.socialBtn}
+                hashtags={['AmberPlusAlert', `Find${person.name.replace(/ /g, "")}`]}
               >
-                <TwitterIcon size={36} />
+                <TwitterIcon size={isMobile ? 20 : 36} />
               </TwitterShareButton>
             </Grid>
             <Grid item>
               <EmailShareButton
-                url={"help@amberplus.com"}
-                title={`AmberPlus - Help us find ${person.name}`}
-                separator=":: "
-                className={classes.socialBtn}
+                subject={`AmberPlus - Help us find ${person.name}`}
+                body={`The whereabout of ${person.name} is currently unknown. See more information about ${person.name} with the following link:`}
+                url={link}
               >
-                <EmailIcon size={36} />
+                <EmailIcon size={isMobile ? 20 : 36} />
               </EmailShareButton>
             </Grid>
           </Grid>
