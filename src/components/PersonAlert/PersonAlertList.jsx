@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import PersonAlertCard from "./PersonAlertCard";
@@ -11,8 +11,16 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
-    marginBottom: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
   },
+  list: {
+    marginTop: theme.spacing(3),
+    paddingBottom: theme.spacing(5),
+    borderBottom: `${theme.spacing(0.2)}px solid ${theme.palette.grey[300]}`
+  },
+  description: {
+    fontSize: theme.spacing(2.5)
+  }
 }));
 
 const PersonAlertList = ({ status }) => {
@@ -40,18 +48,24 @@ const PersonAlertList = ({ status }) => {
             There are no alerts of missing persons.
           </Typography>
         ) : (
-          <Typography variant="h6">
-            There are no alerts of people found.
+            <Typography variant="h6">
+              There are no alerts of people found.
           </Typography>
-        )}
+          )}
       </div>
     );
   }
 
   return (
     <div className={classes.container}>
+      <div className={`${classes.container} ${classes.list}`}>
+        {
+          status === 'Missing' ? <Typography className={classes.description}>This is a list of active missing Person Alerts posted by members of this community.</Typography> : <Typography className={classes.description}>This is a list of known Person Alerts that have been found!</Typography>
+        }
+      </div>
       {personAlerts !== null && !loading ? (
-        <Fragment>
+        <>
+
           {people &&
             people.map((personAlert) => (
               <PersonAlertCard
@@ -64,10 +78,10 @@ const PersonAlertList = ({ status }) => {
                 )}
               />
             ))}
-        </Fragment>
+        </>
       ) : (
-        <Typography variant="h6">Loading...</Typography>
-      )}
+          <Typography variant="h6">Loading...</Typography>
+        )}
     </div>
   );
 };
