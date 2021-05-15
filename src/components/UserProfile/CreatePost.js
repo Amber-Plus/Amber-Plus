@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Button, TextField, Paper } from "@material-ui/core";
+import { Grid, Typography, Button, TextField, Paper, FormControl, FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import CustomContainer from "components/common/CustomContainer";
 import PersonAlertContext from "../../context/personAlert/personAlertContext";
 import AuthContext from "context/auth/authContext";
@@ -57,29 +57,30 @@ const CreatePost = () => {
     person
       ? person
       : {
-          name: "",
-          age: "",
-          hair: "",
-          eyes: "",
-          height: "",
-          details: "",
-          image: "",
-          location: {
-            line1: "",
-            city: "",
-            state: "",
-            zipcode: "",
-          },
-          vehicle: {
-            make: "",
-            model: "",
-            year: "",
-            color: "",
-          },
-        }
+        name: "",
+        age: "",
+        hair: "",
+        eyes: "",
+        height: "",
+        details: "",
+        image: "",
+        status: "Missing",
+        location: {
+          line1: "",
+          city: "",
+          state: "",
+          zipcode: "",
+        },
+        vehicle: {
+          make: "",
+          model: "",
+          year: "",
+          color: "",
+        },
+      }
   );
 
-  const { age, hair, eyes, height, details, image, location, vehicle } = post;
+  const { age, hair, eyes, height, details, image, status, location, vehicle } = post;
 
   const handleChange = (field, value, type) => {
     if (type === "location") {
@@ -128,26 +129,27 @@ const CreatePost = () => {
         person
           ? person
           : {
-              name: "",
-              age: "",
-              hair: "",
-              eyes: "",
-              height: "",
-              details: "",
-              image: "",
-              location: {
-                line1: "",
-                city: "",
-                state: "",
-                zipcode: "",
-              },
-              vehicle: {
-                make: "",
-                model: "",
-                year: "",
-                color: "",
-              },
-            }
+            name: "",
+            age: "",
+            hair: "",
+            eyes: "",
+            height: "",
+            details: "",
+            image: "",
+            status: "Missing",
+            location: {
+              line1: "",
+              city: "",
+              state: "",
+              zipcode: "",
+            },
+            vehicle: {
+              make: "",
+              model: "",
+              year: "",
+              color: "",
+            },
+          }
       );
     }
   }, [personAlertContext, current, person]);
@@ -460,22 +462,40 @@ const CreatePost = () => {
                 />
               </Grid>
             </Grid>
-            <Grid container item xs={12} justify="space-between">
-              <Grid item xs={12}>
-                <Typography variant="h5" className={classes.title}>
-                  Picture:
+            <Grid container item xs={12} justify="space-between" >
+              <Grid container item xs={6}>
+                <Grid item xs={12}>
+                  <Typography variant="h5" className={classes.title}>
+                    Picture:
                 </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <input
+                    id="image"
+                    label="Image"
+                    type="file"
+                    onChange={onFileChange}
+                    onClick={(e) => {
+                      e.target.value = null;
+                    }}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <input
-                  id="image"
-                  label="Image"
-                  type="file"
-                  onChange={onFileChange}
-                  onClick={(e) => {
-                    e.target.value = null;
-                  }}
-                />
+              <Grid container item xs={6} >
+                <Grid item xs={12}>
+                  <Typography variant="h5" className={classes.title}>
+                    Alert Status:
+                </Typography>
+                </Grid>
+                <Grid item>
+                  <FormControl component='fieldset' required>
+                    <RadioGroup row aria-label='alert-status' name='alert-status' defaultValue='Missing' value={status} onChange={(e) => handleChange('status', e.target.value)}>
+                      <FormControlLabel value='Missing' control={<Radio />} label='Missing' />
+                      <FormControlLabel value='Found' control={<Radio />} label='Found' />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+
               </Grid>
             </Grid>
 

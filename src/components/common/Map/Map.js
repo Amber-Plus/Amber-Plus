@@ -54,39 +54,41 @@ const Map = ({ data, position, isProfile }) => {
   return (
     <>
       {(personAlerts !== null && !loading && center && center.length !== 0) ||
-      position ? (
-        <MapContainer
-          center={isProfile ? position : center}
-          zoom={isProfile ? 15 : 13}
-          scrollWheelZoom={false}
-          className={classes.map}
-        >
-          <TileLayer attribution={config.attribution} url={config.url} />
-          <FeatureGroup>
-            {data.length > 1 ? (
-              data.map((person) => (
-                <EventMarker
-                  person={person}
-                  position={false}
-                  isProfile={isProfile}
-                  key={person._id}
-                />
-              ))
-            ) : (
-              <EventMarker
-                person={data}
-                position={position}
-                isProfile={isProfile}
-                key={data._id}
-              />
-            )}
-          </FeatureGroup>
-        </MapContainer>
-      ) : (
-        <div className={classes.container}>
-          <Typography variant="h6"> Loading... </Typography>{" "}
-        </div>
-      )}
+        position ? (
+          <MapContainer
+            center={isProfile ? position : center}
+            zoom={isProfile ? 15 : 12.45}
+            scrollWheelZoom={false}
+            className={classes.map}
+          >
+            <TileLayer attribution={config.attribution} url={config.url} />
+            <FeatureGroup>
+              {data.length > 1 ? (
+                data.filter((person) =>
+                  person.status === 'Missing'
+                ).map((person) => (
+                  <EventMarker
+                    person={person}
+                    position={false}
+                    isProfile={isProfile}
+                    key={person._id}
+                  />
+                ))
+              ) : (
+                  <EventMarker
+                    person={data}
+                    position={position}
+                    isProfile={isProfile}
+                    key={data._id}
+                  />
+                )}
+            </FeatureGroup>
+          </MapContainer>
+        ) : (
+          <div className={classes.container}>
+            <Typography variant="h6"> Loading... </Typography>{" "}
+          </div>
+        )}
     </>
   );
 };

@@ -1,4 +1,5 @@
 import getLocationString from './getLocationString';
+import moment from 'moment'
 
 export const getProfileObject = (person, type) => {
   const viewable = () => {
@@ -35,6 +36,9 @@ export const getProfileObject = (person, type) => {
       profile.push({ title: `${title}:`, value: val });
     }
   }
+
+  const postDate = moment(person.data).format('MMM Do, YYYY')
+  profile.push({ title: 'Posted:', value: postDate })
 
   return profile;
 };

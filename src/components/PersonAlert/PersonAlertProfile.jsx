@@ -155,7 +155,6 @@ const PersonAlertProfile = (props) => {
                 xs={6}
                 className={classes.root}
               >
-
                 <Grid container item justify="center" sm={3} xs={4}>
                   <TwitterShareButton
                     url={link}
