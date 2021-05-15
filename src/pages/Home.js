@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Button, Typography, Grid } from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
 import CustomContainer from 'components/common/CustomContainer'
@@ -31,10 +32,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
+  const isMobile = useMediaQuery("(max-width: 780px)", {
+    noSsr: true,
+  });
 
   return <CustomContainer >
-    <Grid container justify='center' alignItems='center'>
-      <Grid container item justify='center' direction='column' xs={4} sm={4} md={4} lg={4}>
+    <Grid container justify='center' alignItems='center' direction={isMobile ? 'column' : 'row'}>
+      <Grid container item justify='center' direction='column' xs={12} sm={12} md={4} lg={4}>
         <Grid item xs={8}>
           <Typography className={classes.title}>Amber+</Typography>
         </Grid>
@@ -56,7 +60,7 @@ const Home = () => {
           </Button>
         </Grid>
       </Grid>
-      <Grid container item justify='center' alignItems='center' xs={8} sm={8} md={8} lg={8}>
+      <Grid container item justify='center' alignItems='center' xs={12} sm={10} md={8} lg={8}>
         <img className={classes.img} src={homeImg} alt="homeImg" />
       </Grid>
     </Grid>
