@@ -1,7 +1,8 @@
 import getMapCenter from "./getMapCenter";
 
-const exampleData = {
-
+const exampleMap = {
+    avgLat: "23722",
+    avglng: "2342521"
 }
 
 describe("getMapCenter", () => {
@@ -10,6 +11,8 @@ describe("getMapCenter", () => {
             { title: "avgLat:", value: "acc + curr.position[0], 0) / data.length" },
             { title: "avglng:", value: "acc + curr.position[0], 0) / data.length" },
         ];
+
+        // const actual = getMapCenter(exampleMap)
     });
 });
 

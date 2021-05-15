@@ -9,7 +9,7 @@ export const MISSING = "Missing";
 export const FOUND = "Found";
 export const SEARCH = "Search";
 
-export const PAGES = [MISSING, FOUND, SEARCH];
+export const PAGES = [HOME, MISSING, FOUND, SEARCH];
 
 export const PAGE_ROUTES = {
   [HOME]: "/",

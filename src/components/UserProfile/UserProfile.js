@@ -7,7 +7,6 @@ import { Grid, Typography, Button } from "@material-ui/core";
 import CustomContainer from "components/common/CustomContainer";
 import UserAlertList from "components/PersonAlert/UserAlertList";
 import AuthContext from "context/auth/authContext";
-import defaultImg from "images/defaultImg.png";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -84,12 +83,12 @@ const UserProfile = () => {
               {user && user.image ? (
                 <img src={user.image} alt={user.name} className={classes.img} />
               ) : (
-                <img
-                  src={defaultImg}
-                  alt={user ? user.name : name}
-                  className={classes.img}
-                />
-              )}
+                  <img
+                    src={`/uploads/defaultImg.png`}
+                    alt={user ? user.name : name}
+                    className={classes.img}
+                  />
+                )}
             </Grid>
             <Grid
               container

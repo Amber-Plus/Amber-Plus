@@ -1,3 +1,4 @@
+// import { get } from "../../backend/routes/auth";
 import getLocationString from "./getLocationString";
 
 const exampleAddress = {
@@ -20,13 +21,11 @@ const exampleAddress = {
 
 describe("getlocationString", () => {
     test("correctly show the location", () => {
-        const expected =[
-            { title: "line1:", value: "123 street" },
-            { title: "line2:", value: ""},
-            { title: "city:", value: "NY"},
-            { title: "state:", value: "NY"},
-            { title: "zipcode:", value: "12345"},
-        ];
+        const expected ="123 street, NY, NY, 12345";
+
+        const actual = getLocationString(exampleAddress);
+
+        expect(actual).toEqual(expected);
         
     });
 });
