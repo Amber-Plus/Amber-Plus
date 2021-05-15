@@ -40,7 +40,8 @@ const Search = () => {
       }
     </div>
     {personAlerts !== null &&
-      !loading && <Map data={personAlerts} isProfile={false} />}</>
+      !loading && <Map data={personAlerts} isProfile={false} />}
+  </>
   );
 };
 
