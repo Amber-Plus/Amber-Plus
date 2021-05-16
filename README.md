@@ -57,27 +57,27 @@ See the section about  [running tests](https://facebook.github.io/create-react-a
 ### Application Structure
 ```
 - backend
-	+ config
-	+ middleware
-	+ models
-	+ modules
-	+ routes 
+  + config
+  + middleware
+  + models
+  + modules
+  + routes 
 + build
 + node_modules
 - public
-	+ uploads
+  + uploads
 - src
-	+ api
-	- components
-		+ common
-		+ Login
-		+ Nav
-		+ PersonAlert
-		+ UserProfile
-	+ constants
-	+ context
-	+ pages
-	+ utils
+  + api
+  - components
+    + common
+    + Login
+    + Nav
+    + PersonAlert
+    + UserProfile
+  + constants
+  + context
+  + pages
+  + utils
 ```
 The frontend uses absolute paths, so imports should be relative to the  `src`  directory.
 
